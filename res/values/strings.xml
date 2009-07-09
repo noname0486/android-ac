@@ -20,7 +20,8 @@
     <string name="msg_PickALayout">Pick a Layout</string>
     
     <string name="calibrate">Calibrate</string>
-    <string name="no_calibration">No Calibration</string>
+    <string name="calibrating">Calibrating ...</string>
+    <string name="no_calibration">Calibr. off</string>
     <string name="txtCalibrationHelp">Exactly point the device to North!\n Then press \"Calibrate\"!\n</string>
     
     
