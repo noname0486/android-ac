@@ -24,11 +24,12 @@ package de.rothbayern.android.ac;
 
 import android.app.Activity;
 import android.content.*;
+import android.content.res.Resources;
 import android.hardware.*;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.widget.*;
 
 public class CalibrationActivity extends Activity {
 
@@ -64,7 +65,8 @@ public class CalibrationActivity extends Activity {
 
 	    direction = -getIntent().getFloatExtra(PARAM_NAME_OFFSET, 0);
 	    
-	    
+
+	   
 	}
 
 	@Override
@@ -111,7 +113,14 @@ public class CalibrationActivity extends Activity {
 		        CalibrationActivity.this.finish();
 			}
 			if (v == cmdCalibrate) {
-				i.putExtra(RESULT_NAME_OFFSET, -direction);
+				final int STEPS = 12;
+				float sum = 0;
+				for (int j = 0; j < STEPS; j++) {
+					sum+=direction;
+					try {Thread.sleep(100);	} catch (InterruptedException e) {}
+				}
+				float delta = sum/STEPS;	
+				i.putExtra(RESULT_NAME_OFFSET, -delta);
 				setResult(RESULT_OK,i);
 		        CalibrationActivity.this.finish();
 			}

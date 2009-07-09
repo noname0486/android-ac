@@ -20,8 +20,13 @@
 
 package de.rothbayern.android.ac;
 
+import java.io.*;
+import java.util.ResourceBundle;
+
 import android.app.Activity;
+import android.content.res.*;
 import android.os.Bundle;
+import android.util.Log;
 import android.webkit.WebView;
 
 public class InfoActivity extends Activity {
@@ -34,9 +39,30 @@ public class InfoActivity extends Activity {
         setContentView(R.layout.info);
         
         webview = (WebView) findViewById(R.id.webview_info);
-        webview.loadUrl("file:///android_asset/info.html");
+        
+        InputStream rawResource = getResources().openRawResource(R.raw.info);
+        String content = streamToString(rawResource);
+        try {rawResource.close();} catch (IOException e) {}
+
+        String mimeType = "text/html";
+        String encoding = "UTF-8";
+
+        //webview.loadUrl("file:///android_asset/info.html");
+        webview.loadData(content, mimeType, encoding);
     }
     
-    
-
+    public static String streamToString(InputStream in) {
+        String l;
+        BufferedReader r = new BufferedReader(new InputStreamReader(in));
+        StringBuilder s = new StringBuilder();
+        try {
+            while ((l = r.readLine()) != null) {
+                s.append(l + "\n");
+            }
+        } catch (IOException e) {} 
+        return s.toString();
+    }
 }
+ 
+
+
