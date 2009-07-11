@@ -22,7 +22,7 @@ package de.rothbayern.android.ac;
 
 import android.content.Context;
 import android.graphics.*;
-import android.util.*;
+import android.util.AttributeSet;
 import android.view.*;
 
 public class CompassView extends SurfaceView {
@@ -214,11 +214,17 @@ public class CompassView extends SurfaceView {
 		boolean finished = false;			// Thread has finished his work
 		private float lastDirection = 0;	// The last direction the needle has been painted
 		SurfaceHolder holder;				// Necessary to draw in a different thread
+		private long lastActionStamp;		// stamp for last drawing or checking to paint
+		private int lastSleep = STD_SPAN_MILLIS;  // timespan of last sleep
 
 		private boolean arrived = false;	// The needle has arrived the setpoint 
 		private static final float ARRIVED_EPS = 1;  // tolerance to become arrived
-		private static final float LEAVED_EPS = 3;	 // tolerance to leave arrived 
+		private static final float LEAVED_EPS = 4;	 // tolerance to leave arrived 
 		
+		private static final int LONG_SPAN_MILLIS = 200;
+		private static final int STD_SPAN_MILLIS = 20;
+		private static final int STD_SPAN_MILLIS_PLUS_DELTA = STD_SPAN_MILLIS+STD_SPAN_MILLIS/2;
+
 		
 		public boolean isFinished() {
 			return finished;
@@ -240,11 +246,6 @@ public class CompassView extends SurfaceView {
 			this.arrived = arrived;
 		}
 
-		private static final int LONG_SPAN_MILLIS = 200;
-		private static final int STD_SPAN_MILLIS = 20;
-		private static final int STD_SPAN_MILLIS_PLUS_DELTA = STD_SPAN_MILLIS+STD_SPAN_MILLIS/2;
-		private long lastActionStamp;
-		private int lastSleep = STD_SPAN_MILLIS;
 
 		
 		@Override
@@ -303,12 +304,11 @@ public class CompassView extends SurfaceView {
 						}
 						
 						// Check for correction of lack of processor time
-						if(lastSleep == LONG_SPAN_MILLIS || arrived || !modified || lastActionStamp + 2*STD_SPAN_MILLIS > System.currentTimeMillis()){
+						if(    lastSleep == LONG_SPAN_MILLIS 
+							|| arrived 
+							|| !modified 
+							|| lastActionStamp + STD_SPAN_MILLIS_PLUS_DELTA > System.currentTimeMillis()){
 							moreCorrection = false;
-							//Log.d("","nooooo pc");
-						}
-						else {
-							Log.d("","pc");
 						}
 						lastActionStamp += STD_SPAN_MILLIS;
 						
