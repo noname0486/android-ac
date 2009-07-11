@@ -17,9 +17,9 @@
    version="1.0"
    sodipodi:docname="compass2icon.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
-   inkscape:export-filename="/tmp/c/compass.png"
-   inkscape:export-xdpi="57.450001"
-   inkscape:export-ydpi="57.450001"
+   inkscape:export-filename="/home/dieter/workspaces/workspace.3.4/AnalogCompass/res/drawable/compass_icon.png"
+   inkscape:export-xdpi="17.280001"
+   inkscape:export-ydpi="17.280001"
    sodipodi:docbase="/home/dieter/workspaces/workspace.3.4/AnalogCompass/misc">
   <defs
      id="defs4756">
@@ -305,27 +305,27 @@
      transform="translate(-43.391804,-40.565754)">
     <path
        sodipodi:type="arc"
-       style="opacity:0.340625;fill:#000000;fill-opacity:1;filter:url(#filter5323)"
+       style="opacity:0.5;fill:#000000;fill-opacity:1;filter:url(#filter5323)"
        id="path2917"
        sodipodi:cx="-117.09538"
        sodipodi:cy="243.27493"
        sodipodi:rx="75.953758"
        sodipodi:ry="67.646317"
        d="M -41.141624 243.27493 A 75.953758 67.646317 0 1 1  -193.04914,243.27493 A 75.953758 67.646317 0 1 1  -41.141624 243.27493 z"
-       transform="matrix(1.3071365,-2.0149859e-2,1.8658372e-2,1.2103826,316.12837,-121.76246)" />
+       transform="matrix(1.4115211,-2.1620505e-2,2.0148382e-2,1.2987229,337.46585,-149.4026)" />
     <path
        sodipodi:type="arc"
-       style="fill:url(#linearGradient6751);fill-opacity:1.0"
+       style="fill:url(#linearGradient6751);fill-opacity:1"
        id="path2913"
        sodipodi:cx="-117.09538"
        sodipodi:cy="243.27493"
        sodipodi:rx="75.953758"
        sodipodi:ry="67.646317"
        d="M -41.141624 243.27493 A 75.953758 67.646317 0 1 1  -193.04914,243.27493 A 75.953758 67.646317 0 1 1  -41.141624 243.27493 z"
-       transform="matrix(1.3071365,-2.0149859e-2,1.8658372e-2,1.2103826,296.74431,-130.06986)" />
+       transform="matrix(1.4115211,-2.1620505e-2,2.0148382e-2,1.2987229,316.53383,-158.31632)" />
     <g
        id="g2826"
-       transform="matrix(0.9466491,0,0,0.6869426,3.3772657,46.809196)">
+       transform="matrix(1.0222461,0,0,0.7370794,-0.260752,31.472329)">
       <path
          transform="matrix(0.8998725,0,0,1.1749506,219.10399,-278.76542)"
          d="M 32.438583 369.07333 A 110.76589 85.843567 0 1 1  -189.0932,369.07333 A 110.76589 85.843567 0 1 1  32.438583 369.07333 z"
