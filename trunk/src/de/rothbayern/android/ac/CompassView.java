@@ -22,7 +22,7 @@ package de.rothbayern.android.ac;
 
 import android.content.Context;
 import android.graphics.*;
-import android.util.AttributeSet;
+import android.util.*;
 import android.view.*;
 
 public class CompassView extends SurfaceView {
@@ -240,57 +240,79 @@ public class CompassView extends SurfaceView {
 			this.arrived = arrived;
 		}
 
+		private static final int LONG_SPAN_MILLIS = 200;
+		private static final int STD_SPAN_MILLIS = 20;
+		private static final int STD_SPAN_MILLIS_PLUS_DELTA = STD_SPAN_MILLIS+STD_SPAN_MILLIS/2;
+		private long lastActionStamp;
+		private int lastSleep = STD_SPAN_MILLIS;
 
+		
 		@Override
 		public void run() {
 			finished = false;
+			lastActionStamp = System.currentTimeMillis();
 			while (running) {
 				float actDirection = CompassView.this.setPointDirection;
 				// Something to do?
 				if (!arrived || actDirection != lastDirection) {
 
-					// diff to setpoint normalized [-180, 180]
-					// to control clockwise or counterclockwise aproximation
-					float diff = actDirection - lastDirection;
-					while (diff < -180) {
-						diff += 360;
-					}
-					while (diff > 180) {
-						diff -= 360;
-					}
-					int direction = (diff < 0) ? -1 : 1;	
-					float diffAbs = Math.abs(diff);			// diff to setpoint
-					float deltaAbs = Math.abs(diff / 15);	// next step for needle
-
 					// Calculate if modification of the needle is necessary 
-					boolean modified = false;
-					float newDirection;			
-					if (!arrived) {						// Still has to act.
-						newDirection = lastDirection + (direction * deltaAbs);
-						modified = true;
-						if (diffAbs < ARRIVED_EPS) {
-							arrived = true;
+					boolean modified=false;
+					float newDirection=lastDirection;	
+					
+					// correction if there was no processor time for this thread
+					boolean moreCorrection = true; // => one time is obligate
+					while (moreCorrection) {
+						// diff to setpoint normalized [-180, 180]
+						// to control clockwise or counterclockwise aproximation
+						float diff = actDirection - lastDirection;
+						while (diff < -180) {
+							diff += 360;
 						}
-					}
-
-					else {
-						if (diffAbs > LEAVED_EPS) {		// Needle has left tolerance	
+						while (diff > 180) {
+							diff -= 360;
+						}
+						int direction = (diff < 0) ? -1 : 1;
+						float diffAbs = Math.abs(diff); // diff to setpoint
+						
+						float deltaAbs = diffAbs/15; // next step for needle
+						if (!arrived) { // Still has to act.
 							newDirection = lastDirection
 									+ (direction * deltaAbs);
 							modified = true;
-							arrived = false;
+							if (diffAbs < ARRIVED_EPS) {
+								arrived = true;
+							}
+						}
+
+						else {
+							if (diffAbs > LEAVED_EPS) { // Needle has left tolerance	
+								newDirection = lastDirection
+										+ (direction * deltaAbs);
+								modified = true;
+								arrived = false;
+							} else {
+								newDirection = lastDirection; // Super, nothing to do. 
+							}
+						}
+						while (newDirection >= 360) {
+							newDirection -= 360;
+						}
+						while (newDirection < 0) {
+							newDirection += 360;
+						}
+						
+						// Check for correction of lack of processor time
+						if(lastSleep == LONG_SPAN_MILLIS || arrived || !modified || lastActionStamp + 2*STD_SPAN_MILLIS > System.currentTimeMillis()){
+							moreCorrection = false;
+							//Log.d("","nooooo pc");
 						}
 						else {
-							newDirection = lastDirection; // Super, nothing to do. 
+							Log.d("","pc");
 						}
-					}
-					while (newDirection >= 360) {
-						newDirection -= 360;
-					}
-					while (newDirection < 0) {
-						newDirection += 360;
-					}
-
+						lastActionStamp += STD_SPAN_MILLIS;
+						
+					} // end: correction no processor time
 					// If it is necessary, do new painting
 					if (modified) {
 						Canvas c = holder.lockCanvas();
@@ -304,9 +326,18 @@ public class CompassView extends SurfaceView {
 						}
 					}
 				}
+				
+				// Wait for next drawing 
 				try {
-					if(arrived){Thread.sleep(200);} // Save battery if there will be nothing to do.
-					else {Thread.sleep(20);}
+					lastActionStamp = System.currentTimeMillis();
+					if(arrived){
+						Thread.sleep(LONG_SPAN_MILLIS);
+						lastSleep = LONG_SPAN_MILLIS;
+					} // Save battery if there will be nothing to do.
+					else {
+						Thread.sleep(STD_SPAN_MILLIS);
+						lastSleep = STD_SPAN_MILLIS;
+					}
 				} catch (InterruptedException e) {
 				}
 			}
