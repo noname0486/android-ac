@@ -21,12 +21,9 @@
 package de.rothbayern.android.ac;
 
 import java.io.*;
-import java.util.ResourceBundle;
 
 import android.app.Activity;
-import android.content.res.*;
 import android.os.Bundle;
-import android.util.Log;
 import android.webkit.WebView;
 
 public class InfoActivity extends Activity {

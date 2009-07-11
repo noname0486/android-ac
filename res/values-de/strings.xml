@@ -12,8 +12,8 @@
     <string name="activity_Info_name">Info</string>
     
     <string-array name="layouts">
-        <item>Roba</item>
-        <item>Rose</item>
+        <item>Rose von Rob A</item>
+        <item>Rose von Stefan</item>
     </string-array>    
     
     
