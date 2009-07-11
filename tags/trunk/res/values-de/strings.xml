@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Analog Kompass</string>
+
+    <string name="mnu_Calibrate">Kalibrieren</string>
+    <string name="mnu_Calibrate_shortcut">k</string>
+    <string name="mnu_Layout">Aussehen</string>
+    <string name="mnu_Layout_shortcut">a</string>
+    <string name="mnu_Info">Info</string>
+    <string name="mnu_Info_shortcut">i</string>
+    
+    <string name="activity_Info_name">Info</string>
+    
+    <string-array name="layouts">
+        <item>Rose von Rob A</item>
+        <item>Rose von Stefan</item>
+    </string-array>    
+    
+    
+    <string name="msg_PickALayout">Wähle eine Ausführung</string>
+    
+    <string name="calibrate">Kalibrieren</string>
+    <string name="calibrating">Kalibriere ...</string>
+    <string name="no_calibration">Kalibrierung aus</string>
+    <string name="txtCalibrationHelp">Richte das Geräte genau nach Norden aus und drücke \"Kalibrieren\"\n</string>
+    
+    
+</resources>

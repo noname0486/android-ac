@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="version_code">1</string>
+    <string name="version_name">0.9.0</string>
+
+    <string name="app_name">Analog Compass</string>
+
+    <string name="mnu_Calibrate">Calibrate</string>
+    <string name="mnu_Calibrate_shortcut">c</string>
+    <string name="mnu_Layout">Layout</string>
+    <string name="mnu_Layout_shortcut">l</string>
+    <string name="mnu_Info">Info</string>
+    <string name="mnu_Info_shortcut">i</string>
+    
+    <string name="activity_Info_name">Info</string>
+    
+    <string-array name="layouts">
+        <item>Rob A's rose</item>
+        <item>Stefan's rose</item>
+    </string-array>    
+    
+    
+    <string name="msg_PickALayout">Pick a Layout</string>
+    
+    <string name="calibrate">Calibrate</string>
+    <string name="calibrating">Calibrating ...</string>
+    <string name="no_calibration">Calibr. off</string>
+    <string name="txtCalibrationHelp">Exactly point the device to North!\n Then press \"Calibrate\"!\n</string>
+    
+    
+</resources>
