@@ -15,9 +15,9 @@
  *  if not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.rothbayern.android.ac.pref;
+package de.rothbayern.android.ac;
 
-import android.R;
+
 import android.os.Bundle;
 import android.preference.*;
 
@@ -25,14 +25,7 @@ public class PreferencesActivity extends PreferenceActivity {
      @Override
      protected void onCreate(Bundle savedInstanceState) {
           super.onCreate(savedInstanceState);
-          addPreferencesFromResource(R.layout.preference_category);
-          
-          
-         
+          addPreferencesFromResource(R.layout.preferences);
+ 
      }
-     
-     
-    
-      
-     
 }

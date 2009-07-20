@@ -29,10 +29,11 @@ public class CompassView extends SurfaceView {
 	public static final int LAYOUT_CALIBRATION = -100;
 
 	
-	private Paint mPaint = new Paint();
-	private Bitmap bmRobaRose;
-	private Bitmap bmNeedle;
-	private Bitmap bmStefanRose;
+	private Paint 	mPaint = new Paint();
+	private Bitmap 	bmRobaRose;
+	private Bitmap 	bmNeedle;
+	private Bitmap 	bmStefanRose;
+	private int    	bgColor=Color.WHITE;
 
 	/**
 	 * Setpoint for Direction. AnimThread will adjust the needle smoothly
@@ -79,6 +80,7 @@ public class CompassView extends SurfaceView {
 				R.drawable.needle);
 		bmStefanRose = BitmapFactory.decodeResource(getResources(),
 				R.drawable.stefan_rose);
+
 	}
 
 	// Middle of the view
@@ -128,7 +130,7 @@ public class CompassView extends SurfaceView {
 	 */
 	private void drawStefan(Canvas canvas, float direction) {
 		canvas.translate(middleX, middleY);
-		canvas.drawColor(Color.WHITE);
+		canvas.drawColor(bgColor);
 		float x = -bmStefanRose.getWidth() / 2;
 		float y = -bmStefanRose.getHeight() / 2;
 		canvas.rotate(-direction);
@@ -142,7 +144,7 @@ public class CompassView extends SurfaceView {
 	 */
 	private void drawRoba(Canvas canvas, float direction) {
 		canvas.translate(middleX, middleY);
-		canvas.drawColor(Color.WHITE);
+		canvas.drawColor(bgColor);
 		float x = -bmRobaRose.getWidth() / 2;
 		float y = -bmRobaRose.getHeight() / 2;
 		canvas.drawBitmap(bmRobaRose, x, y, null);
@@ -353,6 +355,17 @@ public class CompassView extends SurfaceView {
 
 	public int getCompassLayout() {
 		return compassLayout;
+	}
+	
+	public int getBgColor() {
+		return bgColor;
+	}
+	
+	public void setBgColor(int bgColor) {
+		this.bgColor = bgColor;
+		if (animThread != null) {
+			animThread.setArrived(false);	// Force to paint
+		}
 	}
 
 }
