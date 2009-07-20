@@ -14,18 +14,55 @@
     
     <string name="activity_Info_name">Info</string>
     
-    <string-array name="layouts">
-        <item>Rob A's rose</item>
-        <item>Stefan's rose</item>
-    </string-array>    
-    
-    
-    <string name="msg_PickALayout">Pick a Layout</string>
     
     <string name="calibrate">Calibrate</string>
     <string name="calibrating">Calibrating ...</string>
     <string name="no_calibration">Calibr. off</string>
     <string name="txtCalibrationHelp">Exactly point the device to North!\n Then press \"Calibrate\"!\n</string>
+ 	
+ 
+  	<!--  Preferences -->
+    <string name="prefs_version_key">compass.version</string>
+    <string name="prefs_version">0.9.1</string>
     
+    <string name="prefs_offset_key">compass.offset</string>
+ 
+ 	<!-- background color --> 
+    <string name="prefs_backgroundcolor_mnu_title">Background Color</string>
+    <string name="prefs_backgroundcolor_default_value">#FFFFFFFF</string>
+    <string name="prefs_backgroundcolor_dialog_title">Pick a Color</string>
+    <string name="prefs_backgroundcolor_key">compass.background</string>
+    
+   	<!-- layout: choose a rose --> 
+    <string name="prefs_layout_mnu_title">Layout</string>
+    <string-array name="prefs_layout_entries">
+        <item>Rob A's rose</item>
+        <item>Stefan's rose</item>
+    </string-array>    
+    <string-array name="prefs_layout_values">
+        <item>0</item>
+        <item>1</item>
+    </string-array>    
+    <string name="prefs_layout_default_value">0</string>
+    <string name="prefs_layout_dialog_title">Pick a Layout</string>
+    <string name="prefs_layout_key">compass.layout</string>
+
+
+	<!-- speed  --> 
+    <string name="prefs_speed_mnu_title">Speed</string>
+    <string-array name="prefs_speed_entries">
+        <item>fast</item>
+        <item>normal</item>
+        <item>slow</item>
+    </string-array>    
+    <string-array name="prefs_speed_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>    
+    <string name="prefs_speed_default_value">1</string>
+    <string name="prefs_speed_dialog_title">Pick a Speed</string>
+    <string name="prefs_speed_key">compass.speed</string>
+
     
 </resources>

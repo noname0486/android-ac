@@ -40,10 +40,17 @@ public class ACActivity extends Activity {
 	public void onCreate(Bundle savedState) { 
 		super.onCreate(savedState);
 		setContentView(R.layout.main);
+		
+		// Do first to init preferences (Singleton)
+		Preferences prefs = Preferences.getPreferences(this);
+		
+		prefs.checkVersion();
+		
+		
 
 		// Get settings
-		int cLayout = Settings.getInt(this,Settings.PREFS_KEY_COMPASS_LAYOUT);
-		offset = Settings.getFloat(this,Settings.PREFS_KEY_COMPASS_OFFSET);
+		int cLayout = prefs.getInt(prefs.PREFS_COMPASS_LAYOUT_KEY);
+		offset = prefs.getFloat(prefs.PREFS_COMPASS_OFFSET_KEY);
 
 		// Prepare for start
 		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -104,7 +111,8 @@ public class ACActivity extends Activity {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == CALIBRATION_ACTIVITY_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
 			offset = data.getFloatExtra(CalibrationActivity.RESULT_NAME_OFFSET,0.0f);
-			Settings.setFloat(this, Settings.PREFS_KEY_COMPASS_OFFSET, offset);
+			Preferences prefs = Preferences.getPreferences();
+			prefs.setFloat(prefs.PREFS_COMPASS_OFFSET_KEY, offset);
 			
 		}
 	}
@@ -153,7 +161,8 @@ public class ACActivity extends Activity {
 
 	private void saveLayout(int compassLayout) {
 		viewCompass.setCompassLayout(compassLayout);
-		Settings.setInt(this, Settings.PREFS_KEY_COMPASS_LAYOUT, compassLayout);
+		Preferences prefs = Preferences.getPreferences();
+		prefs.setInt(prefs.PREFS_COMPASS_LAYOUT_KEY, compassLayout);
 
 	}
 
