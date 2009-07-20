@@ -76,17 +76,21 @@ public class ColorPickerPreference extends DialogPreference {
     @Override
     protected void onSetInitialValue(boolean restorePersistedValue,
     		Object defaultValue) {
-    	if(defaultValue instanceof Integer){
-    	   Integer intDefaultValue = (Integer)defaultValue;
-            setColor(restorePersistedValue ? getPersistedInt(mColor) : intDefaultValue);
+    	if(defaultValue instanceof String){
+    		String value = (String)defaultValue;
+            setColor(restorePersistedValue ? getPersistedString(Integer.toString(mColor)) : value);
     	}
     	else {
-            setColor(restorePersistedValue ? getPersistedInt(mColor) : Color.WHITE);
+            setColor(restorePersistedValue ? getPersistedString(Integer.toString(mColor)) : Integer.toString(Color.WHITE));
     	}
     }
 
-    private void setColor(int color) {
-    	mColor = color;
+    private void setColor(String sColor) {
+    	try {
+			mColor = Integer.parseInt(sColor);
+		} catch (NumberFormatException e) {
+			mColor = Color.WHITE;
+		}
 	}
 
 	@Override
@@ -98,9 +102,6 @@ public class ColorPickerPreference extends DialogPreference {
                 storeColor(value);
             }
         }
-        ViewParent vp = mPickerView.getParent();
-        Log.d("",vp.toString());
-
     }
    
     
@@ -112,7 +113,8 @@ public class ColorPickerPreference extends DialogPreference {
     public void storeColor(int color) {
     	mColor = color;
         final boolean wasBlocking = shouldDisableDependents();
-        persistInt(color);
+		// Cause some Preferences can't work with numeric values => do it with strings
+        persistString(Integer.toString(color));
         final boolean isBlocking = shouldDisableDependents(); 
         if (isBlocking != wasBlocking) {
             notifyDependencyChange(isBlocking);

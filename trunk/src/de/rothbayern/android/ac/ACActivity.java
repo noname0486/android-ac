@@ -19,6 +19,8 @@
 
 package de.rothbayern.android.ac;
 
+
+import de.rothbayern.android.ac.pref.*;
 import android.app.*;
 import android.content.*;
 import android.content.res.Resources;
@@ -37,23 +39,27 @@ public class ACActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedState) { 
 		super.onCreate(savedState);
-		setContentView(R.layout.main);
-		
+
 		// Do first to init preferences (Singleton)
 		Preferences prefs = Preferences.getPreferences(this);
-		
 		prefs.checkVersion();
+
+		
+		setContentView(R.layout.main);
+		
 		
 		
 
 		// Get settings
 		int cLayout = prefs.getInt(prefs.PREFS_COMPASS_LAYOUT_KEY);
 		offset = prefs.getFloat(prefs.PREFS_COMPASS_OFFSET_KEY);
+		int bgColor = prefs.getInt(prefs.PREFS_COMPASS_BACKGROUNDCOLOR_KEY);
 
 		// Prepare for start
 		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 		viewCompass = (CompassView) findViewById(R.id.viewWorld);
 		viewCompass.setCompassLayout(cLayout);
+		viewCompass.setBgColor(bgColor);
 
 	}
 
@@ -103,6 +109,7 @@ public class ACActivity extends Activity {
 	}
 
 	private static final int CALIBRATION_ACTIVITY_REQUEST = 100;
+	private static final int PREFERENCES_ACTIVITY_REQUEST = 101;
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -111,10 +118,18 @@ public class ACActivity extends Activity {
 			offset = data.getFloatExtra(CalibrationActivity.RESULT_NAME_OFFSET,0.0f);
 			Preferences prefs = Preferences.getPreferences();
 			prefs.setFloat(prefs.PREFS_COMPASS_OFFSET_KEY, offset);
-			
 		}
+		if (requestCode == PREFERENCES_ACTIVITY_REQUEST) {
+			Preferences prefs = Preferences.getPreferences();
+			int bgColor = prefs.getInt(prefs.PREFS_COMPASS_BACKGROUNDCOLOR_KEY);
+			viewCompass.setBgColor(bgColor);
+			
+			int rose = prefs.getInt(prefs.PREFS_COMPASS_LAYOUT_KEY);
+			viewCompass.setCompassLayout(rose);
+		}
+		
 	}
-
+ 
 	/* Handles item selections */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
@@ -128,9 +143,13 @@ public class ACActivity extends Activity {
 			// Look at this.onActivityResult() for result.
 			return true;
 		}
-		case R.id.mnuLayout:
+		case R.id.mnuLayout:{
+			Intent intent = new Intent(this, PreferencesActivity.class);
+			startActivityForResult(intent, PREFERENCES_ACTIVITY_REQUEST);
+			//startActivity(intent);
 			askLayout();
 			return true;
+		}
 		case R.id.mnuInfo: {
 			Intent intent = new Intent(this, InfoActivity.class);
 			startActivity(intent);
@@ -144,6 +163,8 @@ public class ACActivity extends Activity {
 	 * Change Layout
 	 */
 	private void askLayout() {
+
+	/*	
 		Resources resources = getResources();
 		final CharSequence[] items = resources.getTextArray(R.array.layouts);
 
@@ -155,6 +176,7 @@ public class ACActivity extends Activity {
 				new AskLayoutListener());
 		AlertDialog alert = builder.create();
 		alert.show();
+	*/
 	}
 
 	private void saveLayout(int compassLayout) {

@@ -15,11 +15,14 @@
  *  if not, see <http://www.gnu.org/licenses/>.
  */
 
-package de.rothbayern.android.ac;
+package de.rothbayern.android.ac.pref;
 
 
+import de.rothbayern.android.ac.*;
+import de.rothbayern.android.ac.R.string;
 import android.app.*;
 import android.content.*;
+import android.graphics.Color;
 import android.preference.PreferenceManager;
 
 public class Preferences {
@@ -66,12 +69,18 @@ public class Preferences {
 	
 
 	public int getInt(String key) {
-		int intVal = prefs.getInt(key, 0);
+		String sVal = prefs.getString(key, "0");
+		int intVal=0;
+		// ListPreference can't work with numeric values => load as string
+		try {intVal = Integer.parseInt(sVal);} catch (NumberFormatException nfe) {}
 		return intVal;
 	}
 
 	public float getFloat(String key) {
-		float floatVal = prefs.getFloat(key, 0.0f);
+		String sVal = prefs.getString(key, "0");
+		float floatVal=0.0f;
+		// ListPreference can't work with numeric values => load as string
+		try {floatVal = Float.parseFloat(sVal);} catch (NumberFormatException nfe) {}
 		return floatVal;
 	}
 
@@ -80,15 +89,18 @@ public class Preferences {
 		return strVal;
 	}
 
+	
 	public void setFloat(String key, float val) {
 		SharedPreferences.Editor editor = prefs.edit();
-		editor.putFloat(key, val);
+		// ListPreference can't work with numeric values => save as string
+		editor.putString(key, Float.toString(val));		 
 		editor.commit();
 	}
 
 	public void setInt(String key, int val) {
 		SharedPreferences.Editor editor = prefs.edit();
-		editor.putInt(key, val);
+		// ListPreference can't work with numeric values => save as string
+		editor.putString(key, Integer.toString(val));
 		editor.commit();
 	}
 	
@@ -97,6 +109,8 @@ public class Preferences {
 		editor.putString(key, val);
 		editor.commit();
 	}
+	
+	
 	
 
 	
@@ -137,14 +151,20 @@ public class Preferences {
 		String oldVersion = getString(PREFS_COMPASS_VERSION_KEY);
 		String newVersion = theContext.getString(R.string.prefs_version);
 		
+		
+		
 		// Old format of preferences => migrate to new one
 		if(oldVersion.equals("")){
+			oldVersion = "0.9.0";
 			float offset = getFloatOld(theContext, PREFS_COMPASS_OFFSET_KEY);
 			setFloat(PREFS_COMPASS_OFFSET_KEY, offset);
 			int layout = getIntOld(theContext, PREFS_COMPASS_LAYOUT_KEY);
 			setInt(PREFS_COMPASS_LAYOUT_KEY, layout);
 			
+			setInt(PREFS_COMPASS_BACKGROUNDCOLOR_KEY, Color.WHITE);
+			setInt(PREFS_COMPASS_SPEED_KEY, 1);
 		}
+		
 		
 		if(!oldVersion.equals(newVersion)){
 			doChangeVersion(oldVersion,newVersion);

@@ -30,6 +30,7 @@
     <string name="mnu_Info_shortcut">i</string>
     
     <string name="activity_Info_name">Info</string>
+    <string name="activity_preferences_name">Preferences</string>
     
     
     <string name="calibrate">Calibrate</string>
