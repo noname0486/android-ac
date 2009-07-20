@@ -29,7 +29,7 @@ public class CompassView extends SurfaceView {
 
 	public static final int LAYOUT_ROBA = 0;
 	public static final int LAYOUT_STEFAN = 1;
-	public static final int LAYOUT_CALIBRATION = 2;
+	public static final int LAYOUT_CALIBRATION = -100;
 
 	
 	private Paint mPaint = new Paint();
