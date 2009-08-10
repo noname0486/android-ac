@@ -33,7 +33,6 @@ public class ACActivity extends Activity {
 	// Controls
 	private CompassView viewCompass;		
 	private SensorManager mSensorManager;
-	private float offset = 0;				// Offset in degree for direction
 	
 	/** Build activity */
 	@Override
@@ -50,16 +49,12 @@ public class ACActivity extends Activity {
 		
 		
 
-		// Get settings
-		int cLayout = prefs.getInt(prefs.PREFS_COMPASS_LAYOUT_KEY);
-		offset = prefs.getFloat(prefs.PREFS_COMPASS_OFFSET_KEY);
-		int bgColor = prefs.getInt(prefs.PREFS_COMPASS_BACKGROUNDCOLOR_KEY);
 
 		// Prepare for start
 		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 		viewCompass = (CompassView) findViewById(R.id.viewWorld);
-		viewCompass.setCompassLayout(cLayout);
-		viewCompass.setBgColor(bgColor);
+		
+		takePreferences();
 
 	}
 
@@ -94,7 +89,7 @@ public class ACActivity extends Activity {
 		public void onSensorChanged(SensorEvent event) {
 			// Get direction and adjust with calibration value  
 			float values[] = event.values;
-			float value = values[0]+offset;
+			float value = values[0];
 			
 			viewCompass.setDirection(value);
 		}
@@ -115,18 +110,33 @@ public class ACActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == CALIBRATION_ACTIVITY_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
-			offset = data.getFloatExtra(CalibrationActivity.RESULT_NAME_OFFSET,0.0f);
+			float offset = data.getFloatExtra(CalibrationActivity.RESULT_NAME_OFFSET,0.0f);
 			Preferences prefs = Preferences.getPreferences();
 			prefs.setFloat(prefs.PREFS_COMPASS_OFFSET_KEY, offset);
+			takePreferences();
 		}
 		if (requestCode == PREFERENCES_ACTIVITY_REQUEST) {
-			Preferences prefs = Preferences.getPreferences();
-			int bgColor = prefs.getInt(prefs.PREFS_COMPASS_BACKGROUNDCOLOR_KEY);
-			viewCompass.setBgColor(bgColor);
-			
-			int rose = prefs.getInt(prefs.PREFS_COMPASS_LAYOUT_KEY);
-			viewCompass.setCompassLayout(rose);
+			takePreferences();			
 		}
+		
+	}
+
+
+	private void takePreferences() {
+		Preferences prefs = Preferences.getPreferences();
+		
+		int bgColor = prefs.getInt(prefs.PREFS_COMPASS_BACKGROUNDCOLOR_KEY);
+		viewCompass.setBgColor(bgColor);
+		
+		int rose = prefs.getInt(prefs.PREFS_COMPASS_LAYOUT_KEY);
+		viewCompass.setCompassLayout(rose);
+			
+		int speed = prefs.getInt(prefs.PREFS_COMPASS_SPEED_KEY);
+		viewCompass.setSpeed(speed);
+
+		float offset = prefs.getFloat(prefs.PREFS_COMPASS_OFFSET_KEY);
+		viewCompass.setOffset(offset);
+		
 		
 	}
  
@@ -138,7 +148,8 @@ public class ACActivity extends Activity {
 			// Start Calibration
 			viewCompass.stopAnim();
 			Intent intent = new Intent(this, CalibrationActivity.class);
-			intent.putExtra("offset", offset);
+			Preferences prefs = Preferences.getPreferences();
+			intent.putExtra("offset",prefs.getFloat(prefs.PREFS_COMPASS_OFFSET_KEY) );
 			startActivityForResult(intent, CALIBRATION_ACTIVITY_REQUEST);
 			// Look at this.onActivityResult() for result.
 			return true;
@@ -147,7 +158,6 @@ public class ACActivity extends Activity {
 			Intent intent = new Intent(this, PreferencesActivity.class);
 			startActivityForResult(intent, PREFERENCES_ACTIVITY_REQUEST);
 			//startActivity(intent);
-			askLayout();
 			return true;
 		}
 		case R.id.mnuInfo: {
@@ -157,40 +167,6 @@ public class ACActivity extends Activity {
 		}
 		}
 		return false;
-	}
-
-	/*
-	 * Change Layout
-	 */
-	private void askLayout() {
-
-	/*	
-		Resources resources = getResources();
-		final CharSequence[] items = resources.getTextArray(R.array.layouts);
-
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle(R.string.msg_PickALayout);
-
-		// TODO lets work with icons
-		builder.setSingleChoiceItems(items, viewCompass.getCompassLayout(),
-				new AskLayoutListener());
-		AlertDialog alert = builder.create();
-		alert.show();
-	*/
-	}
-
-	private void saveLayout(int compassLayout) {
-		viewCompass.setCompassLayout(compassLayout);
-		Preferences prefs = Preferences.getPreferences();
-		prefs.setInt(prefs.PREFS_COMPASS_LAYOUT_KEY, compassLayout);
-
-	}
-
-	class AskLayoutListener implements DialogInterface.OnClickListener {
-		public void onClick(DialogInterface dialog, int item) {
-			ACActivity.this.saveLayout(item);
-			dialog.dismiss();
-		}
 	}
 
 }
