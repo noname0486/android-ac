@@ -38,6 +38,30 @@
     <string name="no_calibration">Calibr. off</string>
     <string name="txtCalibrationHelp">Exactly point the device to North!\n Then press \"Calibrate\"!\n</string>
  	
+ 	<!--  marker of compass view -->
+ 	<string-array name="orientations">
+        <item>N</item>
+        <item>NNE</item>
+        <item>NE</item>
+        <item>ENE</item>
+
+        <item>E</item>
+        <item>ESE</item>
+        <item>SE</item>
+        <item>SSE</item>
+
+        <item>S</item>
+        <item>SSW</item>
+        <item>SW</item>
+        <item>WSW</item>
+
+        <item>W</item>
+        <item>WNW</item>
+        <item>NW</item>
+        <item>NNW</item>
+    </string-array>    
+ 	
+ 	
  
   	<!--  Preferences -->
     <string name="prefs_version_key">compass.version</string>
@@ -69,9 +93,9 @@
 	<!-- speed  --> 
     <string name="prefs_speed_mnu_title">Speed</string>
     <string-array name="prefs_speed_entries">
-        <item>fast</item>
-        <item>normal</item>
         <item>slow</item>
+        <item>normal</item>
+        <item>fast</item>
     </string-array>    
     <string-array name="prefs_speed_values">
         <item>0</item>
