@@ -19,12 +19,14 @@
 package de.rothbayern.android.ac.pref;
 
 
+import android.app.Activity;
 import android.content.*;
 import android.graphics.Color;
 import android.preference.*;
 import android.util.*;
-import android.view.*;
+import android.view.View;
 import android.widget.EditText;
+import de.rothbayern.android.ac.keithwiley.*;
 
 /**
  * A {@link Preference} that allows for string
@@ -43,7 +45,7 @@ public class ColorPickerPreference extends DialogPreference {
      * The edit text shown in the dialog.
      */
     
-	ColorPickerView mPickerView;
+	ColorPickerPreferenceView mPickerView;
 	int mColor;
 	
     public ColorPickerPreference(Context context, AttributeSet attrs, int defStyle) {
@@ -56,21 +58,41 @@ public class ColorPickerPreference extends DialogPreference {
         init(context, attrs);
     }
 
+    private Activity context;
 	private void init(Context context, AttributeSet attrs) {
-		// Don't create view here
+		this.context = (Activity)context;
 	}
 
     public ColorPickerPreference(Context context) {
         this(context, null);
+        init(context, null);
     }
    
     
     @Override
     protected View onCreateDialogView() {
-		mPickerView = new ColorPickerView(getContext(),null);
-		mPickerView.setColor(mColor);
+    	
+		//mPickerView = new ColorPickerFromDemoView(getContext(),null,mColor);
+    	OnColorChangedListener l = new OnColorChangedListener() {
+			public void colorChanged(int color) {
+				setColor(""+color);
+			}
+		};
+		
+		DisplayMetrics dm = new DisplayMetrics();
+		context.getWindowManager().getDefaultDisplay().getMetrics(dm);
+
+		int screenWidth = dm.widthPixels;
+		int screenHeight = dm.heightPixels; 
+		
+
+    	try {
+			mPickerView = new ColorPickerView(getContext(), l, screenWidth, screenHeight, mColor);
+		} catch (Exception e) {
+			throw new IllegalStateException("Can't open ColorPicker",e);
+		}
         mPickerView.setEnabled(true);
-    	return mPickerView;
+    	return (View)mPickerView;
     }
     
     @Override

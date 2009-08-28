@@ -15,17 +15,38 @@
  *  You should have received a copy of the GNU General Public License along with this program; 
  *  if not, see <http://www.gnu.org/licenses/>.
  -->
-
 <merge
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:okCancelBar="http://schemas.android.com/apk/res/com.example.android.merge">
-    >
-<de.rothbayern.android.ac.CompassSurfaceView
-              android:id="@+id/viewWorld"
-              android:scaleType="center"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent" />
-              
 
 
+
+
+	<de.rothbayern.android.ac.ColorChooseCompassView
+		android:id="@+id/viewWorld"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent" 
+		 android:scaleType="center"/>
+
+
+		<LinearLayout
+			android:orientation="vertical"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="bottom"
+			android:background="#00000000"
+		>
+		<TextView
+				android:id="@+id/lbl_hint_tab_colors"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:gravity="center"
+				android:text="@string/colors_activity_help"
+				android:textSize="16sp"
+				android:textColor="#FF000000"
+				android:background="#40000000"
+ 
+				/>
+
+		</LinearLayout>
 </merge>

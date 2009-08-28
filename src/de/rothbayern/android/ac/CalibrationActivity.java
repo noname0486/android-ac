@@ -22,22 +22,21 @@ package de.rothbayern.android.ac;
 import android.app.Activity;
 import android.content.*;
 import android.hardware.*;
-import android.os.Bundle;
+import android.os.*;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.widget.*;
 
 public class CalibrationActivity extends Activity {
 
 	
 
 	// Controls
-	private CompassView viewCompass;
+	private CompassStandardView viewCompass;
 	private SensorManager mSensorManager;
 
-	Button cmdCalibrate;
-	Button cmdClear;
-	Button cmdSpeichern;
+	private Button cmdCalibrate;
+	private Button cmdClear;
 
 	public static final String PARAM_NAME_OFFSET = "offset";
 	public static final String RESULT_NAME_OFFSET = "result_offset";
@@ -56,8 +55,8 @@ public class CalibrationActivity extends Activity {
 		cmdClear.setOnClickListener(cl);
 		
 		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-		viewCompass = (CompassView) findViewById(R.id.viewWorld);
-	    viewCompass.setCompassLayout(CompassView.LAYOUT_CALIBRATION);
+		viewCompass = (CompassStandardView) findViewById(R.id.viewWorld);
+	    viewCompass.setCompassLayout(CompassViewHelper.LAYOUT_CALIBRATION);
 
 	    direction = -getIntent().getFloatExtra(PARAM_NAME_OFFSET, 0);
 	    
@@ -70,15 +69,17 @@ public class CalibrationActivity extends Activity {
 		super.onResume();
 		mSensorManager.registerListener(mListener, mSensorManager
 				.getDefaultSensor(Sensor.TYPE_ORIENTATION),
-				SensorManager.SENSOR_DELAY_NORMAL);
-		viewCompass.startAnim();
+				SensorManager.SENSOR_DELAY_GAME);
+		viewCompass.setDirection(0.0f);
+		viewCompass.loadPrefs();
+		viewCompass.invalidate();
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
 		mSensorManager.unregisterListener(mListener);
-		viewCompass.stopAnim();
+		super.onPause();
 	}
 
 	
@@ -90,36 +91,61 @@ public class CalibrationActivity extends Activity {
 
 		@Override
 		public void onSensorChanged(SensorEvent event) {
-			float values[] = event.values;
-			direction = values[0];
-			viewCompass.setDirection(0);
+			direction=event.values[0];
+		}
+	};
+
+	private static final int MSG_CALIBRATE = 100;
+	private static final int MSG_CALIBRATE_OFF = 101;
+	Handler myHandler = new Handler(){
+		private static final int SPAN_NEXT_VALUE_MS = 100;
+		private static final int STEPS = 12;
+
+		@Override
+		public void handleMessage(Message msg) {
+			Intent i = getIntent();
+			switch(msg.what){
+				case MSG_CALIBRATE:{
+					float sum = 0;
+					for (int j = 0; j < STEPS; j++) {
+						sum+=direction;
+						try {Thread.sleep(SPAN_NEXT_VALUE_MS);	} catch (InterruptedException e) {}
+					}
+					float delta = sum/STEPS;	
+					i.putExtra(RESULT_NAME_OFFSET, -delta);
+					setResult(RESULT_OK,i);
+			        CalibrationActivity.this.finish();
+					break;
+				}
+				case MSG_CALIBRATE_OFF:{
+					i.putExtra(RESULT_NAME_OFFSET, 0.0f);
+					setResult(RESULT_OK,i);
+			        CalibrationActivity.this.finish();
+				}
+			}
 		}
 	};
 
 	private ClickListener cl = new ClickListener(); 
 	class ClickListener implements OnClickListener {
 
+
 		@Override
 		public void onClick(View v) {
 
-			Intent i = getIntent();
 			if (v == cmdClear) {
-				i.putExtra(RESULT_NAME_OFFSET, 0.0f);
-				setResult(RESULT_OK,i);
-		        CalibrationActivity.this.finish();
+				Toast.makeText(CalibrationActivity.this, R.string.no_calibration, Toast.LENGTH_SHORT).show();
+				Message m = Message.obtain(myHandler, MSG_CALIBRATE_OFF);
+				m.sendToTarget();
 			}
 			if (v == cmdCalibrate) {
-				final int STEPS = 12;
-				float sum = 0;
-				for (int j = 0; j < STEPS; j++) {
-					sum+=direction;
-					try {Thread.sleep(100);	} catch (InterruptedException e) {}
-				}
-				float delta = sum/STEPS;	
-				i.putExtra(RESULT_NAME_OFFSET, -delta);
-				setResult(RESULT_OK,i);
-		        CalibrationActivity.this.finish();
+				Toast.makeText(CalibrationActivity.this, R.string.calibrating, Toast.LENGTH_SHORT).show();
+				Message m = Message.obtain(myHandler, MSG_CALIBRATE);
+				m.sendToTarget();
 			}
 		}
 	};
+	
+	
+	
 }
