@@ -17,11 +17,10 @@
 
 package de.rothbayern.android.ac;
 
-import java.io.*;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.webkit.WebView;
+import de.rothbayern.android.ac.misc.Util;
 
 public class InfoActivity extends Activity {
 	
@@ -34,27 +33,14 @@ public class InfoActivity extends Activity {
         
         webview = (WebView) findViewById(R.id.webview_info);
         
-        InputStream rawResource = getResources().openRawResource(R.raw.info);
-        String content = streamToString(rawResource);
-        try {rawResource.close();} catch (IOException e) {}
+        String content = Util.loadStringFromRawResource(getResources(),R.raw.info);
 
         String mimeType = "text/html";
         String encoding = "UTF-8";
 
         //webview.loadUrl("file:///android_asset/info.html");
-        webview.loadData(content, mimeType, encoding);
-    }
-    
-    public static String streamToString(InputStream in) {
-        String l;
-        BufferedReader r = new BufferedReader(new InputStreamReader(in));
-        StringBuilder s = new StringBuilder();
-        try {
-            while ((l = r.readLine()) != null) {
-                s.append(l + "\n");
-            }
-        } catch (IOException e) {} 
-        return s.toString();
+        //webview.loadData(content, mimeType, encoding);
+        webview.loadDataWithBaseURL("file:///android_asset", content, mimeType, encoding, null);
     }
 }
  

@@ -18,14 +18,16 @@
 package de.rothbayern.android.ac.pref;
 
 
-import de.rothbayern.android.ac.*;
-import de.rothbayern.android.ac.R.string;
-import android.app.*;
-import android.content.*;
-import android.graphics.Color;
-import android.preference.PreferenceManager;
 
-public class Preferences {
+import android.app.Activity;
+import android.content.*;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.Color;
+import android.os.Message;
+import android.preference.PreferenceManager;
+import de.rothbayern.android.ac.*;
+
+public class CompassPreferences {
 
 	public final String PREFS_COMPASS_VERSION_KEY;
 
@@ -54,15 +56,15 @@ public class Preferences {
 	}
 
 	public static void setFloatOld(Context context, String key, float val) {
-		SharedPreferences prefernces = context.getSharedPreferences(PREFS_NAME_OLD,Activity.MODE_PRIVATE);
-		SharedPreferences.Editor editor = prefernces.edit();
+		SharedPreferences preferences = context.getSharedPreferences(PREFS_NAME_OLD,Activity.MODE_PRIVATE);
+		SharedPreferences.Editor editor = preferences.edit();
 		editor.putFloat(key, val);
 		editor.commit();
 	}
 
 	public static void setIntOld(Context context, String key, int val) {
-		SharedPreferences prefernces = context.getSharedPreferences(PREFS_NAME_OLD,Activity.MODE_PRIVATE);
-		SharedPreferences.Editor editor = prefernces.edit();
+		SharedPreferences preferences = context.getSharedPreferences(PREFS_NAME_OLD,Activity.MODE_PRIVATE);
+		SharedPreferences.Editor editor = preferences.edit();
 		editor.putInt(key, val);
 		editor.commit();
 	}
@@ -70,6 +72,14 @@ public class Preferences {
 
 	public int getInt(String key) {
 		String sVal = prefs.getString(key, "0");
+		int intVal=0;
+		// ListPreference can't work with numeric values => load as string
+		try {intVal = Integer.parseInt(sVal);} catch (NumberFormatException nfe) {}
+		return intVal;
+	}
+
+	public int getInt(String key, int defValue) {
+		String sVal = prefs.getString(key, ""+defValue);
 		int intVal=0;
 		// ListPreference can't work with numeric values => load as string
 		try {intVal = Integer.parseInt(sVal);} catch (NumberFormatException nfe) {}
@@ -117,13 +127,11 @@ public class Preferences {
 	
 	
 	// Singleton for Preferences
-	private Context theContext;
-	private SharedPreferences oldPrefs;
+	private ACActivity theContext;
 	private SharedPreferences prefs;
-	private static Preferences thePrefernces=null;
-	private Preferences(Context c){
+	private static CompassPreferences thePrefernces=null;
+	private CompassPreferences(ACActivity c){
 		theContext = c;
-		oldPrefs = theContext.getSharedPreferences(PREFS_NAME_OLD,ACActivity.MODE_PRIVATE);
 		prefs=PreferenceManager.getDefaultSharedPreferences(theContext);
 		PREFS_COMPASS_LAYOUT_KEY=c.getString(R.string.prefs_layout_key);
 		PREFS_COMPASS_BACKGROUNDCOLOR_KEY=c.getString(R.string.prefs_backgroundcolor_key);
@@ -132,15 +140,15 @@ public class Preferences {
 		PREFS_COMPASS_VERSION_KEY=c.getString(R.string.prefs_version_key);		
 	}
 	
-	public static Preferences getPreferences(Context c){
+	public static CompassPreferences getPreferences(ACActivity c){
 		if(thePrefernces==null){
-			thePrefernces = new Preferences(c);
+			thePrefernces = new CompassPreferences(c);
 		}
 		return(thePrefernces);
 	}
 	
 	
-	public static Preferences getPreferences(){
+	public static CompassPreferences getPreferences(){
 		if(thePrefernces==null){
 			throw new IllegalStateException("Problem with preferences");
 		}
@@ -149,7 +157,7 @@ public class Preferences {
 
 	public void checkVersion() {
 		String oldVersion = getString(PREFS_COMPASS_VERSION_KEY);
-		String newVersion = theContext.getString(R.string.prefs_version);
+		String newVersion = fetchVersionName();
 		
 		
 		
@@ -167,24 +175,27 @@ public class Preferences {
 		
 		
 		if(!oldVersion.equals(newVersion)){
-			doChangeVersion(oldVersion,newVersion);
+			Message m = new Message();
+			m.what=ACActivity.MSG_SHOW_CHANGE_VERSION;
+			m.obj=new String[] {oldVersion,newVersion};
+			theContext.myHandler.sendMessageDelayed(m, 1900);
+
 			setString(PREFS_COMPASS_VERSION_KEY, newVersion);
 		}
 		
 	}
 
-	private void doChangeVersion(String oldVersion, String newVersion) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(theContext);
-		builder.setTitle("Achtung");
-		builder.setMessage(oldVersion +" => "+newVersion);
-		builder.setNeutralButton("Schliessen", null);
 
-		AlertDialog alert = builder.create();
-		alert.show();
-
-		
-	}
 	
+	private String fetchVersionName() {
+		String versionName = null;
+		try {
+			versionName = theContext.getPackageManager().getPackageInfo(theContext.getPackageName(), 0).versionName;
+		} catch (NameNotFoundException e) {
+			versionName = "x.y.z";
+		}
+		return versionName;
+	}
 	
 	
 	

@@ -18,6 +18,9 @@
 package de.rothbayern.android.ac;
 
 
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.*;
 
@@ -25,7 +28,52 @@ public class PreferencesActivity extends PreferenceActivity {
      @Override
      protected void onCreate(Bundle savedInstanceState) {
           super.onCreate(savedInstanceState);
-          addPreferencesFromResource(R.layout.preferences);
+          addPreferencesFromResource(R.xml.preferences);
+          setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); // for portrait 
+    
  
      }
+     
+      
+     @Override
+    public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
+    	Resources resources = this.getResources();
+   	 final String ROBAS_KEY = resources.getString(R.string.prefs_robas_color_key);
+	 final String STEFAN_KEY = resources.getString(R.string.prefs_stefans_color_key);
+	 final String NEEDLE_KEY = resources.getString(R.string.prefs_needle_color_key);
+    	  
+	 if(preference.getKey().equals(ROBAS_KEY)){
+			Intent intent = new Intent(this, ColorsActivity.class);
+			intent.putExtra("key", CompassViewHelper.LAYOUT_ROBA);
+			startActivityForResult(intent, COLORS_ACTIVITY_REQUEST);
+			return(true);
+ 	 }
+	 if(preference.getKey().equals(STEFAN_KEY)){
+			Intent intent = new Intent(this, ColorsActivity.class);
+			intent.putExtra("key", CompassViewHelper.LAYOUT_STEFAN);
+			startActivityForResult(intent, COLORS_ACTIVITY_REQUEST);
+			return(true);
+ 	 }
+	 if(preference.getKey().equals(NEEDLE_KEY)){
+			Intent intent = new Intent(this, ColorsActivity.class);
+			intent.putExtra("key", CompassViewHelper.LAYOUT_NEEDLE);
+			startActivityForResult(intent, COLORS_ACTIVITY_REQUEST);
+			return(true);
+ 	 }
+    	return super.onPreferenceTreeClick(preferenceScreen, preference);
+    }
+     
+ 	private static final int COLORS_ACTIVITY_REQUEST = 102;
+ 	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == COLORS_ACTIVITY_REQUEST) {
+//			if(Config.LOGD){
+//				Log.d("color activity","closed");
+//			}
+		}
+		
+	}
+
+
 }

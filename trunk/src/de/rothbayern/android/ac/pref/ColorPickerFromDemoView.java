@@ -21,16 +21,16 @@ package de.rothbayern.android.ac.pref;
 import android.content.Context;
 import android.graphics.*;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
-import android.view.View;
+import android.view.*;
  
- public class ColorPickerView extends View {
+ public class ColorPickerFromDemoView extends View implements ColorPickerPreferenceView {
         private Paint mPaint;
         private Paint mCenterPaint;
         private final int[] mColors;
 
-        ColorPickerView(Context c,AttributeSet attrs) {
+        ColorPickerFromDemoView(Context c,AttributeSet attrs, int color) {
             super(c,attrs);
+            setColor(color);
             mColors = new int[] {
                 0xFF000000, 0xFFFFFFFF, 
                 0xFFFF8888, 0xFFFFFF88, 
@@ -52,10 +52,16 @@ import android.view.View;
             mCenterPaint.setStrokeWidth(5);
         }
 
+        /* (non-Javadoc)
+		 * @see de.rothbayern.android.ac.pref.ColorPickerPreferenceView#getColor()
+		 */
         public int getColor(){
         	return(mCenterPaint.getColor());
         }
 
+        /* (non-Javadoc)
+		 * @see de.rothbayern.android.ac.pref.ColorPickerPreferenceView#setColor(int)
+		 */
         public void setColor(int color){
         	mCenterPaint.setColor(color);
         	invalidate();
