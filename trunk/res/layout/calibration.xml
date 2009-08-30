@@ -42,7 +42,7 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:text="@string/txtCalibrationHelp"
-				android:textSize="18sp"
+				android:textSize="16dp"
 				android:textColor="#FF000000"
 				android:background="#80FFFFFF"/>
 
@@ -53,16 +53,16 @@
 				>
 				<TableRow >
 					<Button
-						android:id="@+id/cmdClearCalibration"
+						android:id="@+id/cmdCalibrate"
 						android:layout_height="fill_parent"
-						android:text="@string/no_calibration"
+						android:text="@string/calibrate"
 						android:textSize="15sp"
 						android:layout_width="0px"
 						android:layout_weight="1" />
 					<Button
-						android:id="@+id/cmdCalibrate"
+						android:id="@+id/cmdClearCalibration"
 						android:layout_height="fill_parent"
-						android:text="@string/calibrate"
+						android:text="@string/no_calibration"
 						android:textSize="15sp"
 						android:layout_width="0px"
 						android:layout_weight="1" />

@@ -31,7 +31,6 @@ public class CompassStandardView extends View{
 
 	public CompassStandardView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		
 		init();
 		
 	}
@@ -51,7 +50,8 @@ public class CompassStandardView extends View{
 
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-		helper.onSizeChanged(w,h,oldw,oldh);
+		super.onSizeChanged(w, h, oldw, oldh);
+		helper.onSizeChanged(w, h, oldw, oldh);
 	}
 
 

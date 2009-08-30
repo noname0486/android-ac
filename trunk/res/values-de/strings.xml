@@ -85,6 +85,7 @@
         <item>mittel</item>
         <item>schnell</item>
         <item>direkt</item>
+        <item>pendeln</item>
     </string-array>    
      <string name="prefs_speed_default_value">1</string>
     <string name="prefs_speed_dialog_title">Wähle eine Geschwindigkeit</string>
@@ -131,8 +132,8 @@
     <string name="color_choose_DIRECTIONS_INTERMEDIATE_LABEL_NAME">Nebenrichtungen</string>
     <string name="color_choose_DIRECTIONS_INTERMEDIATE2_LABEL_NAME">Unterrichtungen</string>
 
-    <string name="color_choose_ROSE1_NAME">Linke Hälfte</string>
-    <string name="color_choose_ROSE2_NAME">Rechte Hälfte</string>
+    <string name="color_choose_ROSE1_NAME">Rose Farbe I</string>
+    <string name="color_choose_ROSE2_NAME">Rose Farbe II</string>
     
      
     <!-- Greeting Dialog -->

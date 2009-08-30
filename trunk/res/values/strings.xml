@@ -72,7 +72,7 @@
     <string name="prefs_layout_default_value">0</string>
     <string name="prefs_layout_dialog_title">Pick a Rose</string>
     <string-array name="prefs_layout_entries">
-        <item>Rob A's rose</item>
+        <item>RobA's rose</item>
         <item>Stefan's rose</item>
     </string-array>    
 
@@ -85,6 +85,7 @@
         <item>normal</item>
         <item>fast</item>
         <item>direct</item>
+        <item>swing</item>
     </string-array>    
      <string name="prefs_speed_default_value">1</string>
     <string name="prefs_speed_dialog_title">Pick a Speed.</string>
@@ -131,8 +132,8 @@
     <string name="color_choose_DIRECTIONS_INTERMEDIATE_LABEL_NAME">Intermediate Directions</string>
     <string name="color_choose_DIRECTIONS_INTERMEDIATE2_LABEL_NAME">Secondary Directions</string>
 
-    <string name="color_choose_ROSE1_NAME">Left Part</string>
-    <string name="color_choose_ROSE2_NAME">Right Part</string>
+    <string name="color_choose_ROSE1_NAME">Rose Color I</string>
+    <string name="color_choose_ROSE2_NAME">Rose Color II</string>
     
     
     <!-- Greeting Dialog -->

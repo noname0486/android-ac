@@ -185,10 +185,10 @@ public class RobABaseDrawing extends CompassDrawing {
 			DrawingComponent compOrientationLabels = new DrawingComponent(0, DIRECTION_LABEL_NAME, directionLabels,directionTextColor,resources.getString(R.string.color_choose_DIRECTIONS_LABEL_NAME));
 
 			// degree labels
-			Figure d0Label = FRect.fromMiddle(0, -DEGREES_RADIUS-DEGREES_TEXT_SIZE/2, DIRECTION_TEXT_SIZE * TEXT_AREA_FACTOR);
-			Figure d90Label = FRect.fromMiddle(DEGREES_RADIUS, 0, DIRECTION_TEXT_SIZE * TEXT_AREA_FACTOR);
-			Figure d180Label = FRect.fromMiddle(0, DEGREES_RADIUS+DEGREES_TEXT_SIZE/3, DIRECTION_TEXT_SIZE * TEXT_AREA_FACTOR);
-			Figure d270Label = FRect.fromMiddle(-DEGREES_RADIUS, 0, DIRECTION_TEXT_SIZE * TEXT_AREA_FACTOR);
+			Figure d0Label = FRect.fromMiddle(0, -DEGREES_RADIUS-DEGREES_TEXT_SIZE, DIRECTION_TEXT_SIZE * TEXT_AREA_FACTOR);
+			Figure d90Label = FRect.fromMiddle(DEGREES_RADIUS+DEGREES_TEXT_SIZE*0.5f, 0, DIRECTION_TEXT_SIZE * TEXT_AREA_FACTOR);
+			Figure d180Label = FRect.fromMiddle(0, DEGREES_RADIUS+DEGREES_TEXT_SIZE, DIRECTION_TEXT_SIZE * TEXT_AREA_FACTOR);
+			Figure d270Label = FRect.fromMiddle(-DEGREES_RADIUS-DEGREES_TEXT_SIZE, 0, DIRECTION_TEXT_SIZE * TEXT_AREA_FACTOR);
 			FArray degreeLabels = new FArray(4);
 			degreeLabels.add(d0Label);
 			degreeLabels.add(d90Label);

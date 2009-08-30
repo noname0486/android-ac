@@ -39,13 +39,10 @@ public class ColorChooseCompassView extends CompassStandardView {
 		components = drawing.getComponents();
 	}
 
+
 	
 	private void init() {
-		m = new Matrix();
-		PointF middle = helper.getMiddle();
-		Log.d("middle"," "+middle.x+", "+middle.y);
-		m.postTranslate(middle.x, middle.y);
-		m.invert(m);
+		calcMatrix();
 
 		paintSelected = new Paint();
 		paintSelected.setStyle(Paint.Style.STROKE);
@@ -57,6 +54,20 @@ public class ColorChooseCompassView extends CompassStandardView {
 
 		makeScrollPaint(0);
 		
+	}
+
+
+	private void calcMatrix() {
+		m = new Matrix();
+		PointF middle = helper.getMiddle();
+		//Log.d("middle-calc"," "+middle.x+", "+middle.y);
+		m.postTranslate(middle.x, middle.y);
+		m.invert(m);
+	}
+
+	public void onSizeChanged(int w, int h, int oldw, int oldh) {
+		super.onSizeChanged(w, h, oldw, oldh);
+		calcMatrix();
 	}
 
 
@@ -96,12 +107,13 @@ public class ColorChooseCompassView extends CompassStandardView {
 			switch (event.getAction()) {
 				case MotionEvent.ACTION_DOWN: 
 				case MotionEvent.ACTION_MOVE:{
+					// TODO don't works on first call
 						float src[] = { event.getX(), event.getY() };
 						float dst[] = new float[2];
 						m.mapPoints(dst, src);
 						DrawingComponent comp = searchComponent(dst[0], dst[1]);
 						if (comp != null) {
-							Log.d("comp found","yes =>["+src[0]+", "+src[1]+"], ["+dst[0]+", "+dst[1]+"]");
+//							Log.d("comp found","yes =>["+src[0]+", "+src[1]+"], ["+dst[0]+", "+dst[1]+"]");
 							invalidate();
 							if(onComponentSelectedListener != null){
 								setSelectedComponent(comp);
@@ -109,8 +121,7 @@ public class ColorChooseCompassView extends CompassStandardView {
 							}
 						}
 						else {
-							Log.d("comp found","no =>["+src[0]+", "+src[1]+"], ["+dst[0]+", "+dst[1]+"]");
-							
+//							Log.d("comp found","no =>["+src[0]+", "+src[1]+"], ["+dst[0]+", "+dst[1]+"]");
 						}
 				}
 			}
