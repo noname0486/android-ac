@@ -172,7 +172,7 @@ public class ColorsActivity extends Activity  {
 				builder.setPositiveButton("Ok", mOcl);
 				builder.setNegativeButton("Cancel", mOcl);
 				int startColor = drawing.getColorPreference(drawingComponent);
-				ColorPickerView cpView = new ColorPickerView(ColorsActivity.this, onColorChangedListener, 300, 400, startColor);
+				ColorPickerView cpView = new ColorPickerView(ColorsActivity.this, onColorChangedListener, 90*f.getWidth()/100, 90*f.getHeight()/100, startColor);
 				builder.setView(cpView);
 				builder.setOnCancelListener(mOcl);
 				dlgColorCoose = builder.create();

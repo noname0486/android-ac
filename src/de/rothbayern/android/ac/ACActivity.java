@@ -36,30 +36,15 @@ public class ACActivity extends Activity {
 	public static final int SPEED_NORMAL = 1;
 	public static final int SPEED_FAST = 2;
 	public static final int SPEED_DIRECT = 3;
+	public static final int SPEED_SWING = 4;
 
 	private int speedMode = SPEED_NORMAL;
 	private float offset = 0.0f;
 
-	@Override
-	protected void onStart() {
-		super.onStart();
-		Log.d("cycle","onStart"+this);
-	}
-	
-	@Override
-	protected void onRestart() {
-		Log.d("cycle","onRestart"+this);
-		super.onRestart();
-	}
-	@Override
-	protected void onStop() {
-		Log.d("cycle","onStop"+this);
-		super.onStop();
-	}
 	
 	@Override
 	protected void onDestroy() {
-		Log.d("cycle","onDestroy"+this);
+		//Log.d("cycle","onDestroy"+this);
 		super.onDestroy();
 		System.exit(0);
 	}
@@ -68,7 +53,7 @@ public class ACActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedState) {
 		super.onCreate(savedState);
-		Log.d("cycle","onCreate"+this);
+//		Log.d("cycle","onCreate"+this);
 		// Do first to init preferences (Singleton)
 		CompassPreferences prefs = CompassPreferences.getPreferences(this);
 		prefs.checkVersion();
@@ -274,6 +259,12 @@ public class ACActivity extends Activity {
 					return speed;
 				}
 
+				case SPEED_SWING: {
+					speed = speed * 0.97f; // friction
+					speed += diff / 10; // acceleration
+					return speed;
+				}
+
 				case SPEED_NORMAL:
 				default: {
 					speed = speed * 0.75f; // friction
@@ -404,6 +395,7 @@ public class ACActivity extends Activity {
 		super.onResume();
 
 		setSensorListenerState(SENSOR_LISTENER_STATE_ACTION);
+		Log.d("wh",compassView.getWidth()+", "+compassView.getHeight());
 		compassView.loadPrefs();
 		startAnim();
 	}
@@ -516,5 +508,7 @@ public class ACActivity extends Activity {
 		}
 		return false;
 	}
+	
+	
 
 }

@@ -195,15 +195,15 @@ public class StefanBaseDrawing extends CompassDrawing {
 			Resources resources = context.getResources();
 			
 			FArray cardinalLabels = new FArray(4);
-			addLabelFigures(cardinalLabels, 4, 0.0f, LABEL_RADIUS*1.0f);
+			addLabelFigures(cardinalLabels, 4, 0.0f, LABEL_RADIUS*1.0f+LABEL_TEXT_SIZE*0.3f);
 			DrawingComponent compCardinalLabels = new DrawingComponent(0,LABEL_CARDINAL_DIRECTION_NAME,cardinalLabels,labelCardinalDirectionColor,resources.getString(R.string.color_choose_DIRECTIONS_CARDINALE_LABEL_NAME));
 			
 			FArray intermediateLabels = new FArray(4);
-			addLabelFigures(intermediateLabels, 4, 45.0f, LABEL_RADIUS*0.9f);
+			addLabelFigures(intermediateLabels, 4, 45.0f, LABEL_RADIUS*0.9f+LABEL_TEXT_SIZE*0.3f);
 			DrawingComponent compIntermediateLabels = new DrawingComponent(0,LABEL_INTERMEDIATE_DIRECTION_NAME,intermediateLabels,labelIntermediateDirectionColor,resources.getString(R.string.color_choose_DIRECTIONS_INTERMEDIATE_LABEL_NAME));
 			
 			FArray intermediate2Labels = new FArray(8);
-			addLabelFigures(intermediate2Labels, 8, 22.5f, LABEL_RADIUS*0.8f);
+			addLabelFigures(intermediate2Labels, 8, 22.5f, LABEL_RADIUS*0.8f+LABEL_TEXT_SIZE*0.3f);
 			DrawingComponent compIntermediate2Labels = new DrawingComponent(0,LABEL_INTERMEDIATE2_DIRECTION_NAME,intermediate2Labels,labelIntermediate2DirectionColor,resources.getString(R.string.color_choose_DIRECTIONS_INTERMEDIATE2_LABEL_NAME));
 			
 			FCircle rose1 = new FCircle(-LABEL_RADIUS/2,-LABEL_RADIUS,LABEL_TEXT_SIZE);

@@ -2,6 +2,7 @@ package de.rothbayern.android.ac;
 
 import android.content.Context;
 import android.graphics.*;
+import android.util.*;
 import de.rothbayern.android.ac.drawings.*;
 import de.rothbayern.android.ac.pref.CompassPreferences;
 
@@ -19,15 +20,16 @@ public class CompassViewHelper {
 	private Bitmap bmRobaRose;
 	private int bgColor = Color.WHITE;
 	
+	Context context;
+	private final int WIDTH = 320;
+
 	// Middle of the view
-	protected int middleX = 160;
-	protected int middleY = 200;
+	protected int middleX = WIDTH/2;
+	protected int middleY = 215;
 	
 
-	Context context;
-	private final int WIDTH = 300;
 	/**
-	 * Prepare fpr drawing
+	 * Prepare for drawing
 	 */
 	protected void init(Context context) {
 		this.context = context;
@@ -40,10 +42,12 @@ public class CompassViewHelper {
 
 	}
 	
+	
 	public void loadPrefs() {
-		bmNeedle = new NeedleBaseDrawing(context).getDrawing(WIDTH, WIDTH);
-		bmRobaRose = new RobABaseDrawing(context).getDrawing(WIDTH, WIDTH);
-		bmStefanRose = new StefanBaseDrawing(context).getDrawing(WIDTH, WIDTH);
+		int minWidth = (int)Math.min(middleX*2, middleY*2);
+		bmNeedle = new NeedleBaseDrawing(context).getDrawing(minWidth, minWidth);
+		bmRobaRose = new RobABaseDrawing(context).getDrawing(minWidth, minWidth);
+		bmStefanRose = new StefanBaseDrawing(context).getDrawing(minWidth, minWidth);
 		CompassPreferences prefs = CompassPreferences.getPreferences();
 		bgColor = prefs.getInt(prefs.PREFS_COMPASS_BACKGROUNDCOLOR_KEY);
 
@@ -51,6 +55,8 @@ public class CompassViewHelper {
 	public void onSizeChanged(int w, int h, int oldw, int oldh) {
 		middleX = w / 2;
 		middleY = h / 2;
+		loadPrefs();
+		Log.d("middle-helper"," "+middleX+", "+middleY);
 	}
 	
 	public void setDirection(float direction) {

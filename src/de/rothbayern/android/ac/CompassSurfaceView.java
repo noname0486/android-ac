@@ -20,7 +20,7 @@ package de.rothbayern.android.ac;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.util.AttributeSet;
+import android.util.*;
 import android.view.*;
 
 public class CompassSurfaceView extends SurfaceView implements SurfaceHolder.Callback{
@@ -53,11 +53,9 @@ public class CompassSurfaceView extends SurfaceView implements SurfaceHolder.Cal
 		mHolder.addCallback(this);
 
 	}
+	
 
-	@Override
-	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-		helper.onSizeChanged(w,h,oldw,oldh);
-	}
+
 
 
 	@Override
@@ -84,6 +82,12 @@ public class CompassSurfaceView extends SurfaceView implements SurfaceHolder.Cal
 		}
 	}
 	
+	@Override
+	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+		super.onSizeChanged(w, h, oldw, oldh);
+		helper.onSizeChanged(w, h, oldw, oldh);
+		
+	}
 	
 
 	public void setCompassLayout(int compassLayout) {
