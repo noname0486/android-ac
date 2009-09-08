@@ -21,6 +21,7 @@ package de.rothbayern.android.ac;
 
 import android.app.*;
 import android.content.*;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.*;
 import android.view.View;
@@ -169,8 +170,8 @@ public class ColorsActivity extends Activity  {
 				drawingComponent = comp;
 				AlertDialog.Builder builder = new AlertDialog.Builder(ColorsActivity.this);
 				builder.setTitle(comp.getTitle());
-				builder.setPositiveButton("Ok", mOcl);
-				builder.setNegativeButton("Cancel", mOcl);
+				builder.setPositiveButton(android.R.string.ok, mOcl);
+				builder.setNegativeButton(android.R.string.cancel, mOcl);
 				int startColor = drawing.getColorPreference(drawingComponent);
 				ColorPickerView cpView = new ColorPickerView(ColorsActivity.this, onColorChangedListener, 90*f.getWidth()/100, 90*f.getHeight()/100, startColor);
 				builder.setView(cpView);

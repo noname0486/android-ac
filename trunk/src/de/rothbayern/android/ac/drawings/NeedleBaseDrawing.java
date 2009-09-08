@@ -16,10 +16,10 @@ public class NeedleBaseDrawing extends CompassDrawing {
 	private int needleSouthColor = NEEDLE_SOUTH_COLOR;
 	private int needleButtonColor = NEEDLE_BUTTON_COLOR;
 
-	private static final float TRIANGLE_LENGTH = MAX * 0.65f;
-	private static final float TRIANGLE_WIDTH = MAX * 0.05f;
+	private static final float TRIANGLE_LENGTH = MAX * 0.67f;
+	private static final float TRIANGLE_WIDTH = MAX * 0.04f;
 
-	private static final float BUTTON_RADIUS = MAX * 0.07f;
+	private static final float BUTTON_RADIUS = MAX * 0.06f;
 
 	private Context context = null;
 
