@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+	xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<ListPreference
+		android:key="@string/prefs_layout_key"
+		android:defaultValue="@string/prefs_layout_default_value"
+		android:title="@string/prefs_layout_mnu_title"
+		android:entries="@array/prefs_layout_entries"
+		android:entryValues="@array/prefs_layout_values"
+		android:dialogTitle="@string/prefs_layout_dialog_title"
+		android:summary="@string/prefs_layout_summary"
+		 
+	/>
+
+	<ListPreference
+		android:key="@string/prefs_speed_key"
+		android:defaultValue="@string/prefs_speed_default_value"
+		android:title="@string/prefs_speed_mnu_title"
+		android:entries="@array/prefs_speed_entries"
+		android:entryValues="@array/prefs_speed_values"
+		android:dialogTitle="@string/prefs_speed_dialog_title" 
+		android:summary="@string/prefs_speed_summary"
+	/>
+
+	<PreferenceScreen
+		android:key="@string/prefs_colors_key"
+		android:title="@string/prefs_colors_title"
+		android:summary="@string/prefs_colors_summary"	>
+		<de.rothbayern.android.ac.pref.ColorPickerPreference
+			android:key="@string/prefs_backgroundcolor_key"
+			android:defaultValue="@string/prefs_backgroundcolor_default_value"
+			android:title="@string/prefs_backgroundcolor_mnu_title"
+			android:dialogTitle="@string/prefs_backgroundcolor_dialog_title" 
+			android:summary="@string/prefs_backgroundcolor_summary"
+			/>
+
+		<Preference
+			android:key="@string/prefs_robas_color_key"
+			android:title="@string/prefs_robas_color_title"
+			android:summary="@string/prefs_robas_color_summary"
+			android:persistent="false" />
+		<Preference
+			android:key="@string/prefs_stefans_color_key"
+			android:title="@string/prefs_stefans_color_title"
+			android:summary="@string/prefs_stefans_color_summary"
+			android:persistent="false" />
+		<Preference
+			android:key="@string/prefs_needle_color_key"
+			android:title="@string/prefs_needle_color_title"
+			android:summary="@string/prefs_needle_color_summary"
+			android:persistent="false" />
+			
+	</PreferenceScreen>
+
+
+</PreferenceScreen>

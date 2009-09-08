@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:scrollbars="vertical">
+
+<LinearLayout
+	android:orientation="vertical"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:paddingLeft="15sp"
+	android:paddingRight="15sp"
+	>
+
+	<TextView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/whats_new"
+		style="@style/greeting_heading" 
+    />
+	<TextView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/greet_set_speed"
+		style="@style/greeting_feature" 
+	 />
+	<TextView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/greet_set_colors"
+		style="@style/greeting_feature" 
+	/>
+
+	<TextView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="" />
+		
+	<TextView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		style="@style/greeting_text" 
+		android:text="@string/greet_ask_for_feedback"/>
+
+	<TextView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="" />
+	<TextView
+		android:id="@+id/greeting_hint_internal_compass"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		style="@style/greeting_text" 
+		android:text="@string/greet_hint_internal_compass"/>
+
+	<TextView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="" />
+
+	<TextView
+		android:id="@+id/greeting_ask_for_rate"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		style="@style/greeting_text" 
+		android:text="@string/greet_ask_for_rate"/>
+	<TextView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="" />
+
+
+	<TextView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/changelog"
+		style="@style/greeting_text" 
+    />
+	<TextView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="0.9.1"
+		style="@style/greeting_text" 
+    />
+	<TextView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/greet_set_speed"
+		style="@style/greeting_feature" 
+	 />
+	<TextView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/greet_set_colors"
+		style="@style/greeting_feature" 
+	/>
+	<TextView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="" />
+		 
+		
+	<TextView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="0.9.0"
+		style="@style/greeting_text" 
+    />
+	<TextView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/greet_calibrating"
+		style="@style/greeting_feature" 
+	 />
+	<TextView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/greet_smooth_motion"
+		style="@style/greeting_feature" 
+	/>
+	<TextView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="@string/greet_choose"
+		style="@style/greeting_feature" 
+	/>
+
+	<TextView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="" />
+	<TextView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		style="@style/greeting_text" 
+		android:text="@string/greet_bye"/>
+	<TextView
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:text="" />
+
+
+</LinearLayout>
+
+</ScrollView>
+
