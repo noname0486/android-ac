@@ -14,17 +14,15 @@
  *  You should have received a copy of the GNU General Public License along with this program; 
  *  if not, see <http://www.gnu.org/licenses/>.
  */
-
+ 
 package de.rothbayern.android.ac;
 
 import android.app.*;
 import android.content.*;
-import android.graphics.*;
+import android.graphics.Canvas;
 import android.hardware.*;
 import android.os.*;
 import android.text.*;
-import android.text.util.Linkify;
-import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import de.rothbayern.android.ac.misc.Util;
@@ -395,7 +393,6 @@ public class ACActivity extends Activity {
 		super.onResume();
 
 		setSensorListenerState(SENSOR_LISTENER_STATE_ACTION);
-		Log.d("wh",compassView.getWidth()+", "+compassView.getHeight());
 		compassView.loadPrefs();
 		startAnim();
 	}

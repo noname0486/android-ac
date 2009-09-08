@@ -2,7 +2,6 @@ package de.rothbayern.android.ac;
 
 import android.content.Context;
 import android.graphics.*;
-import android.util.*;
 import de.rothbayern.android.ac.drawings.*;
 import de.rothbayern.android.ac.pref.CompassPreferences;
 
@@ -56,7 +55,6 @@ public class CompassViewHelper {
 		middleX = w / 2;
 		middleY = h / 2;
 		loadPrefs();
-		Log.d("middle-helper"," "+middleX+", "+middleY);
 	}
 	
 	public void setDirection(float direction) {

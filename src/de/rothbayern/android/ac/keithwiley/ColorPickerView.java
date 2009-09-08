@@ -17,8 +17,6 @@ package de.rothbayern.android.ac.keithwiley;
  * Enjoy!
  */
 
-import java.util.Calendar;
-
 import android.content.Context;
 import android.graphics.*;
 import android.graphics.drawable.GradientDrawable;
@@ -49,12 +47,12 @@ public class ColorPickerView extends View implements ColorPickerPreferenceView{
 	}
 	
 	
-	private static int SWATCH_WIDTH = 95;
+	private static int swatchWIDTH = 95;
 	private static final int SWATCH_HEIGHT = 60;
 
-	private static int PALETTE_POS_X = 0;
-	private static int PALETTE_POS_Y = SWATCH_HEIGHT;
-	private static final int PALETTE_DIM = SWATCH_WIDTH * 2;
+	private static int palettePOS_X = 0;
+	private static int palettePOS_Y = SWATCH_HEIGHT;
+	private static final int PALETTE_DIM = swatchWIDTH * 2;
 	private static final int PALETTE_RADIUS = PALETTE_DIM / 2;
 	private static final int PALETTE_CENTER_X = PALETTE_RADIUS;
 	private static final int PALETTE_CENTER_Y = PALETTE_RADIUS;
@@ -67,10 +65,10 @@ public class ColorPickerView extends View implements ColorPickerPreferenceView{
 	
 	private static final int METHOD_SELECTOR_SIZE = 40;
 	private static final int METHOD_SELECTOR_SPACING = 10;
-	private static int METHOD_SELECTOR_POS_X = PALETTE_DIM + METHOD_SELECTOR_SPACING;
+	private static int method_SELECTOR_POS_X = PALETTE_DIM + METHOD_SELECTOR_SPACING;
 	
-	private static int VIEW_DIM_X = PALETTE_DIM + METHOD_SELECTOR_SPACING + METHOD_SELECTOR_SIZE;
-	private static int VIEW_DIM_Y = METHOD_SELECTOR_SIZE * 5 + METHOD_SELECTOR_SIZE * 2;
+	private static int viewDIM_X = PALETTE_DIM + METHOD_SELECTOR_SPACING + METHOD_SELECTOR_SIZE;
+	private static int viewDIM_Y = METHOD_SELECTOR_SIZE * 5 + METHOD_SELECTOR_SIZE * 2;
 	
 	//NEW_METHOD_WORK_NEEDED_HERE
 	private static final int METHOD_HS_V_PALETTE = 0;
@@ -105,37 +103,21 @@ public class ColorPickerView extends View implements ColorPickerPreferenceView{
 	};
 	
 	//No need to manually keep this in sync with the switches above, it will be adjusted automatically during setup.
-	private static int NUM_ENABLED_METHODS = ENABLED_METHODS.length;
+	private static int numEnabledMethods = ENABLED_METHODS.length;
 	
 	//NEW_METHOD_WORK_NEEDED_HERE
 	//Add a new entry to the list for each controller in the new method
 	private static final int TRACKED_NONE = -1;	//No object on screen is currently being tracked
 	private static final int TRACK_SWATCH_OLD = 10;
 	private static final int TRACK_SWATCH_NEW = 11;
-	private static final int TRACK_HV_PALETTE = 20;
-	private static final int TRACK_VER_S_SLIDER = 21;
 	private static final int TRACK_HS_PALETTE = 30;
 	private static final int TRACK_VER_VALUE_SLIDER = 31;
-	private static final int TRACK_SV_PALETTE = 40;
-	private static final int TRACK_VER_H_SLIDER = 41;
-	private static final int TRACK_UV_PALETTE = 50;
-	private static final int TRACK_VER_Y_SLIDER = 51;
-	private static final int TRACK_R_SLIDER = 60;
-	private static final int TRACK_G_SLIDER = 61;
-	private static final int TRACK_B_SLIDER = 62;
-	private static final int TRACK_H_SLIDER = 70;
-	private static final int TRACK_S_SLIDER = 71;
-	private static final int TRACK_HOR_VALUE_SLIDER = 72;
-	private static final int TRACK_HOR_Y_SLIDER = 80;
-	private static final int TRACK_U_SLIDER = 81;
-	private static final int TRACK_V_SLIDER = 82;
 	
 	private static final int TEXT_SIZE = 12;
-	private static final int TEXT_HALF_SIZE = TEXT_SIZE / 2;	//Can be used to vertically center text (sorta, it's approximate)
-	private static int[] TEXT_HSV_POS = new int[2];
-	private static int[] TEXT_RGB_POS = new int[2];
-	private static int[] TEXT_YUV_POS = new int[2];
-	private static int[] TEXT_HEX_POS = new int[2];
+	private static int[] textHSV_POS = new int[2];
+	private static int[] textRGB_POS = new int[2];
+	private static int[] textYUV_POS = new int[2];
+	private static int[] textHEX_POS = new int[2];
 	
 	private static final float PI = 3.141592653589793f;
 	
@@ -146,7 +128,7 @@ public class ColorPickerView extends View implements ColorPickerPreferenceView{
 	
 	private Paint mSwatchOld, mSwatchNew;
 	
-	private Shader mFadeInLeft, mFadeInTop, mFadeInRight, mFadeInBottom;
+	private Shader  mFadeInTop, mFadeInRight, mFadeInBottom;
 	
 	//NEW_METHOD_WORK_NEEDED_HERE
 	//Add Paints to represent the palettes of the new method's UI controllers
@@ -202,8 +184,6 @@ public class ColorPickerView extends View implements ColorPickerPreferenceView{
 	private int[] mCoord = new int[3];		//For drawing slider/palette markers
 	private int mFocusedControl = -1;	//Which control receives trackball events.
 	private OnColorChangedListener mListener;
-	private long mTimeOfLastSliderSwitch = 0;		//To prevent slider switches from occurring too rapidly.
-	private boolean mShownYUVWarnedAlready = false;	//Only show the YUV toast warning once.
 	
 	/**
 	 * Ctor.
@@ -239,25 +219,25 @@ public class ColorPickerView extends View implements ColorPickerPreferenceView{
 		updateAllFromHSV();
 		
 		//Gather the number of enabled methods and allocate Rects to represent their icon locations in the method selector list.
-		NUM_ENABLED_METHODS = 0;
+		numEnabledMethods = 0;
 		for (int i = 0; i < ENABLED_METHODS.length; i++)
 			if (ENABLED_METHODS[i])
-				NUM_ENABLED_METHODS++;
-		if (NUM_ENABLED_METHODS == 0) {
+				numEnabledMethods++;
+		if (numEnabledMethods == 0) {
 			Toast.makeText(getContext(), "No color picker methods enabled.", Toast.LENGTH_SHORT).show();
 			throw new IllegalArgumentException("At least one method must be enabled");
 		}
-		mMethodSelectorRects = new Rect[NUM_ENABLED_METHODS];
-		mMethodSelectRectMap = new int[NUM_ENABLED_METHODS];
+		mMethodSelectorRects = new Rect[numEnabledMethods];
+		mMethodSelectRectMap = new int[numEnabledMethods];
 		
 		//Setup the layout based on whether this is a portrait or landscape orientation.
 		if (width <= height) {	//Portrait layout
-			SWATCH_WIDTH = (PALETTE_DIM + SLIDER_THICKNESS) / 2;
+			swatchWIDTH = (PALETTE_DIM + SLIDER_THICKNESS) / 2;
 			
-			PALETTE_POS_X = 0;
-			PALETTE_POS_Y = TEXT_SIZE * 2 + SWATCH_HEIGHT;
+			palettePOS_X = 0;
+			palettePOS_Y = TEXT_SIZE * 2 + SWATCH_HEIGHT;
 			
-			METHOD_SELECTOR_POS_X = PALETTE_POS_X + PALETTE_DIM + SLIDER_THICKNESS + METHOD_SELECTOR_SPACING;
+			method_SELECTOR_POS_X = palettePOS_X + PALETTE_DIM + SLIDER_THICKNESS + METHOD_SELECTOR_SPACING;
 
 			//NEW_METHOD_WORK_NEEDED_HERE
 			//Follow the pattern here
@@ -268,11 +248,11 @@ public class ColorPickerView extends View implements ColorPickerPreferenceView{
 			
 			//Set the method chooser icon rects
 			int prevEnabledMethod = -1;
-			for (int i = 0; i < NUM_ENABLED_METHODS; i++) {
+			for (int i = 0; i < numEnabledMethods; i++) {
 				mMethodSelectorRects[i] = new Rect(
-					METHOD_SELECTOR_POS_X,
+					method_SELECTOR_POS_X,
 					(METHOD_SELECTOR_SIZE + METHOD_SELECTOR_SPACING) * i,
-					METHOD_SELECTOR_POS_X + METHOD_SELECTOR_SIZE,
+					method_SELECTOR_POS_X + METHOD_SELECTOR_SIZE,
 					(METHOD_SELECTOR_SIZE + METHOD_SELECTOR_SPACING) * i + METHOD_SELECTOR_SIZE);
 
 				for (int j = prevEnabledMethod + 1; j < ENABLED_METHODS.length; j++) {
@@ -285,38 +265,38 @@ public class ColorPickerView extends View implements ColorPickerPreferenceView{
 			}
 			
 			//Set more rects, lots of rects
-			mOldSwatchRect.set(0, TEXT_SIZE * 1, SWATCH_WIDTH, TEXT_SIZE * 1 + SWATCH_HEIGHT);
-			mNewSwatchRect.set(SWATCH_WIDTH+SLIDER_THICKNESS/2, TEXT_SIZE * 1, SWATCH_WIDTH * 2+SLIDER_THICKNESS/2, TEXT_SIZE * 1 + SWATCH_HEIGHT);
-			mPaletteRect.set(0, PALETTE_POS_Y, PALETTE_DIM, PALETTE_POS_Y + PALETTE_DIM);
-			mVerSliderRect.set(VERT_SLIDER_POS_X, PALETTE_POS_Y, VERT_SLIDER_POS_X + SLIDER_THICKNESS, PALETTE_POS_Y + PALETTE_DIM);
+			mOldSwatchRect.set(0, TEXT_SIZE * 1, swatchWIDTH, TEXT_SIZE * 1 + SWATCH_HEIGHT);
+			mNewSwatchRect.set(swatchWIDTH+SLIDER_THICKNESS/2, TEXT_SIZE * 1, swatchWIDTH * 2+SLIDER_THICKNESS/2, TEXT_SIZE * 1 + SWATCH_HEIGHT);
+			mPaletteRect.set(0, palettePOS_Y, PALETTE_DIM, palettePOS_Y + PALETTE_DIM);
+			mVerSliderRect.set(VERT_SLIDER_POS_X, palettePOS_Y, VERT_SLIDER_POS_X + SLIDER_THICKNESS, palettePOS_Y + PALETTE_DIM);
 			mHorSliderRects[0] = new Rect(
 				0,
-				PALETTE_POS_Y + FIRST_HOR_SLIDER_POS_Y,
+				palettePOS_Y + FIRST_HOR_SLIDER_POS_Y,
 				PALETTE_DIM,
-				PALETTE_POS_Y + FIRST_HOR_SLIDER_POS_Y + SLIDER_THICKNESS);
+				palettePOS_Y + FIRST_HOR_SLIDER_POS_Y + SLIDER_THICKNESS);
 			mHorSliderRects[1] = new Rect(
 				0,
-				PALETTE_POS_Y + FIRST_HOR_SLIDER_POS_Y + (int)(SLIDER_THICKNESS * 1.25),
+				palettePOS_Y + FIRST_HOR_SLIDER_POS_Y + (int)(SLIDER_THICKNESS * 1.25),
 				PALETTE_DIM,
-				PALETTE_POS_Y + FIRST_HOR_SLIDER_POS_Y + (int)(SLIDER_THICKNESS * 1.25) + SLIDER_THICKNESS);
+				palettePOS_Y + FIRST_HOR_SLIDER_POS_Y + (int)(SLIDER_THICKNESS * 1.25) + SLIDER_THICKNESS);
 			mHorSliderRects[2] = new Rect(
 				0,
-				PALETTE_POS_Y + FIRST_HOR_SLIDER_POS_Y + (int)(SLIDER_THICKNESS * 2.5),
+				palettePOS_Y + FIRST_HOR_SLIDER_POS_Y + (int)(SLIDER_THICKNESS * 2.5),
 				PALETTE_DIM,
-				PALETTE_POS_Y + FIRST_HOR_SLIDER_POS_Y + (int)(SLIDER_THICKNESS * 2.5) + SLIDER_THICKNESS);
+				palettePOS_Y + FIRST_HOR_SLIDER_POS_Y + (int)(SLIDER_THICKNESS * 2.5) + SLIDER_THICKNESS);
 			
-			TEXT_HSV_POS[0] = 3;
-			TEXT_HSV_POS[1] = 0;
-			TEXT_RGB_POS[0] = TEXT_HSV_POS[0] + 50;
-			TEXT_RGB_POS[1] = TEXT_HSV_POS[1];
-			TEXT_YUV_POS[0] = TEXT_HSV_POS[0] + 100;
-			TEXT_YUV_POS[1] = TEXT_HSV_POS[1];
-			TEXT_HEX_POS[0] = TEXT_HSV_POS[0] + 150;
-			TEXT_HEX_POS[1] = TEXT_HSV_POS[1];
+			textHSV_POS[0] = 3;
+			textHSV_POS[1] = 0;
+			textRGB_POS[0] = textHSV_POS[0] + 50;
+			textRGB_POS[1] = textHSV_POS[1];
+			textYUV_POS[0] = textHSV_POS[0] + 100;
+			textYUV_POS[1] = textHSV_POS[1];
+			textHEX_POS[0] = textHSV_POS[0] + 150;
+			textHEX_POS[1] = textHSV_POS[1];
 			
-			VIEW_DIM_X = PALETTE_DIM + SLIDER_THICKNESS + METHOD_SELECTOR_SPACING + METHOD_SELECTOR_SIZE;
-			VIEW_DIM_Y = Math.max(SWATCH_HEIGHT + PALETTE_DIM + TEXT_SIZE * 4,
-				METHOD_SELECTOR_SIZE * NUM_ENABLED_METHODS + METHOD_SELECTOR_SPACING * (NUM_ENABLED_METHODS - 1));
+			viewDIM_X = PALETTE_DIM + SLIDER_THICKNESS + METHOD_SELECTOR_SPACING + METHOD_SELECTOR_SIZE;
+			viewDIM_Y = Math.max(SWATCH_HEIGHT + PALETTE_DIM + TEXT_SIZE * 4,
+				METHOD_SELECTOR_SIZE * numEnabledMethods + METHOD_SELECTOR_SPACING * (numEnabledMethods - 1));
 		}
 		else {
 			/* No need for instant */
@@ -418,7 +398,6 @@ public class ColorPickerView extends View implements ColorPickerPreferenceView{
 		mSwatchNew.setStyle(Paint.Style.FILL);
 		mSwatchNew.setColor(Color.HSVToColor(mHSV));
 		
-		mFadeInLeft = new LinearGradient(0, 0, PALETTE_DIM, 0, 0xFF000000, 0x00000000, Shader.TileMode.CLAMP);
 		mFadeInRight = new LinearGradient(0, 0, PALETTE_DIM, 0, 0x00000000, 0xFF000000, Shader.TileMode.CLAMP);
 		mFadeInTop = new LinearGradient(0, 0, 0, PALETTE_DIM, 0xFF000000, 0x00000000, Shader.TileMode.CLAMP);
 		mFadeInBottom = new LinearGradient(0, 0, 0, PALETTE_DIM, 0x00000000, 0xFF000000, Shader.TileMode.CLAMP);
@@ -760,14 +739,14 @@ public class ColorPickerView extends View implements ColorPickerPreferenceView{
 	 * @param canvas
 	 * @param markerPos
 	 */
-
+/*
 	private void markHorSlider(Canvas canvas, int markerPos) {
 		mPosMarker.setColor(Color.BLACK);
 		canvas.drawRect(new Rect(markerPos - 2, 0, markerPos + 3, SLIDER_THICKNESS), mPosMarker);
 		mPosMarker.setColor(Color.WHITE);
 		canvas.drawRect(new Rect(markerPos, 0, markerPos + 1, SLIDER_THICKNESS), mPosMarker);
 	}
-	
+	*/
 	/**
 	 * Frame the slider to indicate that it has trackball focus.
 	 * @param canvas
@@ -848,7 +827,7 @@ public class ColorPickerView extends View implements ColorPickerPreferenceView{
 	private void drawHSV1Palette(Canvas canvas) {
 		canvas.save();
 		
-		canvas.translate(PALETTE_POS_X, PALETTE_POS_Y);
+		canvas.translate(palettePOS_X, palettePOS_Y);
 		
 		//Draw the 2D palette
 		canvas.translate(PALETTE_CENTER_X, PALETTE_CENTER_Y);
@@ -1741,7 +1720,7 @@ public class ColorPickerView extends View implements ColorPickerPreferenceView{
 	 */
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		setMeasuredDimension(VIEW_DIM_X, VIEW_DIM_Y);
+		setMeasuredDimension(viewDIM_X, viewDIM_Y);
 	}
 	
 	/**
@@ -1945,9 +1924,6 @@ public class ColorPickerView extends View implements ColorPickerPreferenceView{
 	public boolean dispatchTrackballEvent(MotionEvent event) {
 		float x = event.getX();
 		float y = event.getY();
-		
-		//Track the time so we don't switch between sliders too quickly
-		long currTime = Calendar.getInstance().getTimeInMillis();
 		
 		//A longer event history implies faster trackball movement.
 		//Use it to infer a larger jump and therefore faster palette/slider adjustment.
@@ -2536,22 +2512,22 @@ public class ColorPickerView extends View implements ColorPickerPreferenceView{
 		float y = event.getY();
 		
 		//Generate coordinates which are palette=local with the origin at the upper left of the main 2D palette
-		int x2 = (int)(pin(round(x - PALETTE_POS_X), PALETTE_DIM));
-		int y2 = (int)(pin(round(y - PALETTE_POS_Y), PALETTE_DIM));
+		//int x2 = (int)(pin(round(x - palettePOS_X), PALETTE_DIM));
+		int y2 = (int)(pin(round(y - palettePOS_Y), PALETTE_DIM));
 		
 		//Generate coordinates which are palette-local with the origin at the center of the main 2D palette
-		float circlePinnedX = x - PALETTE_POS_X - PALETTE_CENTER_X;
-		float circlePinnedY = y - PALETTE_POS_Y - PALETTE_CENTER_Y;
+		float circlePinnedX = x - palettePOS_X - PALETTE_CENTER_X;
+		float circlePinnedY = y - palettePOS_Y - PALETTE_CENTER_Y;
 		
 		//Is the event in a swatch?
 		boolean inSwatchOld = ptInRect(round(x), round(y), mOldSwatchRect);
 		boolean inSwatchNew = ptInRect(round(x), round(y), mNewSwatchRect);
 		
 		//Is the event in a method selector icon?
-		boolean inMethodSelector[] = new boolean[NUM_ENABLED_METHODS];
-		for (int i = 0; i < NUM_ENABLED_METHODS; i++)
+		boolean inMethodSelector[] = new boolean[numEnabledMethods];
+		for (int i = 0; i < numEnabledMethods; i++)
 			inMethodSelector[i] = false;
-		for (int i = 0; i < NUM_ENABLED_METHODS; i++) {
+		for (int i = 0; i < numEnabledMethods; i++) {
 			if (ptInRect(round(x), round(y), mMethodSelectorRects[i])) {
 				inMethodSelector[i] = true;
 				break;
@@ -2590,19 +2566,19 @@ public class ColorPickerView extends View implements ColorPickerPreferenceView{
 				
 				//NEW_METHOD_WORK_NEEDED_HERE
 				//To add a new method, replicate and extend the last entry in this list
-				else if (NUM_ENABLED_METHODS > 0 && inMethodSelector[0])
+				else if (numEnabledMethods > 0 && inMethodSelector[0])
 					mTracking = mMethodSelectRectMap[0];
-				else if (NUM_ENABLED_METHODS > 1 && inMethodSelector[1])
+				else if (numEnabledMethods > 1 && inMethodSelector[1])
 					mTracking = mMethodSelectRectMap[1];
-				else if (NUM_ENABLED_METHODS > 2 && inMethodSelector[2])
+				else if (numEnabledMethods > 2 && inMethodSelector[2])
 					mTracking = mMethodSelectRectMap[2];
-				else if (NUM_ENABLED_METHODS > 3 && inMethodSelector[3])
+				else if (numEnabledMethods > 3 && inMethodSelector[3])
 					mTracking = mMethodSelectRectMap[3];
-				else if (NUM_ENABLED_METHODS > 4 && inMethodSelector[4])
+				else if (numEnabledMethods > 4 && inMethodSelector[4])
 					mTracking = mMethodSelectRectMap[4];
-				else if (NUM_ENABLED_METHODS > 5 && inMethodSelector[5])
+				else if (numEnabledMethods > 5 && inMethodSelector[5])
 					mTracking = mMethodSelectRectMap[5];
-				else if (NUM_ENABLED_METHODS > 6 && inMethodSelector[6])
+				else if (numEnabledMethods > 6 && inMethodSelector[6])
 					mTracking = mMethodSelectRectMap[6];
 				
 				//NEW_METHOD_WORK_NEEDED_HERE
@@ -2997,37 +2973,37 @@ public class ColorPickerView extends View implements ColorPickerPreferenceView{
 					mListener.colorChanged(mSwatchNew.getColor());
 					invalidate();
 				}
-				else if (NUM_ENABLED_METHODS > 0 && mTracking == mMethodSelectRectMap[0] && inMethodSelector[0]) {
+				else if (numEnabledMethods > 0 && mTracking == mMethodSelectRectMap[0] && inMethodSelector[0]) {
 					mMethod = mMethodSelectRectMap[0];
 					initUI();
 					invalidate();
 				}
-				else if (NUM_ENABLED_METHODS > 1 && mTracking == mMethodSelectRectMap[1] && inMethodSelector[1]) {
+				else if (numEnabledMethods > 1 && mTracking == mMethodSelectRectMap[1] && inMethodSelector[1]) {
 					mMethod = mMethodSelectRectMap[1];
 					initUI();
 					invalidate();
 				}
-				else if (NUM_ENABLED_METHODS > 2 && mTracking == mMethodSelectRectMap[2] && inMethodSelector[2]) {
+				else if (numEnabledMethods > 2 && mTracking == mMethodSelectRectMap[2] && inMethodSelector[2]) {
 					mMethod = mMethodSelectRectMap[2];
 					initUI();
 					invalidate();
 				}
-				else if (NUM_ENABLED_METHODS > 3 && mTracking == mMethodSelectRectMap[3] && inMethodSelector[3]) {
+				else if (numEnabledMethods > 3 && mTracking == mMethodSelectRectMap[3] && inMethodSelector[3]) {
 					mMethod = mMethodSelectRectMap[3];
 					initUI();
 					invalidate();
 				}
-				else if (NUM_ENABLED_METHODS > 4 && mTracking == mMethodSelectRectMap[4] && inMethodSelector[4]) {
+				else if (numEnabledMethods > 4 && mTracking == mMethodSelectRectMap[4] && inMethodSelector[4]) {
 					mMethod = mMethodSelectRectMap[4];
 					initUI();
 					invalidate();
 				}
-				else if (NUM_ENABLED_METHODS > 5 && mTracking == mMethodSelectRectMap[5] && inMethodSelector[5]) {
+				else if (numEnabledMethods > 5 && mTracking == mMethodSelectRectMap[5] && inMethodSelector[5]) {
 					mMethod = mMethodSelectRectMap[5];
 					initUI();
 					invalidate();
 				}
-				else if (NUM_ENABLED_METHODS > 6 && mTracking == mMethodSelectRectMap[6] && inMethodSelector[6]) {
+				else if (numEnabledMethods > 6 && mTracking == mMethodSelectRectMap[6] && inMethodSelector[6]) {
 					mMethod = mMethodSelectRectMap[6];
 					initUI();
 					invalidate();

@@ -171,11 +171,11 @@ public class RobABaseDrawing extends CompassDrawing {
 			Resources resources = context.getResources();
 			
 			// north label
-			Figure northLabel = FRect.fromMiddle(0, -INNER_RING_RADIUS, DIRECTION_TEXT_SIZE * TEXT_AREA_FACTOR);
+			Figure northLabel = FRect.fromMiddle(0, -INNER_RING_RADIUS-DIRECTION_TEXT_SIZE*0.3f, DIRECTION_TEXT_SIZE * TEXT_AREA_FACTOR);
 			DrawingComponent compNorthLabel = new DrawingComponent(0, NORTH_LABEL_NAME, northLabel,directionNorthTextColor,resources.getString(R.string.color_choose_NORTH_LABEL_NAME));
 
 			// remaining labels
-			Figure southLabel = FRect.fromMiddle(0, INNER_RING_RADIUS, DIRECTION_TEXT_SIZE * TEXT_AREA_FACTOR);
+			Figure southLabel = FRect.fromMiddle(0, INNER_RING_RADIUS+DIRECTION_TEXT_SIZE*0.3f, DIRECTION_TEXT_SIZE * TEXT_AREA_FACTOR);
 			Figure eastLabel = FRect.fromMiddle(INNER_RING_RADIUS, 0, DIRECTION_TEXT_SIZE * TEXT_AREA_FACTOR);
 			Figure westLabel = FRect.fromMiddle(-INNER_RING_RADIUS, 0, DIRECTION_TEXT_SIZE * TEXT_AREA_FACTOR);
 			FArray directionLabels = new FArray(3);
@@ -188,7 +188,7 @@ public class RobABaseDrawing extends CompassDrawing {
 			Figure d0Label = FRect.fromMiddle(0, -DEGREES_RADIUS-DEGREES_TEXT_SIZE, DIRECTION_TEXT_SIZE * TEXT_AREA_FACTOR);
 			Figure d90Label = FRect.fromMiddle(DEGREES_RADIUS+DEGREES_TEXT_SIZE*0.5f, 0, DIRECTION_TEXT_SIZE * TEXT_AREA_FACTOR);
 			Figure d180Label = FRect.fromMiddle(0, DEGREES_RADIUS+DEGREES_TEXT_SIZE, DIRECTION_TEXT_SIZE * TEXT_AREA_FACTOR);
-			Figure d270Label = FRect.fromMiddle(-DEGREES_RADIUS-DEGREES_TEXT_SIZE, 0, DIRECTION_TEXT_SIZE * TEXT_AREA_FACTOR);
+			Figure d270Label = FRect.fromMiddle(-DEGREES_RADIUS-DEGREES_TEXT_SIZE*0.5f, 0, DIRECTION_TEXT_SIZE * TEXT_AREA_FACTOR);
 			FArray degreeLabels = new FArray(4);
 			degreeLabels.add(d0Label);
 			degreeLabels.add(d90Label);

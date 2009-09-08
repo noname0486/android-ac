@@ -3,7 +3,7 @@ package de.rothbayern.android.ac;
 
 import android.content.Context;
 import android.graphics.*;
-import android.util.*;
+import android.util.AttributeSet;
 import android.view.*;
 import de.rothbayern.android.ac.drawings.*;
 
@@ -31,11 +31,9 @@ public class ColorChooseCompassView extends CompassStandardView {
 		init();
 	}
 
-	private CompassDrawing drawing = null;
 
 	public void setCompassLayout(int compassLayout, CompassDrawing drawing) {
 		super.setCompassLayout(compassLayout);
-		this.drawing = drawing;
 		components = drawing.getComponents();
 	}
 
