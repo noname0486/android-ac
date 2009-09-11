@@ -20,10 +20,10 @@ Here are some screenshots to show you the application or to give you some help.
 ||Choose a color by tabbing on the desired component||Color picker||
 ||http://android-ac.googlecode.com/svn/wiki/screenshots/choose_colors.png||http://android-ac.googlecode.com/svn/wiki/screenshots/color_picker.png||
 
-||Calibrate the compass, if the hardware differs from reality ||Greeting with some hints for usage||
+||Calibrate the compass, if the hardware differs from reality ||On first start: greeting with some hints for usage||
 ||http://android-ac.googlecode.com/svn/wiki/screenshots/calibration.png||http://android-ac.googlecode.com/svn/wiki/screenshots/greeting.png||
 
-||Localized to german language || ||
+||Localized to German language || ||
 ||http://android-ac.googlecode.com/svn/wiki/screenshots/settings_de.png||http://android-ac.googlecode.com/svn/wiki/screenshots/indo-de.png||
 
 
