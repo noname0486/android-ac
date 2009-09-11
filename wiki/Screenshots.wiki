@@ -24,7 +24,7 @@ Here are some screenshots to show you the application or to give you some help.
 ||http://android-ac.googlecode.com/svn/wiki/screenshots/calibration.png||http://android-ac.googlecode.com/svn/wiki/screenshots/greeting.png||
 
 ||Localized to German language || ||
-||http://android-ac.googlecode.com/svn/wiki/screenshots/settings_de.png||http://android-ac.googlecode.com/svn/wiki/screenshots/indo-de.png||
+||http://android-ac.googlecode.com/svn/wiki/screenshots/settings-de.png||http://android-ac.googlecode.com/svn/wiki/screenshots/info-de.png||
 
 
 
