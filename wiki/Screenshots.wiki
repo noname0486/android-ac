@@ -7,11 +7,18 @@ Here are some screenshots to show you the application or to give you some help.
 
 = Details =
 
-http://android-ac.googlecode.com/svn/wiki/screenshots/standard.png
-http://android-ac.googlecode.com/svn/wiki/screenshots/stefan.png
+||Standard: RobA's Rose||Stefan's Rose||
+||http://android-ac.googlecode.com/svn/wiki/screenshots/standard.png||http://android-ac.googlecode.com/svn/wiki/screenshots/stefan.png||
 
 
-http://android-ac.googlecode.com/svn/wiki/screenshots/pinky_compass.png
-http://android-ac.googlecode.com/svn/wiki/screenshots/choose_colors.png
+||A nice skin||
+||http://android-ac.googlecode.com/svn/wiki/screenshots/pinky_compass.png||
+
+||Various settings|| ||
+||http://android-ac.googlecode.com/svn/wiki/screenshots/settings1.png||http://android-ac.googlecode.com/svn/wiki/screenshots/settings2.png||
+
+||Choose a color by tabbing on the desired component||Color picker||
+||http://android-ac.googlecode.com/svn/wiki/screenshots/choose_colors.png||http://android-ac.googlecode.com/svn/wiki/screenshots/color_picker.png||
+
 
 
