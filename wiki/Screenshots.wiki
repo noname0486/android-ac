@@ -1,6 +1,6 @@
 #summary Show some screens
 
-= Introduction =
+= Screenshots =
 Here are some screenshots to show you the application or to give you some help.
 
 
@@ -8,4 +8,10 @@ Here are some screenshots to show you the application or to give you some help.
 = Details =
 
 http://android-ac.googlecode.com/svn/wiki/screenshots/standard.png
+http://android-ac.googlecode.com/svn/wiki/screenshots/stefan.png
+
+
+http://android-ac.googlecode.com/svn/wiki/screenshots/pinky_compass.png
+http://android-ac.googlecode.com/svn/wiki/screenshots/choose_colors.png
+
 
