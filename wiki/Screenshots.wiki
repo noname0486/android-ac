@@ -1,11 +1,6 @@
 #summary Show some screens
 
-= Screenshots =
-Here are some screenshots to show you the application or to give you some help.
-
-
-
-= Details =
+Here are some screenshots to show you the application and to give you some help.
 
 ||Standard: RobA's Rose||Stefan's Rose||
 ||http://android-ac.googlecode.com/svn/wiki/screenshots/standard.png||http://android-ac.googlecode.com/svn/wiki/screenshots/stefan.png||
