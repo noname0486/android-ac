@@ -99,7 +99,7 @@ public class ColorsActivity extends Activity  {
 	    }
 		viewCompass.setOnComponentSelectedListener(onComponentSelectedListener);
 		
-		TextView lblHint = (TextView) findViewById(R.id.lbl_hint_tab_colors);
+		TextView lblHint = (TextView) findViewById(R.id.lbl_hint_tap_colors);
 		CompassPreferences prefs = CompassPreferences.getPreferences();
 		int bgColor = prefs.getInt(prefs.PREFS_COMPASS_BACKGROUNDCOLOR_KEY);
 		float hsv[] = new float[3];

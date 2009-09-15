@@ -37,7 +37,7 @@
 			android:background="#00000000"
 		>
 		<TextView
-				android:id="@+id/lbl_hint_tab_colors"
+				android:id="@+id/lbl_hint_tap_colors"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:gravity="center"
