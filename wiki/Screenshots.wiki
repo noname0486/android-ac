@@ -12,7 +12,7 @@ Here are some screenshots to show you the application and to give you some help.
 ||Various settings|| ||
 ||http://android-ac.googlecode.com/svn/wiki/screenshots/settings1.png||http://android-ac.googlecode.com/svn/wiki/screenshots/settings2.png||
 
-||Choose a color by tabbing on the desired component||Color picker||
+||Choose a color by tapping on the desired component||Color picker||
 ||http://android-ac.googlecode.com/svn/wiki/screenshots/choose_colors.png||http://android-ac.googlecode.com/svn/wiki/screenshots/color_picker.png||
 
 ||Calibrate the compass, if the hardware differs from reality ||On first start: greeting with some hints for usage||
