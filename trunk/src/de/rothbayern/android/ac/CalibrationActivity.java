@@ -85,11 +85,10 @@ public class CalibrationActivity extends Activity {
 	
 	private final SensorEventListener mListener = new SensorEventListener() {
 
-		@Override
+
 		public void onAccuracyChanged(Sensor sensor, int accuracy) {
 		}
 
-		@Override
 		public void onSensorChanged(SensorEvent event) {
 			direction=event.values[0];
 		}
@@ -130,7 +129,7 @@ public class CalibrationActivity extends Activity {
 	class ClickListener implements OnClickListener {
 
 
-		@Override
+
 		public void onClick(View v) {
 
 			if (v == cmdClear) {

@@ -119,7 +119,7 @@ public class ColorsActivity extends Activity  {
 	private DialogListener mOcl = new DialogListener();
 	private class DialogListener implements DialogInterface.OnClickListener, DialogInterface.OnCancelListener {
 
-		@Override
+	
 		public void onClick(DialogInterface dialog, int which) {
 			
 			if (which == DialogInterface.BUTTON_POSITIVE) {
@@ -134,7 +134,6 @@ public class ColorsActivity extends Activity  {
 			
 		}
 
-		@Override
 		public void onCancel(DialogInterface dialog) {
 			cleanDialog();
 		}
@@ -154,7 +153,7 @@ public class ColorsActivity extends Activity  {
 	private int choiceColor = 0;
 	OnColorChangedListener onColorChangedListener = new OnColorChangedListener (){
 
-		@Override
+
 		public void colorChanged(int color) {
 			ColorsActivity.this.choiceColor=color;
 		}
@@ -163,7 +162,7 @@ public class ColorsActivity extends Activity  {
 
 	private DrawingComponent drawingComponent = null;
 	OnComponentSelectedListener onComponentSelectedListener = new OnComponentSelectedListener(){
-		@Override
+
 		public void onSelected(View f, DrawingComponent comp) {
 			
 			if (dlgColorCoose == null) {

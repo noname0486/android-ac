@@ -431,14 +431,12 @@ public class ACActivity extends Activity {
 	private float avgDirection = 0;
 	private final SensorEventListener mListener = new SensorEventListener() {
 
-		@Override
 		public void onAccuracyChanged(Sensor sensor, int accuracy) {
 			// if(accuracy>5){
 			// Log.w("accuracy low", Integer.toString(accuracy));
 			// }
 		}
 
-		@Override
 		public void onSensorChanged(SensorEvent event) {
 			float newDirection = event.values[0] + offset;
 			float diff = newDirection - avgDirection;
