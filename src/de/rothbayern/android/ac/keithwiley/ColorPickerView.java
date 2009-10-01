@@ -205,7 +205,6 @@ public class ColorPickerView extends View implements ColorPickerPreferenceView{
 		}
 		else {
 			mListener = new OnColorChangedListener(){
-				@Override
 				public void colorChanged(int color) {}
 			};
 		}
