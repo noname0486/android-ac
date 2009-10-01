@@ -48,7 +48,7 @@ public class FRect implements Figure {
 		this.height = height;
 	}
 
-	@Override
+
 	public boolean contains(float x, float y) {
 		boolean xOk = x>=left && x <=left+width;
 		boolean yOk = y>=top && y <=top+height;
@@ -56,7 +56,7 @@ public class FRect implements Figure {
 		
 	}
 	
-	@Override
+
 	public String toString() {
 		StringBuilder res = new StringBuilder(100);
 		res.append("FRect[");
@@ -72,17 +72,17 @@ public class FRect implements Figure {
 
 	}
 
-	@Override
+
 	public void draw(Canvas c, Paint p) {
 		c.drawRect(left, top, left+width, top+height, p);
 	}
 
-	@Override
+
 	public float getMiddleX() {
 		return(left+width/2);
 	}
 
-	@Override
+
 	public float getMiddleY() {
 		return(top+height/2);
 	}

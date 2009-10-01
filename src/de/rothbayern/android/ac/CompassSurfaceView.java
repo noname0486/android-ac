@@ -109,16 +109,16 @@ public class CompassSurfaceView extends SurfaceView implements SurfaceHolder.Cal
 
 	boolean ready = false;
 	
-	@Override
+
 	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 	}
 
-	@Override
+
 	public void surfaceCreated(SurfaceHolder holder) {
 		ready = true;
 	}
 
-	@Override
+
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		ready = false;
 	}

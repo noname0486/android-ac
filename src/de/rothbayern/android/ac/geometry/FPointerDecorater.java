@@ -32,26 +32,26 @@ public class FPointerDecorater implements Figure {
 		this.toY = toY;
 	}
 
-	@Override
+
 	public boolean contains(float pX, float pY) {
 		return(f.contains(pX, pY));
 	}
 
 
 
-	@Override
+
 	public void draw(Canvas c, Paint p) {
 		f.draw(c, p);
 		c.drawLine(f.getMiddleX(), f.getMiddleY(), toX, toY, p);
 		
 	}
 
-	@Override
+
 	public float getMiddleX() {
 		return(f.getMiddleX());
 	}
 
-	@Override
+
 	public float getMiddleY() {
 		return(f.getMiddleY());
 	}

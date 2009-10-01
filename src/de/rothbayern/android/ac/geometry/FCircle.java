@@ -35,7 +35,7 @@ public class FCircle implements Figure {
 
 
 
-	@Override
+
 	public boolean contains(float pX, float pY) {
 		float dx = pX-x;
 		float dy = pY-y;
@@ -45,7 +45,7 @@ public class FCircle implements Figure {
 
 
 
-	@Override
+
 	public void draw(Canvas c, Paint p) {
 		c.drawCircle(x, y, r, p);
 		
@@ -53,14 +53,14 @@ public class FCircle implements Figure {
 
 
 
-	@Override
+
 	public float getMiddleX() {
 		return x;
 	}
 
 
 
-	@Override
+
 	public float getMiddleY() {
 		return y;
 	}

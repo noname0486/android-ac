@@ -37,7 +37,7 @@ public class FRing implements Figure {
 
 
 
-	@Override
+
 	public boolean contains(float pX, float pY) {
 		float dx = pX-x;
 		float dy = pY-y;
@@ -45,7 +45,7 @@ public class FRing implements Figure {
 		return(d2>=r1*r1 && d2<=r2*r2);
 	}
 	
-	@Override
+
 	public void draw(Canvas c, Paint p) {
 		c.drawCircle(x, y, r1, p);
 		c.drawCircle(x, y, r2, p);
@@ -53,14 +53,14 @@ public class FRing implements Figure {
 
 
 
-	@Override
+
 	public float getMiddleX() {
 		return x;
 	}
 
 
 
-	@Override
+
 	public float getMiddleY() {
 		return y;
 	}
