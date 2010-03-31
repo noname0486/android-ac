@@ -23,7 +23,7 @@ import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.*;
 
-public class CompassSurfaceView extends SurfaceView implements SurfaceHolder.Callback{
+public class CompassSurfaceView extends SurfaceView implements SurfaceHolder.Callback, IAnimCompass{
 
 	CompassViewHelper helper = new CompassViewHelper();
 	
@@ -124,6 +124,9 @@ public class CompassSurfaceView extends SurfaceView implements SurfaceHolder.Cal
 	}
 
 
+	/* (non-Javadoc)
+	 * @see de.rothbayern.android.ac.IAnimCompass#setDirection(float)
+	 */
 	public void setDirection(float direction) {
 		helper.setDirection(direction);
 		
@@ -133,6 +136,29 @@ public class CompassSurfaceView extends SurfaceView implements SurfaceHolder.Cal
 	public void loadPrefs() {
 		helper.loadPrefs();
 		
+	}
+
+	public boolean doAnim(boolean forcePaint) {
+		Canvas c = null;
+		SurfaceHolder holder = this.getMHolder();
+		if (holder != null) {
+			try {
+				c = holder.lockCanvas(null);
+				synchronized (holder) {
+					if (c != null) {
+						forcePaint = !this.onDrawnCheck(c);
+					}
+				}
+			} finally {
+				// do this in a finally so that if an exception is thrown
+				// during the above, we don't leave the Surface in an
+				// inconsistent state
+				if (c != null) {
+					holder.unlockCanvasAndPost(c);
+				}
+			}
+		}
+		return forcePaint;
 	}
 
 
