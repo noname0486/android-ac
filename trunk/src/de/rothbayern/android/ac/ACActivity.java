@@ -37,7 +37,7 @@ import de.rothbayern.android.ac.pref.CompassPreferences;
 public class ACActivity extends Activity {
 
 	// Controls
-	private CompassSurfaceView compassView;
+	private IAnimCompass compassView;
 	private AnimThread animThread;
 	private SensorManager mSensorManager;
 
@@ -70,7 +70,7 @@ public class ACActivity extends Activity {
 
 		
 		setContentView(R.layout.main);
-		compassView = (CompassSurfaceView) findViewById(R.id.viewWorld);
+		compassView = (IAnimCompass) findViewById(R.id.viewWorld);
 
 		// Prepare sensor to deliver data. Show message if there is no orientation sensor
 		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -256,25 +256,7 @@ public class ACActivity extends Activity {
 					// set the direction where the needle points in the next step
 					// an paint the needle
 					compassView.setDirection(curSetPoint);
-					Canvas c = null;
-					SurfaceHolder holder = compassView.getMHolder();
-					if (holder != null) {
-						try {
-							c = holder.lockCanvas(null);
-							synchronized (holder) {
-								if (c != null) {
-									forcePaint = !compassView.onDrawnCheck(c);
-								}
-							}
-						} finally {
-							// do this in a finally so that if an exception is thrown
-							// during the above, we don't leave the Surface in an
-							// inconsistent state
-							if (c != null) {
-								holder.unlockCanvasAndPost(c);
-							}
-						}
-					}
+					forcePaint = compassView.doAnim(forcePaint);
 
 				} else {
 					arrived = true;
@@ -297,6 +279,7 @@ public class ACActivity extends Activity {
 			} // while
 			finished = true; // indicator => thread has finished
 		}
+
 
 		/**
 		 * calculates the new speed the needle moves to the setpoint
