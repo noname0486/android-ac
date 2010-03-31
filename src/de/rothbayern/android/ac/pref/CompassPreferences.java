@@ -152,6 +152,7 @@ public class CompassPreferences {
 		if(thePrefernces==null){
 			throw new IllegalStateException("Problem with preferences");
 		}
+		
 		return(thePrefernces);
 	}
 

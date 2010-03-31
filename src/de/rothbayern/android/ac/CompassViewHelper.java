@@ -65,7 +65,12 @@ public class CompassViewHelper {
 		bmRobaRose = new RobABaseDrawing(context).getDrawing(minWidth, minWidth);
 		bmStefanRose = new StefanBaseDrawing(context).getDrawing(minWidth, minWidth);
 		CompassPreferences prefs = CompassPreferences.getPreferences();
-		bgColor = prefs.getInt(prefs.PREFS_COMPASS_BACKGROUNDCOLOR_KEY);
+		
+		int bgColor = prefs.getInt(prefs.PREFS_COMPASS_BACKGROUNDCOLOR_KEY);
+		setBgColor(bgColor);
+
+		int rose = prefs.getInt(prefs.PREFS_COMPASS_LAYOUT_KEY);
+		setCompassLayout(rose);
 
 	}
 	public void onSizeChanged(int w, int h, int oldw, int oldh) {
