@@ -89,7 +89,7 @@ public class CompassSurfaceView extends SurfaceView implements SurfaceHolder.Cal
 		
 	}
 	
-
+/*
 	public void setCompassLayout(int compassLayout) {
 		helper.setCompassLayout(compassLayout);
 
@@ -106,7 +106,7 @@ public class CompassSurfaceView extends SurfaceView implements SurfaceHolder.Cal
 	public void setBgColor(int bgColor) {
 		helper.setBgColor(bgColor);
 	}
-
+*/
 	boolean ready = false;
 	
 
@@ -124,13 +124,7 @@ public class CompassSurfaceView extends SurfaceView implements SurfaceHolder.Cal
 	}
 
 
-	/* (non-Javadoc)
-	 * @see de.rothbayern.android.ac.IAnimCompass#setDirection(float)
-	 */
-	public void setDirection(float direction) {
-		helper.setDirection(direction);
-		
-	}
+	
 
 
 	public void loadPrefs() {
@@ -138,7 +132,18 @@ public class CompassSurfaceView extends SurfaceView implements SurfaceHolder.Cal
 		
 	}
 
-	public boolean doAnim(boolean forcePaint) {
+	/* (non-Javadoc)
+	 * @see de.rothbayern.android.ac.IAnimCompass#setDirection(float)
+	 */
+	public boolean setDirection(float direction) {
+		helper.setDirection(direction);
+		boolean success = doAnim();
+		return(success);
+		
+	}
+	
+	private boolean doAnim() {
+		boolean success = false;
 		Canvas c = null;
 		SurfaceHolder holder = this.getMHolder();
 		if (holder != null) {
@@ -146,7 +151,7 @@ public class CompassSurfaceView extends SurfaceView implements SurfaceHolder.Cal
 				c = holder.lockCanvas(null);
 				synchronized (holder) {
 					if (c != null) {
-						forcePaint = !this.onDrawnCheck(c);
+						success = !this.onDrawnCheck(c);
 					}
 				}
 			} finally {
@@ -158,7 +163,7 @@ public class CompassSurfaceView extends SurfaceView implements SurfaceHolder.Cal
 				}
 			}
 		}
-		return forcePaint;
+		return success;
 	}
 
 

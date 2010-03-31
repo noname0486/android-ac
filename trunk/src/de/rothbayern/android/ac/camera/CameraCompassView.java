@@ -138,17 +138,8 @@ public class CameraCompassView extends RelativeLayout implements IAnimCompass {
 	 * 
 	 * private ActionThread actionThread = null;
 	 */
-	@Override
-	public boolean doAnim(boolean forcePaint) {
-		Activity activity = (Activity) getContext();
-		activity.runOnUiThread(new Runnable() {
-
-			public void run() {
-				mDraw.invalidate();
-			}
-		});
-		return forcePaint;
-	}
+	
+	
 
 	@Override
 	public void loadPrefs() {
@@ -156,26 +147,29 @@ public class CameraCompassView extends RelativeLayout implements IAnimCompass {
 
 	}
 
-	@Override
-	public void setBgColor(int bgColor) {
-		// Nothing to do yet
-
-	}
-
-	@Override
-	public void setCompassLayout(int compassLayout) {
-		// TODO Auto-generated method stub
-
-	}
+	
 
 	private float direction;
 
+	private boolean doAnim() {
+		Activity activity = (Activity) getContext();
+		activity.runOnUiThread(new Runnable() {
+
+			public void run() {
+				mDraw.invalidate();
+			}
+		});
+		return true;
+	}
+	
 	@Override
-	public void setDirection(float direction) {
+	public boolean setDirection(float direction) {
 		if(direction<0){
 			direction += 360.0f;
 		}
 		this.direction = direction;
+		boolean success = doAnim();
+		return(success);
 	}
 
 }
