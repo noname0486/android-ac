@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+ *  "Analog Compass" is an application for devices based on android os. 
+ *  The application shows the orientation based on the intern magnetic sensor.   
+ *  Copyright (C) 2009  Dieter Roth
+ *
+ *  This program is free software; you can redistribute it and/or modify it under the terms of the 
+ *  GNU General Public License as published by the Free Software Foundation; either version 3 of 
+ *  the License, or (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+ *  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+ *  See the GNU General Public License for more details.
+
+ *  You should have received a copy of the GNU General Public License along with this program; 
+ *  if not, see <http://www.gnu.org/licenses/>.
+ -->
+
+<resources>
+
+
+    <string name="app_name">Analog Compass</string>
+
+	<string name="close">Close</string>
+
+    <string name="mnu_Calibrate">Calibrate</string>
+    <string name="mnu_Calibrate_shortcut">c</string>
+    <string name="mnu_Layout">Settings</string>
+    <string name="mnu_Layout_shortcut">s</string>
+    <string name="mnu_Info">Info</string>
+    <string name="mnu_Info_shortcut">i</string>
+    
+    <string name="activity_Info_name">Info</string>
+    <string name="activity_Colors_name">Colors</string>
+    <string name="activity_Preferences_name">Settings</string>
+    <string name="activity_Calibration_name">Calibrations</string>
+    
+    <string name="hint_tab_settings">Tab on \"Menu\" to change settings</string>
+    
+    <string name="calibrate">Calibrate</string>
+    <string name="calibrating">Calibrating ...</string>
+    <string name="no_calibration">Calibration off</string>
+    <string name="txtCalibrationHelp">Exactly point the device to North!\nThen press \"Calibrate\".\nPay attention to magnetic interference while calibrating!</string>
+ 	
+ 	<!--  orientations -->
+ 	<string-array name="orientations">
+        <item>N</item>
+        <item>NNE</item>
+        <item>NE</item>
+        <item>ENE</item>
+
+        <item>E</item>
+        <item>ESE</item>
+        <item>SE</item>
+        <item>SSE</item>
+
+        <item>S</item>
+        <item>SSW</item>
+        <item>SW</item>
+        <item>WSW</item>
+
+        <item>W</item>
+        <item>WNW</item>
+        <item>NW</item>
+        <item>NNW</item>
+    </string-array>    
+ 
+     
+   	<!-- layout: choose a rose --> 
+    <string name="prefs_layout_mnu_title">Layout</string>
+    <string name="prefs_layout_summary">Choose a basic layout you can vary later.</string>
+    <string name="prefs_layout_default_value">0</string>
+    <string name="prefs_layout_dialog_title">Pick a Rose</string>
+    <string-array name="prefs_layout_entries">
+        <item>RobA's rose</item>
+        <item>Stefan's rose</item>
+    </string-array>    
+
+
+	<!-- speed  --> 
+    <string name="prefs_speed_mnu_title">Speed</string>
+    <string name="prefs_speed_summary">Choose how fast the needle moves.</string>
+    <string-array name="prefs_speed_entries">
+        <item>slow</item>
+        <item>normal</item>
+        <item>fast</item>
+        <item>direct</item>
+        <item>swing</item>
+    </string-array>    
+     <string name="prefs_speed_default_value">1</string>
+    <string name="prefs_speed_dialog_title">Pick a Speed.</string>
+ 
+	<!-- Colors -->
+    <string name="prefs_colors_title">Colors</string>
+    <string name="prefs_colors_summary">Set various colors.</string>
+   	<string name="colors_activity_help">Tab on the markers to change colors.</string>
+	
+	<!-- RobAs Colors -->
+    <string name="prefs_robas_color_title">RobA</string>
+    <string name="prefs_robas_color_summary">Set colors of RobA's compass rose.</string>
+
+	<!-- Stefans Colors -->
+    <string name="prefs_stefans_color_title">Stefan</string>
+    <string name="prefs_stefans_color_summary">Set colors of Stefan's compass rose.</string>
+
+	<!-- Colors of Needle -->
+    <string name="prefs_needle_color_title">Needle</string>
+    <string name="prefs_needle_color_summary">Set colors of the needle.</string>
+
+	<!-- background color --> 
+    <string name="prefs_backgroundcolor_mnu_title">Background Color</string>
+    <string name="prefs_backgroundcolor_summary">Set the background color, valid for all layouts.</string>
+    <string name="prefs_backgroundcolor_dialog_title">Background Color</string>
+
+    <!--  color picker -->
+    <string name="color_picker_old_color">Old</string>
+    <string name="color_picker_new_color">New</string>
+
+    <string name="color_choose_BOTTOM_NAME">Bottom</string>
+    <string name="color_choose_OUTER_RING_NAME">Outer Ring</string>
+    <string name="color_choose_MIDDLE_RING_NAME">Middle Ring</string>
+    <string name="color_choose_INNER_RING_NAME">Inner Ring</string>
+    <string name="color_choose_DIRECTIONS_LABEL_NAME">Direction Labels</string>
+    <string name="color_choose_NORTH_LABEL_NAME">North Label</string>
+    <string name="color_choose_DEGREES_LABEL_NAME">Degree Labels</string>
+    
+    <string name="color_choose_NEEDLE_NORTH_NAME">North Part</string>
+    <string name="color_choose_NEEDLE_SOUTH_NAME">South Part</string>
+    <string name="color_choose_NEEDLE_BUTTON_NAME">Needle Button</string>
+    
+    <string name="color_choose_DIRECTIONS_CARDINALE_LABEL_NAME">Cardinal Directions</string>
+    <string name="color_choose_DIRECTIONS_INTERMEDIATE_LABEL_NAME">Intermediate Directions</string>
+    <string name="color_choose_DIRECTIONS_INTERMEDIATE2_LABEL_NAME">Secondary Directions</string>
+
+    <string name="color_choose_ROSE1_NAME">Rose Color I</string>
+    <string name="color_choose_ROSE2_NAME">Rose Color II</string>
+    
+    
+    <!-- Greeting Dialog -->
+    <string name="greet_version_plus_format_token">Version: %s</string>
+
+    <string name="changelog">CHANGELOG:</string>
+    <string name="whats_new">What's new</string>
+    <string name="greet_set_speed">- set speed</string>
+    <string name="greet_set_colors">- set colors</string>
+
+    <string name="greet_calibrating">- calibrating</string>
+    <string name="greet_smooth_motion">- smooth motion</string>
+    <string name="greet_choose">- choose a layout</string>
+
+    <string name="greet_ask_for_feedback">Any suggestion or you run into a bug? 
+    										I would be glad to get some feedback from you. 
+    										To contact please open \"Menu/Info\". </string>
+
+    <string name="greet_ask_for_rate">Please don't forget to rate the application.</string>
+    <string name="greet_ask_for_rate_link_marker">rate</string>
+    
+    <string name="greet_hint_internal_compass">If the compass gives you faulty directions, please move your device around in all directions to reset it. A more detailed instruction can be found here.</string>
+    <string name="greet_hint_internal_compass_link_marker">here</string>
+    <string name="greet_hint_internal_compass_link_url">http://davidcarrington.co.uk/2008/11/how-to-calibratefix-the-compass-in-androidg1/</string>
+    
+    <string name="greet_bye">So have some fun with \"Analog Compass\".</string>
+    
+ 
+    
+</resources>

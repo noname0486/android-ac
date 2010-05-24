@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="greeting_basic_text" >
+        <item name="android:textColor">#ffffffff</item>
+	</style>
+    <style name="greeting_text" parent="@style/greeting_basic_text">
+        <item name="android:textSize">18sp</item>
+   </style>
+    <style name="greeting_heading" parent="@style/greeting_basic_text">
+        <item name="android:textSize">20sp</item>
+   </style>
+    <style name="greeting_feature" parent="@style/greeting_text">
+        <item name="android:paddingLeft">20sp</item>
+   </style>
+
+</resources>
