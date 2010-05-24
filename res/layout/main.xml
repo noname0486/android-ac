@@ -16,13 +16,13 @@
  *  if not, see <http://www.gnu.org/licenses/>.
  -->
 
-<LinearLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layoutAnimCompass"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
- 
-    
-
-</LinearLayout>
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:okCancelBar="http://schemas.android.com/apk/res/com.example.android.merge">
+    >
+<de.rothbayern.android.ac.CompassSurfaceView
+              android:id="@+id/viewWorld"
+              android:scaleType="center"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent" />
+</merge>

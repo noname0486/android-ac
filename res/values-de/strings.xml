@@ -36,7 +36,7 @@
     <string name="activity_Preferences_name">Einstellungen</string>
     <string name="activity_Calibration_name">Kalibrierung</string>
 
-   <string name="hint_tap_settings">\"Menu\" für Einstellungen und Infos</string>
+   <string name="hint_tab_settings">\"Menu\" für Einstellungen und Infos</string>
   
     <string name="calibrate">Kalibrieren</string>
     <string name="calibrating">Kalibriere ...</string>

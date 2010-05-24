@@ -41,7 +41,7 @@ import de.rothbayern.android.ac.pref.ColorPickerPreferenceView;
 
 public class ColorPickerView extends View implements ColorPickerPreferenceView{
 // TODO some code to remove	
-
+	@Override
 	public int getColor() {
 		return mSwatchNew.getColor();
 	}
@@ -205,6 +205,7 @@ public class ColorPickerView extends View implements ColorPickerPreferenceView{
 		}
 		else {
 			mListener = new OnColorChangedListener(){
+				@Override
 				public void colorChanged(int color) {}
 			};
 		}

@@ -35,7 +35,7 @@
     <string name="activity_Preferences_name">Settings</string>
     <string name="activity_Calibration_name">Calibrations</string>
     
-    <string name="hint_tap_settings">Tap on \"Menu\" to change settings</string>
+    <string name="hint_tab_settings">Tab on \"Menu\" to change settings</string>
     
     <string name="calibrate">Calibrate</string>
     <string name="calibrating">Calibrating ...</string>
@@ -93,7 +93,7 @@
 	<!-- Colors -->
     <string name="prefs_colors_title">Colors</string>
     <string name="prefs_colors_summary">Set various colors.</string>
-   	<string name="colors_activity_help">Tap on the markers to change colors.</string>
+   	<string name="colors_activity_help">Tab on the markers to change colors.</string>
 	
 	<!-- RobAs Colors -->
     <string name="prefs_robas_color_title">RobA</string>

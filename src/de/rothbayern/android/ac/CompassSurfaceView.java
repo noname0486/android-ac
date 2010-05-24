@@ -23,7 +23,7 @@ import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.*;
 
-public class CompassSurfaceView extends SurfaceView implements SurfaceHolder.Callback, IAnimCompass{
+public class CompassSurfaceView extends SurfaceView implements SurfaceHolder.Callback{
 
 	CompassViewHelper helper = new CompassViewHelper();
 	
@@ -89,7 +89,7 @@ public class CompassSurfaceView extends SurfaceView implements SurfaceHolder.Cal
 		
 	}
 	
-/*
+
 	public void setCompassLayout(int compassLayout) {
 		helper.setCompassLayout(compassLayout);
 
@@ -106,64 +106,33 @@ public class CompassSurfaceView extends SurfaceView implements SurfaceHolder.Cal
 	public void setBgColor(int bgColor) {
 		helper.setBgColor(bgColor);
 	}
-*/
+
 	boolean ready = false;
 	
-
+	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 	}
 
-
+	@Override
 	public void surfaceCreated(SurfaceHolder holder) {
 		ready = true;
 	}
 
-
+	@Override
 	public void surfaceDestroyed(SurfaceHolder holder) {
 		ready = false;
 	}
 
 
-	
+	public void setDirection(float direction) {
+		helper.setDirection(direction);
+		
+	}
 
 
 	public void loadPrefs() {
 		helper.loadPrefs();
 		
-	}
-
-	/* (non-Javadoc)
-	 * @see de.rothbayern.android.ac.IAnimCompass#setDirection(float)
-	 */
-	public boolean setDirection(float direction) {
-		helper.setDirection(direction);
-		boolean success = doAnim();
-		return(success);
-		
-	}
-	
-	private boolean doAnim() {
-		boolean success = false;
-		Canvas c = null;
-		SurfaceHolder holder = this.getMHolder();
-		if (holder != null) {
-			try {
-				c = holder.lockCanvas(null);
-				synchronized (holder) {
-					if (c != null) {
-						success = !this.onDrawnCheck(c);
-					}
-				}
-			} finally {
-				// do this in a finally so that if an exception is thrown
-				// during the above, we don't leave the Surface in an
-				// inconsistent state
-				if (c != null) {
-					holder.unlockCanvasAndPost(c);
-				}
-			}
-		}
-		return success;
 	}
 
 

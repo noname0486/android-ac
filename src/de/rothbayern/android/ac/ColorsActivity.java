@@ -99,7 +99,7 @@ public class ColorsActivity extends Activity  {
 	    }
 		viewCompass.setOnComponentSelectedListener(onComponentSelectedListener);
 		
-		TextView lblHint = (TextView) findViewById(R.id.lbl_hint_tap_colors);
+		TextView lblHint = (TextView) findViewById(R.id.lbl_hint_tab_colors);
 		CompassPreferences prefs = CompassPreferences.getPreferences();
 		int bgColor = prefs.getInt(prefs.PREFS_COMPASS_BACKGROUNDCOLOR_KEY);
 		float hsv[] = new float[3];
@@ -119,7 +119,7 @@ public class ColorsActivity extends Activity  {
 	private DialogListener mOcl = new DialogListener();
 	private class DialogListener implements DialogInterface.OnClickListener, DialogInterface.OnCancelListener {
 
-	
+		@Override
 		public void onClick(DialogInterface dialog, int which) {
 			
 			if (which == DialogInterface.BUTTON_POSITIVE) {
@@ -134,6 +134,7 @@ public class ColorsActivity extends Activity  {
 			
 		}
 
+		@Override
 		public void onCancel(DialogInterface dialog) {
 			cleanDialog();
 		}
@@ -153,7 +154,7 @@ public class ColorsActivity extends Activity  {
 	private int choiceColor = 0;
 	OnColorChangedListener onColorChangedListener = new OnColorChangedListener (){
 
-
+		@Override
 		public void colorChanged(int color) {
 			ColorsActivity.this.choiceColor=color;
 		}
@@ -162,7 +163,7 @@ public class ColorsActivity extends Activity  {
 
 	private DrawingComponent drawingComponent = null;
 	OnComponentSelectedListener onComponentSelectedListener = new OnComponentSelectedListener(){
-
+		@Override
 		public void onSelected(View f, DrawingComponent comp) {
 			
 			if (dlgColorCoose == null) {

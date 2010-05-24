@@ -19,66 +19,75 @@ package de.rothbayern.android.ac;
 
 import android.app.*;
 import android.content.*;
+import android.graphics.Canvas;
+import android.hardware.*;
 import android.os.*;
 import android.text.*;
 import android.view.*;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.*;
-import de.rothbayern.android.ac.camera.CameraCompassView;
 import de.rothbayern.android.ac.misc.Util;
 import de.rothbayern.android.ac.pref.CompassPreferences;
 
-
-/**
- * @author Dieter Roth
- *
- * Main activity which holds the compass.
- */
 public class ACActivity extends Activity {
 
-	// Controls
-	private IAnimCompass compassView;
-	private SmoothDirectionProducer animThread;
+	public static final int SPEED_SLOW = 0;
+	public static final int SPEED_NORMAL = 1;
+	public static final int SPEED_FAST = 2;
+	public static final int SPEED_DIRECT = 3;
+	public static final int SPEED_SWING = 4;
+
+	private int speedMode = SPEED_NORMAL;
+	private float offset = 0.0f;
+
 	
 	@Override
 	protected void onDestroy() {
+		//Log.d("cycle","onDestroy"+this);
 		super.onDestroy();
-		System.exit(0);		// Close if there are any resource left. 
+		System.exit(0);
 	}
 
+	/** Build activity */
 	@Override
 	public void onCreate(Bundle savedState) {
 		super.onCreate(savedState);
 //		Log.d("cycle","onCreate"+this);
-		// Do first to init preferences. This is a singleton.
+		// Do first to init preferences (Singleton)
 		CompassPreferences prefs = CompassPreferences.getPreferences(this);
 		prefs.checkVersion();
 
-		
 		setContentView(R.layout.main);
-		ViewGroup viewGroup = (ViewGroup) findViewById(R.id.layoutAnimCompass);
 
-		if(viewGroup==null){
-		  CameraCompassView cv = new CameraCompassView(this);
-		  viewGroup.addView(cv, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-		  compassView = cv;
+		// Prepare to start
+		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+		compassView = (CompassSurfaceView) findViewById(R.id.viewWorld);
+
+		Sensor testSensorOrientation = mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
+		//testSensorOrientation = null;
+		if (testSensorOrientation == null) {
+			fireShowNoHardwareCompass();
+		} else {
+			boolean isPresent = mSensorManager
+					.registerListener(mListener, testSensorOrientation, SensorManager.SENSOR_DELAY_NORMAL);
+			if (!isPresent) {
+				fireShowNoHardwareCompass();
+			}
+			mSensorManager.unregisterListener(mListener);
+
 		}
-		else {
-			  CompassSurfaceView cv = new CompassSurfaceView(this);
-			  viewGroup.addView(cv, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-			  compassView = cv;
-		}
-		
-		// load preferences
 		takePreferences();
-		Toast.makeText(this, R.string.hint_tap_settings, Toast.LENGTH_LONG).show();
+		Toast.makeText(this, R.string.hint_tab_settings, Toast.LENGTH_LONG).show();
 		
-		
+
 
 	}
 
-	// Show messages boxes at start time
-	// messages are delayed, showed only once and loosely bound to the activity 
+	private void fireShowNoHardwareCompass() {
+		Message m = new Message();
+		m.what = MSG_SHOW_NO_HARDWARE_COMPASS;
+		myHandler.sendMessageDelayed(m, 2200);
+	}
+
 	private static final int MSG_SHOW_NO_HARDWARE_COMPASS = 100;
 	public static final int MSG_SHOW_CHANGE_VERSION = 101;
 	public Handler myHandler = new Handler() {
@@ -97,14 +106,194 @@ public class ACActivity extends Activity {
 			}
 		}
 	};
-	
-	// change version is showed only once
+
+	private static boolean calcNeedPainting(boolean pArrived, float pSpeed, float pLastDirection, float pCurSetPoint) {
+		if (pArrived) {
+			if (Math.abs(pLastDirection - pCurSetPoint) > AnimThread.LEAVED_EPS) {
+				// if (Config.LOGD) {
+				// Log.d("arrived", "leave: " + pArrived + ", " + pSpeed + ", "
+				// + pLastDirection + ", " + pCurSetPoint);
+				// }
+				return (true);
+			}
+			return (false);
+		} else {
+			if (Math.abs(pLastDirection - pCurSetPoint) < AnimThread.ARRIVED_EPS && Math.abs(pSpeed) < AnimThread.SPEED_EPS) {
+				// if (Config.LOGD) {
+				// Log.d("arrived", "arrived: " + pArrived + ", " + pSpeed +
+				// ", " + pLastDirection + ", " + pCurSetPoint);
+				// }
+				return (false);
+			}
+			return (true);
+		}
+	}
+
+	/**
+	 * @author dieter Adjusts the needle smoothly to the setpoint.
+	 */
+	class AnimThread extends Thread {
+
+		private static final float ARRIVED_EPS = 0.7f; // tolerance to become
+		// arrived
+		private static final float LEAVED_EPS = 2.5f; // tolerance to leave
+		// arrived
+		private static final float SPEED_EPS = 0.5f; // tolerance of speed
+
+		private static final int LONG_SPAN_MILLIS = 100;
+		private static final int STD_SPAN_MILLIS = 20;
+
+		private boolean running = true; // Thread has to do his work
+		private boolean finished = false; // Thread has finished his work
+		private float setPoint = 0.0f;
+
+		CompassSurfaceView compassView;
+
+		public AnimThread(CompassSurfaceView compassView) {
+			this.compassView = compassView;
+		}
+
+		public float getSetPoint() {
+			return setPoint;
+		}
+
+		public void setSetPoint(float setPoint) {
+			this.setPoint = setPoint;
+		}
+
+		public boolean isFinished() {
+			return finished;
+		}
+
+		public void setRunning(boolean running) {
+			this.running = running;
+		}
+
+		public boolean isRunning() {
+			return running;
+		}
+
+		@Override
+		public void run() {
+			finished = false;
+			float speed = 0;
+			float lastDirection = 0;
+			boolean forcePaint = true;
+			boolean arrived = false; // The needle has arrived the setpoint
+
+			while (running) {
+				// copy to local variable for one iteration
+				float curSetPoint = setPoint;
+				boolean needPainting = calcNeedPainting(arrived, speed, lastDirection, curSetPoint) || forcePaint;
+				// Something to do?
+				if (needPainting) {
+					arrived = false;
+					// diff to setpoint normalized [-180, 180]
+					// to control clockwise or counterclockwise aproximation
+					float diff = Util.calcNormDiff(lastDirection, curSetPoint);
+					speed = calcSpeed(diff, speed, speedMode);
+					curSetPoint = lastDirection + speed;
+					lastDirection = curSetPoint;
+
+					compassView.setDirection(curSetPoint);
+					Canvas c = null;
+					SurfaceHolder holder = compassView.getMHolder();
+					if (holder != null) {
+						try {
+							c = holder.lockCanvas(null);
+							synchronized (holder) {
+								if (c != null) {
+									forcePaint = !compassView.onDrawnCheck(c);
+								}
+							}
+						} finally {
+							// do this in a finally so that if an exception is
+							// thrown
+							// during the above, we don't leave the Surface in
+							// an
+							// inconsistent state
+							if (c != null) {
+								holder.unlockCanvasAndPost(c);
+							}
+						}
+					}
+
+				} else {
+					arrived = true;
+				}
+
+				// Wait for next drawing
+				try {
+					if (arrived) {
+						preferSensorListenerState(ACActivity.SENSOR_LISTENER_STATE_SLEEP);
+						Thread.sleep(LONG_SPAN_MILLIS);
+					} // Save battery if there will be nothing to do.
+					else {
+						preferSensorListenerState(ACActivity.SENSOR_LISTENER_STATE_ACTION);
+						Thread.sleep(STD_SPAN_MILLIS);
+
+					}
+				} catch (InterruptedException e) {
+				}
+			} // while
+			finished = true; // indicator => thread has finished
+		}
+
+		private float calcSpeed(float diff, float speed, int speedMode) {
+			switch (speedMode) {
+				case SPEED_DIRECT: {
+					speed = speed * 0f; // friction
+					speed += diff; // acceleration
+					return speed;
+				}
+				case SPEED_FAST: {
+					speed = speed * 0.75f; // friction
+					speed += diff / 8; // acceleration
+					return speed;
+				}
+				case SPEED_SLOW: {
+					speed = speed * 0.75f; // friction
+					speed += diff / 40; // acceleration
+					return speed;
+				}
+
+				case SPEED_SWING: {
+					speed = speed * 0.97f; // friction
+					speed += diff / 10; // acceleration
+					return speed;
+				}
+
+				case SPEED_NORMAL:
+				default: {
+					speed = speed * 0.75f; // friction
+					speed += diff / 20; // acceleration
+					return speed;
+				}
+			}
+		}
+
+	}
+
+	// Controls
+	private CompassSurfaceView compassView;
+	private AnimThread animThread;
+	private SensorManager mSensorManager;
+
 	private boolean shownChangeVersion = false;
+
 	private void showChangeVersion(String oldVersion, String newVersion) {
 		if (!shownChangeVersion) {
 			shownChangeVersion = true;
 			LayoutInflater factory = LayoutInflater.from(this);
 			View greetingView = factory.inflate(R.layout.greeting, null);
+			/*
+			 * TextView versionLabel =
+			 * (TextView)greetingView.findViewById(R.id.greeting_version);
+			 * String versionName = fetchVersionName(); CharSequence vLText =
+			 * versionLabel.getText();
+			 * versionLabel.setText(String.format(vLText.toString(),
+			 * versionName));
+			 */
 			TextView rateView = (TextView) greetingView.findViewById(R.id.greeting_ask_for_rate);
 			Util.addLink(this, rateView, R.string.greet_ask_for_rate_link_marker, R.string.market);
 			TextView hintView = (TextView) greetingView.findViewById(R.id.greeting_hint_internal_compass);
@@ -136,17 +325,45 @@ public class ACActivity extends Activity {
 		}
 	}
 
-	private void fireShowNoHardwareCompass() {
-		Message m = new Message();
-		m.what = MSG_SHOW_NO_HARDWARE_COMPASS;
-		myHandler.sendMessageDelayed(m, 2200);
+	private static final int SENSOR_LISTENER_STATE_OFF = 0;
+	protected static final int SENSOR_LISTENER_STATE_SLEEP = 1;
+	protected static final int SENSOR_LISTENER_STATE_ACTION = 2;
+	private int sensorListenerState = SENSOR_LISTENER_STATE_OFF;
+
+	private void setSensorListenerState(int newState) {
+		if (newState == sensorListenerState)
+			return;
+
+		// if (Config.LOGD) {
+		// Log.d("sensor register", "SENSOR_LISTENER_STATE_OFF");
+		// }
+		mSensorManager.unregisterListener(mListener);
+		sensorListenerState = SENSOR_LISTENER_STATE_OFF;
+
+		if (newState == SENSOR_LISTENER_STATE_SLEEP) {
+			// if (Config.LOGD) {
+			// Log.d("sensor register", "SENSOR_LISTENER_STATE_NORMAL");
+			// }
+			mSensorManager.registerListener(mListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),
+					SensorManager.SENSOR_DELAY_NORMAL);
+			sensorListenerState = newState;
+		}
+		if (newState == SENSOR_LISTENER_STATE_ACTION) {
+			// if (Config.LOGD) {
+			// Log.d("sensor register", "SENSOR_LISTENER_STATE_ACTION");
+			// }
+			mSensorManager.registerListener(mListener, mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION),
+					SensorManager.SENSOR_DELAY_UI);
+			sensorListenerState = newState;
+		}
+
 	}
 
-	
-	
-
-
-
+	protected void preferSensorListenerState(int newState) {
+		if (sensorListenerState != SENSOR_LISTENER_STATE_OFF) {
+			setSensorListenerState(newState);
+		}
+	}
 
 	private void startAnim() {
 		if (animThread == null) {
@@ -155,20 +372,16 @@ public class ACActivity extends Activity {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {
 			}
-			animThread = new SmoothDirectionProducer(compassView,this);
-			if(!animThread.isSensorOk()){
-				fireShowNoHardwareCompass();
-			} 
+			animThread = new AnimThread(compassView);
 			animThread.start();
 		}
 	}
-	
 
 	private void stopAnim() {
 		if (animThread != null) {
 			animThread.setRunning(false);
 			try {
-				animThread.join(SmoothDirectionProducer.LONG_SPAN_MILLIS * 2);
+				animThread.join(AnimThread.LONG_SPAN_MILLIS * 2);
 			} catch (InterruptedException e) {
 			}
 			animThread = null;
@@ -178,6 +391,8 @@ public class ACActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
+
+		setSensorListenerState(SENSOR_LISTENER_STATE_ACTION);
 		compassView.loadPrefs();
 		startAnim();
 	}
@@ -185,9 +400,39 @@ public class ACActivity extends Activity {
 	@Override
 	protected void onPause() {
 		// Stop display
+		setSensorListenerState(SENSOR_LISTENER_STATE_OFF);
 		stopAnim();
 		super.onPause();
 	}
+
+	private float avgDirection = 0;
+	private final SensorEventListener mListener = new SensorEventListener() {
+
+		@Override
+		public void onAccuracyChanged(Sensor sensor, int accuracy) {
+			// if(accuracy>5){
+			// Log.w("accuracy low", Integer.toString(accuracy));
+			// }
+		}
+
+		@Override
+		public void onSensorChanged(SensorEvent event) {
+			float newDirection = event.values[0] + offset;
+			float diff = newDirection - avgDirection;
+			diff = Util.normAngle(diff);
+			if (Math.abs(diff) < 5) {
+				newDirection = avgDirection + diff / 4;
+			} else {
+				preferSensorListenerState(SENSOR_LISTENER_STATE_ACTION);
+
+			}
+			newDirection = Util.normAngle(newDirection);
+			avgDirection = newDirection;
+			if (animThread != null) {
+				animThread.setSetPoint(avgDirection);
+			}
+		}
+	};
 
 	// Menu
 	@Override
@@ -200,7 +445,6 @@ public class ACActivity extends Activity {
 	private static final int CALIBRATION_ACTIVITY_REQUEST = 100;
 	private static final int PREFERENCES_ACTIVITY_REQUEST = 101;
 
-	// TODO need to do this ?
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -219,12 +463,15 @@ public class ACActivity extends Activity {
 	private void takePreferences() {
 		CompassPreferences prefs = CompassPreferences.getPreferences();
 
-		
+		int bgColor = prefs.getInt(prefs.PREFS_COMPASS_BACKGROUNDCOLOR_KEY);
+		compassView.setBgColor(bgColor);
 
-		if(animThread != null){
-		  animThread.setSpeedMode(prefs.getInt(prefs.PREFS_COMPASS_SPEED_KEY));
-		  animThread.setOffset(prefs.getFloat(prefs.PREFS_COMPASS_OFFSET_KEY));
-		}
+		int rose = prefs.getInt(prefs.PREFS_COMPASS_LAYOUT_KEY);
+		compassView.setCompassLayout(rose);
+
+		speedMode = prefs.getInt(prefs.PREFS_COMPASS_SPEED_KEY);
+
+		offset = prefs.getFloat(prefs.PREFS_COMPASS_OFFSET_KEY);
 
 	}
 
