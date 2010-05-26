@@ -152,7 +152,8 @@ public class CompassViewHelper {
 		canvas.translate(middleX, 0);
 		canvas.drawColor(Color.WHITE);
 		float x = -bmNeedle.getWidth() / 2;
-		canvas.drawText("N", 0, 30, mPaint);
+		String orientationLabels[] = context.getResources().getStringArray(R.array.orientations);
+		canvas.drawText(orientationLabels[0], 0, 30, mPaint);
 		canvas.drawBitmap(bmNeedle, x, 60, mPaintBm);
 	}
 

@@ -1,6 +1,22 @@
 "Anlalog Compass" 
  
-2009-07-11 dieter
+ 2010-05-26
+ * Chinese translation by Jacky Huang
+ 
+ 2009-09-11 dieter
+ * Wiki
+
+2009-09-09 dieter (version 0.9.1)
+ * generate bitmaps (save storage, flexible)
+ * choose colors (color picker)
+ * choose speed
+ * greeting dialog
+ * preference screens
+ * new algorithm for motion (inertness)
+ * demand of user feedback
+
+ 
+2009-07-11 dieter (version 0.9.0)
  * first release
  * two layouts (Stefan and RobA)
  * calibration

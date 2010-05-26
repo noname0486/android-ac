@@ -160,7 +160,7 @@ public class StefanBaseDrawing extends CompassDrawing {
 
 		// !!!! sin cos (counter clockwise) <=> Compass clockwise
 		// !!!! sin cos (start on right side) <=> Compass starts on top
-		float rad = (float)(Math.PI/2 - (startRotateAngle / 180.0)*Math.PI);  // 0° = North +90
+		float rad = (float)(Math.PI/2 - (startRotateAngle / 180.0)*Math.PI);  // 0Â° = North +90
 		rad = (float)(Math.PI/2 - (startRotateAngle / 180.0)*Math.PI);
 		float label_distance_scale = LABEL_RADIUS * triangleScale;
 		paint.setStyle(Paint.Style.FILL_AND_STROKE);
@@ -228,7 +228,7 @@ public class StefanBaseDrawing extends CompassDrawing {
 	private static void addLabelFigures(FArray labels, int count, float startAngle, float label_distance_scale) {
 		// !!!! sin cos (counter clockwise) <=> Compass clockwise
 		// !!!! sin cos (start on right side) <=> Compass starts on top
-		float startRad = (float)(Math.PI/2 - (startAngle / 180.0)*Math.PI);  // 0° = North +90
+		float startRad = (float)(Math.PI/2 - (startAngle / 180.0)*Math.PI);  // 0Â° = North +90
 		for (int i = 0; i < count; i++) {
 			float x = FloatMath.cos(startRad) * label_distance_scale;
 			float y = -FloatMath.sin(startRad) * label_distance_scale;
