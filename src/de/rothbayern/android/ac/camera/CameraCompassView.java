@@ -2,7 +2,7 @@ package de.rothbayern.android.ac.camera;
 
 import java.io.IOException;
 
-import de.rothbayern.android.ac.IAnimCompass;
+import de.rothbayern.android.ac.*;
 
 import android.app.Activity;
 import android.content.Context;
@@ -31,7 +31,7 @@ public class CameraCompassView extends RelativeLayout implements IAnimCompass {
 
 	private void create() {
 		Preview mPreview = new Preview(this.getContext());
-		mDraw = new DrawOnTop(this.getContext());
+		mDraw = new CompassSurfaceView(this.getContext());
 		addView(mPreview, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 		addView(mDraw, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 		
@@ -39,11 +39,11 @@ public class CameraCompassView extends RelativeLayout implements IAnimCompass {
 
 	
 
-	class Preview extends SurfaceView implements SurfaceHolder.Callback {
+	public static class Preview extends SurfaceView implements SurfaceHolder.Callback {
 		SurfaceHolder mHolder;
 		Camera mCamera;
 
-		Preview(Context context) {
+		public Preview(Context context) {
 			super(context);
 
 			// Install a SurfaceHolder.Callback so we get notified when the
@@ -94,6 +94,7 @@ public class CameraCompassView extends RelativeLayout implements IAnimCompass {
 
 	class DrawOnTop extends View {
 
+
 		public DrawOnTop(Context context) {
 			super(context);
 
@@ -103,20 +104,44 @@ public class CameraCompassView extends RelativeLayout implements IAnimCompass {
 		protected void onDraw(Canvas canvas) {
 			// TODO Auto-generated method stub
 
+			int height = getHeight();
+			int width = getWidth();
+
+			final int VIEW_ANGEL = 56;
+			float pixelPerDegree = width/VIEW_ANGEL;
+
+			int h2 = height/2;
+			int lineHeight2 = height/20;
+			
+			int startDirection = (int)direction-VIEW_ANGEL/2;
+			int endDirection = (int)direction+VIEW_ANGEL/2;
+			
+			
+			
+			
 			Paint paint = new Paint();
 			paint.setTextSize(30);
 			paint.setStyle(Paint.Style.FILL);
+			paint.setStrokeWidth(3);
 			paint.setColor(Color.BLACK);
-			int height = getHeight();
-			int width = getWidth();
+			
+			for(int i=startDirection;i<endDirection;i++){
+				if(i%10==0){
+					int diff = i -startDirection;
+					int pos = diff*width/VIEW_ANGEL;
+				    canvas.drawLine(pos, h2-lineHeight2, pos, h2+lineHeight2, paint);
+				}
+			}
+			
+			
 			System.out.println("onDraw: " + width + "x" + height);
 			canvas.drawText("tick: " + (int)direction, width * 1 / 3, height / 2, paint);
-			super.onDraw(canvas);
+			//super.onDraw(canvas);
 		}
 
 	}
 
-	private DrawOnTop mDraw = null;
+	private CompassSurfaceView mDraw = null;
 
 	/*
 	 * class ActionThread extends Thread { private boolean laeuft = true;
@@ -164,11 +189,13 @@ public class CameraCompassView extends RelativeLayout implements IAnimCompass {
 	
 	@Override
 	public boolean setDirection(float direction) {
+		direction+=90;
 		if(direction<0){
 			direction += 360.0f;
 		}
+		direction = direction % 360.0f;
 		this.direction = direction;
-		boolean success = doAnim();
+		boolean success = mDraw.setDirection(direction);
 		return(success);
 	}
 

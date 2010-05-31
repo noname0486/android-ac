@@ -26,6 +26,7 @@ public class CompassViewHelper {
 
 	public static final int LAYOUT_ROBA = 0;
 	public static final int LAYOUT_STEFAN = 1;
+	public static final int LAYOUT_CAMERA = 2;
 	public static final int LAYOUT_CALIBRATION = -100;
 	public static final int LAYOUT_NEEDLE = -101;
 	private Paint mPaint = new Paint();
@@ -109,6 +110,9 @@ public class CompassViewHelper {
 			case CompassViewHelper.LAYOUT_STEFAN:
 				drawStefan(canvas, direction);
 				break;
+			case CompassViewHelper.LAYOUT_CAMERA:
+				drawCamera(canvas, direction);
+				break;
 			case CompassViewHelper.LAYOUT_CALIBRATION:
 				drawCalibration(canvas);
 				break;
@@ -147,6 +151,63 @@ public class CompassViewHelper {
 	}
 
 	/**
+	 * Draw compass with the help of SVG of Stefan http://www.xpofpc.de/
+	 * 
+	 * @param canvas
+	 * @param direction
+	 */
+	private void drawCamera(Canvas canvas, float direction) {
+		
+		// TODO Auto-generated method stub
+
+		int height = canvas.getHeight();
+		int width = canvas.getWidth();
+		canvas.drawColor(0);
+		final int VIEW_ANGEL = 56;
+		float pixelPerDegree = width/VIEW_ANGEL;
+
+		int h2 = height/2;
+		int lineHeight2 = height/20;
+		
+		int startDirection = (int)direction-VIEW_ANGEL/2;
+		int endDirection = (int)direction+VIEW_ANGEL/2;
+		
+		
+		
+		
+		Paint paint = new Paint();
+		paint.setTextSize(30);
+		paint.setStyle(Paint.Style.FILL);
+		paint.setStrokeWidth(3);
+		paint.setColor(Color.RED);
+		
+		//canvas.drawLine(0,0,200,200, paint);
+		
+		for(int i=startDirection;i<endDirection;i++){
+			if(i%10==0){
+				int diff = i -startDirection;
+				int pos = diff*width/VIEW_ANGEL;
+			    canvas.drawLine(pos, h2-lineHeight2, pos, h2+lineHeight2, paint);
+			}
+		}
+		
+		
+		System.out.println("onDraw: " + width + "x" + height);
+		canvas.drawText("tick: " + (int)direction, width * 1 / 3, height / 2, paint);
+		
+		//super.onDraw(canvas);
+		/*
+		canvas.translate(middleX, middleY);
+		canvas.drawColor(bgColor);
+		float x = -bmStefanRose.getWidth() / 2;
+		float y = -bmStefanRose.getHeight() / 2;
+		canvas.rotate(-direction);
+		canvas.drawBitmap(bmStefanRose, x, y, mPaintBm);
+		canvas.rotate(direction);
+		*/
+	}
+
+	/**
 	 * Draw compass with the help of SVG of RobA http://ffaat.pointclark.net
 	 * 
 	 * @param canvas
@@ -174,6 +235,7 @@ public class CompassViewHelper {
 		canvas.translate(middleX, 0);
 		canvas.drawColor(Color.WHITE);
 		float x = -bmNeedle.getWidth() / 2;
+		/* TODO "N" get from  strings.xml */
 		canvas.drawText("N", 0, 30, mPaint);
 		canvas.drawBitmap(bmNeedle, x, 60, mPaintBm);
 	}

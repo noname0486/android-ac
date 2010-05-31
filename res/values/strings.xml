@@ -74,6 +74,7 @@
     <string-array name="prefs_layout_entries">
         <item>RobA's rose</item>
         <item>Stefan's rose</item>
+        <item>Camera</item>
     </string-array>    
 
 

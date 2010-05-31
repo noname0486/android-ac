@@ -149,6 +149,9 @@ public class RobABaseDrawing extends CompassDrawing {
 		paint.setTextAlign(Paint.Align.CENTER);
 		// paint.setAntiAlias(false);
 
+		/*
+		 * TODO 0° to strings.xml
+		 */
 		c.drawText("0°", 0 + DEGREES_TEXT_SIZE / 5, -DEGREES_RADIUS - DEGREES_TEXT_SIZE * 0.2f, paint);
 		c.drawText("90°", DEGREES_RADIUS, DEGREES_TEXT_SIZE / 3, paint);
 		c.drawText("180°", 0 + DEGREES_TEXT_SIZE / 5, DEGREES_RADIUS + DEGREES_TEXT_SIZE * 0.8f, paint);

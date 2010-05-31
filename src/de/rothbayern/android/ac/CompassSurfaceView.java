@@ -86,27 +86,9 @@ public class CompassSurfaceView extends SurfaceView implements SurfaceHolder.Cal
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		super.onSizeChanged(w, h, oldw, oldh);
 		helper.onSizeChanged(w, h, oldw, oldh);
-		
 	}
 	
-/*
-	public void setCompassLayout(int compassLayout) {
-		helper.setCompassLayout(compassLayout);
 
-	}
-
-	public int getCompassLayout() {
-		return helper.getCompassLayout();
-	}
-
-	public int getBgColor() {
-		return helper.getBgColor();
-	}
-
-	public void setBgColor(int bgColor) {
-		helper.setBgColor(bgColor);
-	}
-*/
 	boolean ready = false;
 	
 

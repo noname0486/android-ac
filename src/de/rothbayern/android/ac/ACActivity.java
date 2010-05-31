@@ -14,71 +14,91 @@
  *  You should have received a copy of the GNU General Public License along with this program; 
  *  if not, see <http://www.gnu.org/licenses/>.
  */
- 
+
 package de.rothbayern.android.ac;
 
 import android.app.*;
 import android.content.*;
+import android.content.pm.ActivityInfo;
+import android.graphics.PixelFormat;
 import android.os.*;
 import android.text.*;
 import android.view.*;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.*;
-import de.rothbayern.android.ac.camera.CameraCompassView;
+import de.rothbayern.android.ac.camera.CameraCompassView.Preview;
 import de.rothbayern.android.ac.misc.Util;
 import de.rothbayern.android.ac.pref.CompassPreferences;
 
-
 /**
  * @author Dieter Roth
- *
- * Main activity which holds the compass.
+ * 
+ *         Main activity which holds the compass.
  */
 public class ACActivity extends Activity {
+
+	public ACActivity() {
+		super();
+
+	}
 
 	// Controls
 	private IAnimCompass compassView;
 	private SmoothDirectionProducer animThread;
-	
+
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		System.exit(0);		// Close if there are any resource left. 
+		System.exit(0); // Close if there are any resource left.
 	}
 
 	@Override
 	public void onCreate(Bundle savedState) {
 		super.onCreate(savedState);
-//		Log.d("cycle","onCreate"+this);
+		// setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		// Log.d("cycle","onCreate"+this);
 		// Do first to init preferences. This is a singleton.
 		CompassPreferences prefs = CompassPreferences.getPreferences(this);
 		prefs.checkVersion();
+		getWindow().setFormat(PixelFormat.TRANSLUCENT);
 
-		
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+
+		WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
 		setContentView(R.layout.main);
+
+		// ViewGroup viewGroup = null;//(ViewGroup)
+		// findViewById(R.id.layoutAnimCompass);
 		ViewGroup viewGroup = (ViewGroup) findViewById(R.id.layoutAnimCompass);
 
-		if(viewGroup==null){
-		  CameraCompassView cv = new CameraCompassView(this);
-		  viewGroup.addView(cv, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-		  compassView = cv;
+		if (viewGroup == null) {
+			RelativeLayout main_layout = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.main, null, false);
+			CompassSurfaceView cv = new CompassSurfaceView(this);
+			Preview ccv = new Preview(this);
+			main_layout.addView(cv, 0);
+			main_layout.addView(ccv, 1);
+
+			setContentView(main_layout);
+			compassView = cv;
+		} else {
+			// this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+			CompassSurfaceView cv = new CompassSurfaceView(this);
+			viewGroup.addView(cv, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+			compassView = cv;
+
 		}
-		else {
-			  CompassSurfaceView cv = new CompassSurfaceView(this);
-			  viewGroup.addView(cv, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
-			  compassView = cv;
-		}
-		
+
 		// load preferences
 		takePreferences();
 		Toast.makeText(this, R.string.hint_tap_settings, Toast.LENGTH_LONG).show();
-		
-		
 
 	}
 
 	// Show messages boxes at start time
-	// messages are delayed, showed only once and loosely bound to the activity 
+	// messages are delayed, showed only once and loosely bound to the activity
 	private static final int MSG_SHOW_NO_HARDWARE_COMPASS = 100;
 	public static final int MSG_SHOW_CHANGE_VERSION = 101;
 	public Handler myHandler = new Handler() {
@@ -97,9 +117,10 @@ public class ACActivity extends Activity {
 			}
 		}
 	};
-	
+
 	// change version is showed only once
 	private boolean shownChangeVersion = false;
+
 	private void showChangeVersion(String oldVersion, String newVersion) {
 		if (!shownChangeVersion) {
 			shownChangeVersion = true;
@@ -121,6 +142,7 @@ public class ACActivity extends Activity {
 	}
 
 	private boolean shownWarnNoHardwareCompass = false;
+
 	private void showWarnNoHardwareCompass() {
 		if (!shownWarnNoHardwareCompass) {
 			shownWarnNoHardwareCompass = true;
@@ -142,12 +164,6 @@ public class ACActivity extends Activity {
 		myHandler.sendMessageDelayed(m, 2200);
 	}
 
-	
-	
-
-
-
-
 	private void startAnim() {
 		if (animThread == null) {
 			Runtime.getRuntime().gc();
@@ -155,14 +171,13 @@ public class ACActivity extends Activity {
 				Thread.sleep(500);
 			} catch (InterruptedException e) {
 			}
-			animThread = new SmoothDirectionProducer(compassView,this);
-			if(!animThread.isSensorOk()){
-				fireShowNoHardwareCompass();
-			} 
+			animThread = new SmoothDirectionProducer(compassView, this);
+			if (!animThread.isSensorOk()) {
+				//fireShowNoHardwareCompass();
+			}
 			animThread.start();
 		}
 	}
-	
 
 	private void stopAnim() {
 		if (animThread != null) {
@@ -219,11 +234,9 @@ public class ACActivity extends Activity {
 	private void takePreferences() {
 		CompassPreferences prefs = CompassPreferences.getPreferences();
 
-		
-
-		if(animThread != null){
-		  animThread.setSpeedMode(prefs.getInt(prefs.PREFS_COMPASS_SPEED_KEY));
-		  animThread.setOffset(prefs.getFloat(prefs.PREFS_COMPASS_OFFSET_KEY));
+		if (animThread != null) {
+			animThread.setSpeedMode(prefs.getInt(prefs.PREFS_COMPASS_SPEED_KEY));
+			animThread.setOffset(prefs.getFloat(prefs.PREFS_COMPASS_OFFSET_KEY));
 		}
 
 	}
@@ -258,7 +271,5 @@ public class ACActivity extends Activity {
 		}
 		return false;
 	}
-	
-	
 
 }
