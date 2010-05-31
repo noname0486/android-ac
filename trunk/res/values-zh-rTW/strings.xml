@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--  
+  *  "Analog Compass" is an application for devices based on android os.  
+  *  The application shows the orientation based on the intern magnetic sensor.    
+  *  Copyright (C) 2009  Dieter Roth 
+  * 
+  *  This program is free software; you can redistribute it and/or modify it under the terms of the  
+  *  GNU General Public License as published by the Free Software Foundation; either version 3 of  
+  *  the License, or (at your option) any later version. 
+  * 
+  *  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;  
+  *  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+  *  See the GNU General Public License for more details. 
+  
+  *  You should have received a copy of the GNU General Public License along with this program;  
+  *  if not, see <http://www.gnu.org/licenses/>. 
+  -->
+<resources> 
+  
+  
+     <string name="app_name">Analog Compass</string> 
+  
+         <string name="close">關閉</string> 
+  
+     <string name="mnu_Calibrate">校準</string> 
+     <string name="mnu_Calibrate_shortcut">c</string> 
+     <string name="mnu_Layout">設定</string> 
+     <string name="mnu_Layout_shortcut">s</string> 
+     <string name="mnu_Info">訊息</string> 
+     <string name="mnu_Info_shortcut">i</string> 
+      
+     <string name="activity_Info_name">訊息</string> 
+     <string name="activity_Colors_name">顏色</string> 
+     <string name="activity_Preferences_name">設定</string> 
+     <string name="activity_Calibration_name">校準器</string> 
+      
+     <string name="hint_tab_settings">按下\"Menu\"鍵來修改設定</string> 
+      
+     <string name="calibrate">校準</string> 
+     <string name="calibrating">正在校準...</string> 
+     <string name="no_calibration">關閉校準器</string> 
+     <string name="txtCalibrationHelp">調整設備指向正北！\n然後點擊\"校準\"。\n同時注意校準時不要有電磁干擾！</string> 
+          
+         <!--  orientations --> 
+         <string-array name="orientations"> 
+         <item>北</item> 
+         <item>北東北</item> 
+         <item>東北</item> 
+         <item>東北東</item> 
+  
+         <item>東</item> 
+         <item>東南東</item> 
+         <item>東南</item> 
+         <item>南東南</item> 
+  
+         <item>南</item> 
+         <item>南西南</item> 
+         <item>西南</item> 
+         <item>西西南</item> 
+  
+         <item>西</item> 
+         <item>西西北</item> 
+         <item>西北</item> 
+         <item>北西北</item> 
+     </string-array>     
+   
+       
+         <!-- layout: choose a rose -->  
+     <string name="prefs_layout_mnu_title">佈局</string> 
+     <string name="prefs_layout_summary">選取一個基本佈局，之後可以變更。</string> 
+     <string name="prefs_layout_default_value">0</string> 
+     <string name="prefs_layout_dialog_title">選取一個羅盤</string> 
+     <string-array name="prefs_layout_entries"> 
+         <item>RobA的羅盤</item> 
+         <item>Stefan的羅盤</item> 
+     </string-array>     
+  
+  
+         <!-- speed  -->  
+     <string name="prefs_speed_mnu_title">速度</string> 
+     <string name="prefs_speed_summary">選取指標的移動速度。</string> 
+     <string-array name="prefs_speed_entries"> 
+         <item>慢</item> 
+         <item>正常</item> 
+         <item>快</item> 
+         <item>即時</item> 
+         <item>回轉</item> 
+     </string-array>     
+      <string name="prefs_speed_default_value">1</string> 
+     <string name="prefs_speed_dialog_title">選取一個速度</string> 
+   
+         <!-- Colors --> 
+     <string name="prefs_colors_title">顏色</string> 
+     <string name="prefs_colors_summary">設定不同的顏色。</string> 
+         <string name="colors_activity_help">點擊被標記的位置即可變更顏色。</string> 
+          
+         <!-- RobAs Colors --> 
+     <string name="prefs_robas_color_title">RobA</string> 
+     <string name="prefs_robas_color_summary">為RobA的羅盤刻度表設定顏色。</string> 
+  
+         <!-- Stefans Colors --> 
+     <string name="prefs_stefans_color_title">Stefan</string> 
+     <string name="prefs_stefans_color_summary">為Stefan的羅盤刻度表設定顏色。</string> 
+  
+         <!-- Colors of Needle --> 
+     <string name="prefs_needle_color_title">指標</string> 
+     <string name="prefs_needle_color_summary">設定指標的顏色。</string> 
+  
+         <!-- background color -->  
+     <string name="prefs_backgroundcolor_mnu_title">背景色</string> 
+     <string name="prefs_backgroundcolor_summary">設定背景顏色，對所有佈局均有效。</string> 
+     <string name="prefs_backgroundcolor_dialog_title">背景色</string> 
+  
+     <!--  color picker --> 
+     <string name="color_picker_old_color">原色</string> 
+     <string name="color_picker_new_color">新色</string> 
+  
+     <string name="color_choose_BOTTOM_NAME">底部</string> 
+     <string name="color_choose_OUTER_RING_NAME">外環</string> 
+     <string name="color_choose_MIDDLE_RING_NAME">中環</string> 
+     <string name="color_choose_INNER_RING_NAME">內環</string> 
+     <string name="color_choose_DIRECTIONS_LABEL_NAME">方向標籤</string> 
+     <string name="color_choose_NORTH_LABEL_NAME">正北標籤</string> 
+     <string name="color_choose_DEGREES_LABEL_NAME">角度標籤</string> 
+      
+     <string name="color_choose_NEEDLE_NORTH_NAME">北部</string> 
+     <string name="color_choose_NEEDLE_SOUTH_NAME">南部</string> 
+     <string name="color_choose_NEEDLE_BUTTON_NAME">指標按鈕</string> 
+      
+     <string name="color_choose_DIRECTIONS_CARDINALE_LABEL_NAME">主方向</string> 
+     <string name="color_choose_DIRECTIONS_INTERMEDIATE_LABEL_NAME">中部方向</string> 
+     <string name="color_choose_DIRECTIONS_INTERMEDIATE2_LABEL_NAME">次方向</string> 
+  
+     <string name="color_choose_ROSE1_NAME">羅盤顏色 I</string> 
+     <string name="color_choose_ROSE2_NAME">羅盤顏色 II</string> 
+      
+      
+     <!-- Greeting Dialog --> 
+     <string name="greet_version_plus_format_token">版本：%s</string> 
+  
+     <string name="changelog">更新日誌：</string> 
+     <string name="whats_new">有什麼更新</string> 
+     <string name="greet_set_speed">- 設定速度</string> 
+     <string name="greet_set_colors">- 設定顏色</string> 
+  
+     <string name="greet_calibrating">- 校準</string> 
+     <string name="greet_smooth_motion">- 平滑移動</string> 
+     <string name="greet_choose">- 選取一個佈局</string> 
+  
+     <string name="greet_ask_for_feedback">有任何建議或者執行時遇到了錯誤？  
+                                                                                 我很高興能得到來自您的一些反饋。  
+                                                                                 聯繫我按Menu鍵然後點"訊息"。 </string> 
+  
+     <string name="greet_ask_for_rate">請不要忘了給軟體評分哦。</string> 
+     <string name="greet_ask_for_rate_link_marker">速率</string> 
+      
+     <string name="greet_hint_internal_compass">如果指南針顯示為一個錯誤的方向，請在各個方向上移動您的設備以重設它。更多的細節介紹可以在這裡找到。</string> 
+     <string name="greet_hint_internal_compass_link_marker">這兒</string> 
+     <string name="greet_hint_internal_compass_link_url">http://davidcarrington.co.uk/2008/11/how-to-calibratefix-the-compass-in-androidg1/</string> 
+      
+     <string name="greet_bye">享受\"Analog Compass\"帶來的樂趣吧。</string> 
+      
+   
+      
+ </resources>
