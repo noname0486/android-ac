@@ -19,7 +19,6 @@ package de.rothbayern.android.ac;
 
 import android.app.*;
 import android.content.*;
-import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
 import android.os.*;
 import android.text.*;
@@ -34,6 +33,7 @@ import de.rothbayern.android.ac.pref.CompassPreferences;
  * @author Dieter Roth
  * 
  *         Main activity which holds the compass.
+ *         TODO ADD a level
  */
 public class ACActivity extends Activity {
 
@@ -173,8 +173,9 @@ public class ACActivity extends Activity {
 			}
 			animThread = new SmoothDirectionProducer(compassView, this);
 			if (!animThread.isSensorOk()) {
-				//fireShowNoHardwareCompass();
+				fireShowNoHardwareCompass();
 			}
+			animThread.setSetPoint(335.0f); 
 			animThread.start();
 		}
 	}
