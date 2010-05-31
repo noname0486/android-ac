@@ -75,6 +75,7 @@
     <string-array name="prefs_layout_entries">
         <item>Motiv von Rob A</item>
         <item>Motiv von Stefan</item>
+        <item>Kamera</item>
     </string-array>   
 
 	<!-- speed  --> 

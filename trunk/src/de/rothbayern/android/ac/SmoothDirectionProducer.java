@@ -2,6 +2,7 @@ package de.rothbayern.android.ac;
 
 import android.content.Context;
 import android.hardware.*;
+import android.util.*;
 import de.rothbayern.android.ac.misc.Util;
 import de.rothbayern.android.ac.pref.CompassPreferences;
 /**
@@ -119,6 +120,7 @@ public class SmoothDirectionProducer extends Thread {
 		this.running = running;
 	}
 
+	private String err = "";
 	@Override
 	public void run() {
 		finished = false;
@@ -139,7 +141,9 @@ public class SmoothDirectionProducer extends Thread {
 		while (running) {
 			// copy to local variable for one iteration
 			float curSetPoint = setPoint;
+			Log.i("sp:", ""+setPoint);
 			boolean needPainting = calcNeedPainting(arrived, speed, lastDirection, curSetPoint) || forcePaint;
+			
 			// Something to do?
 			if (needPainting) {
 				arrived = false;
@@ -167,14 +171,26 @@ public class SmoothDirectionProducer extends Thread {
 				if (arrived) {
 					// Save battery if there will be nothing to do.
 					preferSensorListenerState(SENSOR_LISTENER_STATE_SLEEP);
-					Thread.sleep(LONG_SPAN_MILLIS);
+					try {
+						Thread.sleep(LONG_SPAN_MILLIS);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				} 
 				else {
 					preferSensorListenerState(SENSOR_LISTENER_STATE_ACTION);
-					Thread.sleep(STD_SPAN_MILLIS);
+					try {
+						Thread.sleep(STD_SPAN_MILLIS);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 
 				}
-			} catch (InterruptedException e) {
+			} catch (Throwable e) {
+				err = e.getMessage();
+				e.printStackTrace();
 			}
 		} // while
 		setSensorListenerState(SmoothDirectionProducer.SENSOR_LISTENER_STATE_OFF);
