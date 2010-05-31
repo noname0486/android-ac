@@ -133,7 +133,7 @@ public class CompassSurfaceView extends SurfaceView implements SurfaceHolder.Cal
 				c = holder.lockCanvas(null);
 				synchronized (holder) {
 					if (c != null) {
-						success = !this.onDrawnCheck(c);
+						success = this.onDrawnCheck(c);
 					}
 				}
 			} finally {
