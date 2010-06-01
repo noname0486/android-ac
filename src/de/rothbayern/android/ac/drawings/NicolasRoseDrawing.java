@@ -23,19 +23,35 @@ import android.graphics.*;
 import android.util.FloatMath;
 import de.rothbayern.android.ac.R;
 import de.rothbayern.android.ac.geometry.*;
+import de.rothbayern.android.ac.misc.Util;
 
 public class NicolasRoseDrawing extends RoseDrawing {
 
 	static final float OUTER_RING_RADIUS = MAX * 0.96f;
-	private static final float OUTER_RING_WIDTH = MAX * 0.03f;
-	int outerRingColor1 = Color.argb(0xff, 0xDD, 0xDD, 0xDD);
-	private int outerRingColor2 = Color.DKGRAY;
-	
-	private int bottomColor = Color.WHITE;
+	private int bottomColor = Color.parseColor("#830000");
 
+	private static final float OUTER_RING_WIDTH = MAX * 0.03f;
+	private int outerRingColor1 = Color.LTGRAY;
+	private int outerRingColor2 = Util.lightenColor(outerRingColor1, 0.5f);;
+
+
+	static final float DIRECTION_RING_RADIUS = MAX * 0.60f;
+	static final float DIRECTION_CIRCLE_AREA_RADIUS = MAX * 0.20f;
+	private int directionCircleAreaColor = Color.LTGRAY;
+	int directionTextColor = Color.WHITE;
+	static final float DIRECTION_TEXT_SIZE = MAX * 0.25f;
+
+
+
+//----------
+	
+	
 	static final float DEGREES_RADIUS = MAX * 0.75f;
 	static final float DEGREES_TEXT_SIZE = MAX * 0.14f;
 	int degressTextColor = Color.BLACK;
+	
+
+	
 
 	static final float MIDDLE_RING_RADIUS = MAX * 0.73f;
 	private static final float MIDDLE_RING_WIDTH = MAX * 0.007f;
@@ -48,10 +64,8 @@ public class NicolasRoseDrawing extends RoseDrawing {
 	private static final float INNER_RING_MARKER_WIDTH = INNER_RING_WIDTH * 1.2f;
 	int innerRingColor = Color.BLACK;
 
-	static final float DIRECTION_TEXT_SIZE = MAX * 0.1f;
 	int directionNorthTextColor = Color.RED;
-	int directionTextColor = Color.GRAY;
-
+	
 	Context context;
 
 	public NicolasRoseDrawing(Context c) {
@@ -65,7 +79,7 @@ public class NicolasRoseDrawing extends RoseDrawing {
 		int red = 2*Color.red(outerRingColor1)/3;
 		int green = 2*Color.green(outerRingColor1)/3;
 		int blue = 2*Color.blue(outerRingColor1)/3;
-		outerRingColor2 = Color.rgb(red, green, blue);
+		outerRingColor2 = Util.lightenColor(outerRingColor1, 0.7f);
 
 		middleRingColor = getColorPreference(searchByName(MIDDLE_RING_NAME));
 
@@ -79,7 +93,7 @@ public class NicolasRoseDrawing extends RoseDrawing {
 
 	@Override
 	public Bitmap getDrawing(int width, int height) {
-		loadPrefColors();
+		//loadPrefColors();
 		
 		int minpx = Math.min(width, height);
 
@@ -96,23 +110,35 @@ public class NicolasRoseDrawing extends RoseDrawing {
 		paint.setColor(bottomColor);
 		paint.setStyle(Paint.Style.FILL);
 		c.drawCircle(0, 0, OUTER_RING_RADIUS, paint);
+
 		
 		// The rest are lines
 		paint.setStyle(Paint.Style.STROKE);
-
 		
 		// outer ring
-		Shader shader = new LinearGradient(-OUTER_RING_RADIUS, 0, OUTER_RING_RADIUS, 0, outerRingColor1, outerRingColor2,
+		Shader shader = new LinearGradient(-OUTER_RING_RADIUS, -OUTER_RING_RADIUS, OUTER_RING_RADIUS, OUTER_RING_RADIUS, outerRingColor1, outerRingColor2,
 				Shader.TileMode.CLAMP);
 		paint.setShader(shader);
 		paint.setStrokeWidth(OUTER_RING_WIDTH);
 		c.drawCircle(0, 0, OUTER_RING_RADIUS, paint);
+		paint.setShader(null);
 
+		// orientation labels include circle areas around
+		String orientationLabels[] = context.getResources().getStringArray(R.array.orientations);
+		drawOrientation(paint, c, orientationLabels[0 * 4], 0, -DIRECTION_RING_RADIUS);
+		drawOrientation(paint, c, orientationLabels[1 * 4], DIRECTION_RING_RADIUS,0);
+		drawOrientation(paint, c, orientationLabels[2 * 4], 0, DIRECTION_RING_RADIUS);
+		drawOrientation(paint, c, orientationLabels[3 * 4], -DIRECTION_RING_RADIUS,0);
+		
+		
+		
+/*
+		
 		shader = new LinearGradient(-OUTER_RING_RADIUS, 0, OUTER_RING_RADIUS, 0, outerRingColor2, outerRingColor1,
 				Shader.TileMode.CLAMP);
 		paint.setShader(shader);
 		c.drawCircle(0, 0, OUTER_RING_RADIUS - OUTER_RING_WIDTH, paint);
-		paint.setShader(null);
+		
 
 		// middle ring
 		paint.setColor(middleRingColor);
@@ -149,9 +175,7 @@ public class NicolasRoseDrawing extends RoseDrawing {
 		paint.setTextAlign(Paint.Align.CENTER);
 		// paint.setAntiAlias(false);
 
-		/*
-		 * TODO 0° to strings.xml
-		 */
+
 		c.drawText("0°", 0 + DEGREES_TEXT_SIZE / 5, -DEGREES_RADIUS - DEGREES_TEXT_SIZE * 0.2f, paint);
 		c.drawText("90°", DEGREES_RADIUS, DEGREES_TEXT_SIZE / 3, paint);
 		c.drawText("180°", 0 + DEGREES_TEXT_SIZE / 5, DEGREES_RADIUS + DEGREES_TEXT_SIZE * 0.8f, paint);
@@ -168,8 +192,29 @@ public class NicolasRoseDrawing extends RoseDrawing {
 		c.drawText(orientationLabels[3 * 4], -INNER_RING_RADIUS - DIRECTION_TEXT_SIZE / 4, 0 + DIRECTION_TEXT_SIZE / 3, paint);
 
 		c.drawText("Nicolas", -MIDDLE_RING_RADIUS/2, -MIDDLE_RING_RADIUS/2, paint);
-		
+*/		
 		return (bm);
+	}
+
+	private void drawOrientation(Paint paint, Canvas c, String orientationLabel, float x, float y) {
+		// circle area
+		float diameter = DIRECTION_CIRCLE_AREA_RADIUS*2.0f;
+        RectF rectCircle = new RectF(0,0,diameter,diameter);
+        rectCircle.offset(x-DIRECTION_CIRCLE_AREA_RADIUS, y-DIRECTION_CIRCLE_AREA_RADIUS);
+		paint.setColor(directionCircleAreaColor);
+		paint.setStyle(Paint.Style.FILL);
+	    c.drawOval(rectCircle, paint);	
+
+	    // text measure
+		paint.setTextSize(DIRECTION_TEXT_SIZE);
+		paint.setTypeface(Typeface.create(Typeface.DEFAULT_BOLD, Typeface.BOLD));
+		paint.setColor(directionTextColor);
+		Rect    bounds = new Rect();
+        paint.getTextBounds(orientationLabel, 0, orientationLabel.length(), bounds);
+        
+        // draw text
+        RectF boundsF = new RectF(bounds);
+		c.drawText(orientationLabel, x-boundsF.left-boundsF.width()/2.0f, y-boundsF.bottom+boundsF.height()/2.0f, paint);
 	}
 
 	// insert in strings.xml

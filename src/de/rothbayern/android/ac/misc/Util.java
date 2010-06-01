@@ -21,6 +21,7 @@ import java.util.regex.*;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.text.util.Linkify;
 import android.widget.TextView;
 
@@ -76,4 +77,15 @@ public class Util {
 		 });
 	}
 
+	public static int lightenColor(int color,float factor){
+		float r = Color.red(color)*factor;
+		float g = Color.green(color)*factor;
+		float b = Color.blue(color)*factor;
+		int ir = Math.min(255,(int)r);
+		int ig = Math.min(255,(int)g);
+		int ib = Math.min(255,(int)b);
+		int ia = Color.alpha(color);
+		return(Color.argb(ia, ir, ig, ib));
+	}
+	
 }
