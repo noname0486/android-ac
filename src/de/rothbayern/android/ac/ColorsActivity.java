@@ -15,9 +15,7 @@
  *  if not, see <http://www.gnu.org/licenses/>.
  */
 
-
 package de.rothbayern.android.ac;
-
 
 import android.app.*;
 import android.content.*;
@@ -31,23 +29,26 @@ import de.rothbayern.android.ac.drawings.*;
 import de.rothbayern.android.ac.keithwiley.*;
 import de.rothbayern.android.ac.pref.CompassPreferences;
 
-public class ColorsActivity extends Activity  {
+public class ColorsActivity extends Activity {
 
 	private static final int MSG_INVALIDATE_COMPASS = 100;
 	private static final int MSG_DELAY_START_COLOR_CHOOSE = 101;
-	
-	Handler myHandler = new Handler(){
+
+	Handler myHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-			switch(msg.what){
-				case MSG_INVALIDATE_COMPASS:{
+			switch (msg.what) {
+				case MSG_INVALIDATE_COMPASS: {
 					viewCompass.invalidate();
 					break;
 				}
 				case MSG_DELAY_START_COLOR_CHOOSE: {
-					try {Thread.sleep(750);} catch (InterruptedException e) {}
-					if(dlgColorCoose!=null){
-					   dlgColorCoose.show();
+					try {
+						Thread.sleep(750);
+					} catch (InterruptedException e) {
+					}
+					if (dlgColorCoose != null) {
+						dlgColorCoose.show();
 					}
 
 					break;
@@ -55,116 +56,124 @@ public class ColorsActivity extends Activity  {
 			}
 		}
 	};
-	
+
 	public ColorsActivity() {
-//		if(Config.LOGD){
-//			Log.d("construct","ColorsActivity");
-//		}
+		// if(Config.LOGD){
+		// Log.d("construct","ColorsActivity");
+		// }
 	}
 
 	// Controls
 	private ColorChooseCompassView viewCompass;
-	
-	private int drawingKey=0;
-	
+
+	private int drawingKey = 0;
+
 	private CompassDrawing drawing;
 
-	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedState) {
 		super.onCreate(savedState);
+		initView();
+
+	}
+
+	private void initView() {
 		Intent intent = getIntent();
 		drawingKey = intent.getIntExtra("key", 0);
-		switch(drawingKey){
-			case CompassViewHelper.LAYOUT_STEFAN:{
-				drawing = new StefanBaseDrawing(ColorsActivity.this);
-				break;
-			}
-			case CompassViewHelper.LAYOUT_NEEDLE:{
-				drawing = new NeedleBaseDrawing(ColorsActivity.this);
-				break;
-			}
+		switch (drawingKey) {
 			case CompassViewHelper.LAYOUT_ROBA:
-										default:{
-				drawing = new RobABaseDrawing(ColorsActivity.this);
+			default: {
+				drawing = new RobARoseDrawing(ColorsActivity.this);
 				break;
 			}
+			case CompassViewHelper.LAYOUT_NEEDLE: {
+				drawing = new RobANeedleDrawing(ColorsActivity.this);
+				break;
+			}
+			case CompassViewHelper.LAYOUT_STEFAN: {
+				drawing = new StefanRoseDrawing(ColorsActivity.this);
+				break;
+			}
+			case CompassViewHelper.LAYOUT_NICOLAS:
+			{
+				drawing = new NicolasRoseDrawing(ColorsActivity.this);
+				break;
+			}
+			case CompassViewHelper.LAYOUT_NICOLAS_NEEDLE: {
+				drawing = new NicolasNeedleDrawing(ColorsActivity.this);
+				break;
+			}
+
 		}
 		setContentView(R.layout.color_choose);
 		viewCompass = (ColorChooseCompassView) findViewById(R.id.viewWorld);
-	    viewCompass.setCompassLayout(drawingKey,drawing);
-	    if(drawingKey == CompassViewHelper.LAYOUT_ROBA){
-	    	viewCompass.setDirection(30);
-	    }
+		viewCompass.setCompassLayout(drawingKey, drawing);
+		if (drawingKey == CompassViewHelper.LAYOUT_ROBA || drawingKey == CompassViewHelper.LAYOUT_NICOLAS) {
+			viewCompass.setDirection(ACActivity.STD_ANGLE_START);
+		}
 		viewCompass.setOnComponentSelectedListener(onComponentSelectedListener);
-		
+
 		TextView lblHint = (TextView) findViewById(R.id.lbl_hint_tap_colors);
 		CompassPreferences prefs = CompassPreferences.getPreferences();
 		int bgColor = prefs.getInt(prefs.PREFS_COMPASS_BACKGROUNDCOLOR_KEY);
 		float hsv[] = new float[3];
 		Color.colorToHSV(bgColor, hsv);
-		if(hsv[2]<0.35f){
+		if (hsv[2] < 0.35f) {
 			lblHint.setTextColor(Color.WHITE);
-		}
-		else {
+		} else {
 			lblHint.setTextColor(Color.BLACK);
 		}
-	
-
-		
 	}
-	
 
 	private DialogListener mOcl = new DialogListener();
+
 	private class DialogListener implements DialogInterface.OnClickListener, DialogInterface.OnCancelListener {
 
-	
 		public void onClick(DialogInterface dialog, int which) {
-			
+
 			if (which == DialogInterface.BUTTON_POSITIVE) {
 				drawing.setColorPreference(drawingComponent, choiceColor);
 			}
-			if(which == DialogInterface.BUTTON_NEGATIVE || which == DialogInterface.BUTTON_POSITIVE){
+			if (which == DialogInterface.BUTTON_NEGATIVE || which == DialogInterface.BUTTON_POSITIVE) {
 				cleanDialog();
+			} else {
+				// Log.w("shouldn't be here", this.getClass().toString());
 			}
-			else {
-//				Log.w("shouldn't be here", this.getClass().toString());
-			}
-			
+
 		}
 
 		public void onCancel(DialogInterface dialog) {
 			cleanDialog();
 		}
 
-
 		private void cleanDialog() {
-			drawingComponent = null;
+			initView();
+/*			drawingComponent = null;
 			viewCompass.setSelectedComponent(null);
 			viewCompass.loadPrefs();
+*/
 			Message m = Message.obtain(myHandler, MSG_INVALIDATE_COMPASS);
 			m.sendToTarget();
 			dlgColorCoose = null;
 		}
 
 	};
-	
-	private int choiceColor = 0;
-	OnColorChangedListener onColorChangedListener = new OnColorChangedListener (){
 
+	private int choiceColor = 0;
+	OnColorChangedListener onColorChangedListener = new OnColorChangedListener() {
 
 		public void colorChanged(int color) {
-			ColorsActivity.this.choiceColor=color;
+			ColorsActivity.this.choiceColor = color;
 		}
-		
+
 	};
 
 	private DrawingComponent drawingComponent = null;
-	OnComponentSelectedListener onComponentSelectedListener = new OnComponentSelectedListener(){
+	OnComponentSelectedListener onComponentSelectedListener = new OnComponentSelectedListener() {
 
 		public void onSelected(View f, DrawingComponent comp) {
-			
+
 			if (dlgColorCoose == null) {
 				drawingComponent = comp;
 				AlertDialog.Builder builder = new AlertDialog.Builder(ColorsActivity.this);
@@ -172,7 +181,8 @@ public class ColorsActivity extends Activity  {
 				builder.setPositiveButton(android.R.string.ok, mOcl);
 				builder.setNegativeButton(android.R.string.cancel, mOcl);
 				int startColor = drawing.getColorPreference(drawingComponent);
-				ColorPickerView cpView = new ColorPickerView(ColorsActivity.this, onColorChangedListener, 90*f.getWidth()/100, 90*f.getHeight()/100, startColor);
+				ColorPickerView cpView = new ColorPickerView(ColorsActivity.this, onColorChangedListener, 90 * f.getWidth() / 100,
+						90 * f.getHeight() / 100, startColor);
 				builder.setView(cpView);
 				builder.setOnCancelListener(mOcl);
 				dlgColorCoose = builder.create();
@@ -180,14 +190,9 @@ public class ColorsActivity extends Activity  {
 				m.sendToTarget();
 			}
 		}
-		
+
 	};
 
-	
 	AlertDialog dlgColorCoose;
-	
-	
-
-
 
 }

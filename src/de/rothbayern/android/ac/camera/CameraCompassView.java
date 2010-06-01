@@ -167,8 +167,8 @@ public class CameraCompassView extends RelativeLayout implements IAnimCompass {
 	
 
 	@Override
-	public void loadPrefs() {
-		// Nothing to do yet
+	public void setCompassLayoutFromPrefs() {
+		
 
 	}
 

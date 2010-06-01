@@ -20,21 +20,28 @@ package de.rothbayern.android.ac;
 import android.content.Context;
 import android.graphics.*;
 import de.rothbayern.android.ac.drawings.*;
+import de.rothbayern.android.ac.misc.LogUtil;
 import de.rothbayern.android.ac.pref.CompassPreferences;
 
 public class CompassViewHelper {
 
+	public static final int LAYOUT_FROM_PREFS = -1;
 	public static final int LAYOUT_ROBA = 0;
 	public static final int LAYOUT_STEFAN = 1;
-	public static final int LAYOUT_CAMERA = 2;
+	public static final int LAYOUT_NICOLAS = 2;
 	public static final int LAYOUT_CALIBRATION = -100;
 	public static final int LAYOUT_NEEDLE = -101;
+	public static final int LAYOUT_NICOLAS_NEEDLE = -102;
+	
 	private Paint mPaint = new Paint();
 	private Paint mPaintBm = new Paint();
 
 	private Bitmap bmNeedle;
-	private Bitmap bmStefanRose;
-	private Bitmap bmRobaRose;
+    private Bitmap bmRose;
+	
+	
+    //private Bitmap bmStefanRose;
+	//private Bitmap bmRobaRose;
 	private int bgColor = Color.WHITE;
 	
 	Context context;
@@ -55,29 +62,27 @@ public class CompassViewHelper {
 		mPaint.setStrokeWidth(1);
 		mPaint.setTextScaleX(3);
 		mPaint.setTextAlign(Paint.Align.CENTER);
-		loadPrefs();
+		setCompassLayout(LAYOUT_FROM_PREFS);
 
 	}
 	
-	
-	public void loadPrefs() {
-		int minWidth = (int)Math.min(middleX*2, middleY*2);
-		bmNeedle = new NeedleBaseDrawing(context).getDrawing(minWidth, minWidth);
-		bmRobaRose = new RobABaseDrawing(context).getDrawing(minWidth, minWidth);
-		bmStefanRose = new StefanBaseDrawing(context).getDrawing(minWidth, minWidth);
+/* TODO delete	
+	private void loadPrefs() {
+		
 		CompassPreferences prefs = CompassPreferences.getPreferences();
 		
 		int bgColor = prefs.getInt(prefs.PREFS_COMPASS_BACKGROUNDCOLOR_KEY);
 		setBgColor(bgColor);
 
-		int rose = prefs.getInt(prefs.PREFS_COMPASS_LAYOUT_KEY);
-		setCompassLayout(rose);
-
+		// rebuild compass layout
+		setCompassLayout(getCompassLayout());
+		
 	}
+*/	
+
 	public void onSizeChanged(int w, int h, int oldw, int oldh) {
 		middleX = w / 2;
 		middleY = h / 2;
-		loadPrefs();
 	}
 	
 	public void setDirection(float direction) {
@@ -105,13 +110,11 @@ public class CompassViewHelper {
 	protected void onDraw(Canvas canvas, float direction) {
 		switch (compassLayout) {
 			case CompassViewHelper.LAYOUT_ROBA:
-				drawRoba(canvas, direction);
+			case CompassViewHelper.LAYOUT_NICOLAS:
+				drawRoseWithNeedle(canvas, direction);
 				break;
 			case CompassViewHelper.LAYOUT_STEFAN:
-				drawStefan(canvas, direction);
-				break;
-			case CompassViewHelper.LAYOUT_CAMERA:
-				drawCamera(canvas, direction);
+				drawRoseWithoutNeedle(canvas, direction);
 				break;
 			case CompassViewHelper.LAYOUT_CALIBRATION:
 				drawCalibration(canvas);
@@ -119,8 +122,11 @@ public class CompassViewHelper {
 			case CompassViewHelper.LAYOUT_NEEDLE:
 				drawNeedle(canvas);
 				break;
+			case CompassViewHelper.LAYOUT_NICOLAS_NEEDLE:
+				drawNeedle(canvas);
+				break;
 			default:
-				drawRoba(canvas, direction);
+				drawRoseWithNeedle(canvas, direction);
 
 		}
 		
@@ -140,91 +146,36 @@ public class CompassViewHelper {
 	 * @param canvas
 	 * @param direction
 	 */
-	private void drawStefan(Canvas canvas, float direction) {
+	private void drawRoseWithoutNeedle(Canvas canvas, float direction) {
 		canvas.translate(middleX, middleY);
 		canvas.drawColor(bgColor);
-		float x = -bmStefanRose.getWidth() / 2;
-		float y = -bmStefanRose.getHeight() / 2;
+		float x = -bmRose.getWidth() / 2;
+		float y = -bmRose.getHeight() / 2;
 		canvas.rotate(-direction);
-		canvas.drawBitmap(bmStefanRose, x, y, mPaintBm);
+		canvas.drawBitmap(bmRose, x, y, mPaintBm);
 		canvas.rotate(direction);
 	}
 
-	/**
-	 * Draw compass with the help of SVG of Stefan http://www.xpofpc.de/
-	 * 
-	 * @param canvas
-	 * @param direction
-	 */
-	private void drawCamera(Canvas canvas, float direction) {
-		
-		// TODO Auto-generated method stub
-
-		int height = canvas.getHeight();
-		int width = canvas.getWidth();
-		canvas.drawColor(0);
-		final int VIEW_ANGEL = 56;
-		float pixelPerDegree = width/VIEW_ANGEL;
-
-		int h2 = height/2;
-		int lineHeight2 = height/20;
-		
-		int startDirection = (int)direction-VIEW_ANGEL/2;
-		int endDirection = (int)direction+VIEW_ANGEL/2;
-		
-		
-		
-		
-		Paint paint = new Paint();
-		paint.setTextSize(30);
-		paint.setStyle(Paint.Style.FILL);
-		paint.setStrokeWidth(3);
-		paint.setColor(Color.RED);
-		
-		//canvas.drawLine(0,0,200,200, paint);
-		
-		for(int i=startDirection;i<endDirection;i++){
-			if(i%10==0){
-				int diff = i -startDirection;
-				int pos = diff*width/VIEW_ANGEL;
-			    canvas.drawLine(pos, h2-lineHeight2, pos, h2+lineHeight2, paint);
-			}
-		}
-		
-		
-		System.out.println("onDraw: " + width + "x" + height);
-		canvas.drawText("tick: " + (int)direction, width * 1 / 3, height / 2, paint);
-		
-		//super.onDraw(canvas);
-		/*
-		canvas.translate(middleX, middleY);
-		canvas.drawColor(bgColor);
-		float x = -bmStefanRose.getWidth() / 2;
-		float y = -bmStefanRose.getHeight() / 2;
-		canvas.rotate(-direction);
-		canvas.drawBitmap(bmStefanRose, x, y, mPaintBm);
-		canvas.rotate(direction);
-		*/
-	}
-
+	
 	/**
 	 * Draw compass with the help of SVG of RobA http://ffaat.pointclark.net
 	 * 
 	 * @param canvas
 	 * @param direction
 	 */
-	private void drawRoba(Canvas canvas, float direction) {
+	private void drawRoseWithNeedle(Canvas canvas, float direction) {
 		canvas.translate(middleX, middleY);
 		canvas.drawColor(bgColor);
-		float x = -bmRobaRose.getWidth() / 2;
-		float y = -bmRobaRose.getHeight() / 2;
-		canvas.drawBitmap(bmRobaRose, x, y, mPaintBm);
+		float x = -bmRose.getWidth() / 2;
+		float y = -bmRose.getHeight() / 2;
+		canvas.drawBitmap(bmRose, x, y, mPaintBm);
 		canvas.rotate(-direction);
 		x = -bmNeedle.getWidth() / 2;
 		y = -bmNeedle.getHeight() / 2;
 		canvas.drawBitmap(bmNeedle, x, y, mPaintBm);
 		canvas.rotate(direction);
 	}
+
 
 	/**
 	 * Only draw basic for calibration.
@@ -254,8 +205,50 @@ public class CompassViewHelper {
 	}
 
 	public void setCompassLayout(int compassLayout) {
-		this.compassLayout = compassLayout;
 
+		// get background color
+        CompassPreferences prefs = CompassPreferences.getPreferences();
+		int bgColor = prefs.getInt(prefs.PREFS_COMPASS_BACKGROUNDCOLOR_KEY);
+		setBgColor(bgColor);
+
+		// get layout from prefs
+		if(compassLayout == LAYOUT_FROM_PREFS){
+			compassLayout = prefs.getInt(prefs.PREFS_COMPASS_LAYOUT_KEY);
+		}
+		
+		this.compassLayout = compassLayout;
+		int minWidth = (int)Math.min(middleX*2, middleY*2);
+		
+		bmNeedle = new RobANeedleDrawing(context).getDrawing(minWidth, minWidth);
+		switch (compassLayout) {
+			case CompassViewHelper.LAYOUT_ROBA:
+				bmRose = new RobARoseDrawing(context).getDrawing(minWidth, minWidth);
+				bmNeedle = new RobANeedleDrawing(context).getDrawing(minWidth, minWidth);
+				break;
+			case CompassViewHelper.LAYOUT_NICOLAS:
+				bmRose = new NicolasRoseDrawing(context).getDrawing(minWidth, minWidth);
+				bmNeedle = new NicolasNeedleDrawing(context).getDrawing(minWidth, minWidth);
+				break;
+			case CompassViewHelper.LAYOUT_STEFAN:
+				bmRose = new StefanRoseDrawing(context).getDrawing(minWidth, minWidth);
+				// No needle needed
+				break;
+			case CompassViewHelper.LAYOUT_CALIBRATION:
+			case CompassViewHelper.LAYOUT_NEEDLE:
+				bmNeedle = new RobANeedleDrawing(context).getDrawing(minWidth, minWidth);
+				// no rose => noting to do
+				break;
+			case CompassViewHelper.LAYOUT_NICOLAS_NEEDLE:
+				bmNeedle = new NicolasNeedleDrawing(context).getDrawing(minWidth, minWidth);
+				// no rose => noting to do
+				break;
+			default:
+				bmRose = new RobARoseDrawing(context).getDrawing(minWidth, minWidth);
+				bmNeedle = new RobANeedleDrawing(context).getDrawing(minWidth, minWidth);
+				LogUtil.w(LogUtil.TAG, "Rose not known");
+		}
+		
+		
 	}
 
 	public int getCompassLayout() {

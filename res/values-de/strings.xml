@@ -70,12 +70,11 @@
      <!-- layout: choose a rose --> 
     <string name="prefs_layout_mnu_title">Grundmotiv</string>
     <string name="prefs_layout_summary">Wähle ein Grundmotiv, das du noch variieren kannst.</string>
-    <string name="prefs_layout_default_value">0</string>
     <string name="prefs_layout_dialog_title">Wähle ein Motiv.</string>
     <string-array name="prefs_layout_entries">
         <item>Motiv von Rob A</item>
         <item>Motiv von Stefan</item>
-        <item>Kamera</item>
+        <item>Motiv von Nicolas</item>
     </string-array>   
 
 	<!-- speed  --> 
@@ -88,7 +87,6 @@
         <item>direkt</item>
         <item>pendeln</item>
     </string-array>    
-     <string name="prefs_speed_default_value">1</string>
     <string name="prefs_speed_dialog_title">Wähle eine Geschwindigkeit</string>
 
 	<!-- Colors -->
@@ -96,17 +94,26 @@
     <string name="prefs_colors_summary">Farben für verschiedene Teile setzen.</string>
     <string name="colors_activity_help">Drücke auf die Markierungen.</string>
 	
-	<!-- RobAs Colors -->
-    <string name="prefs_robas_color_title">RobA</string>
-    <string name="prefs_robas_color_summary">Wähle die Farben für das Motiv von RobA.</string>
+	<!-- RobA's Colors -->
+    <string name="prefs_color_robas_title">RobA</string>
+    <string name="prefs_color_robas_summary">Wähle die Farben für den Kompass von RobA.</string>
+    <string name="prefs_color_robas_rose_title">Rose</string>
+    <string name="prefs_color_robas_rose_summary">Wähle die Farben für die Rose von RobA.</string>
+    <string name="prefs_color_robas_needle_title">Nadel</string>
+    <string name="prefs_color_robas_needle_summary">Wähle die Farben für die Nadel von RobA.</string>
 
 	<!-- Stefans Colors -->
     <string name="prefs_stefans_color_title">Stefan</string>
     <string name="prefs_stefans_color_summary">Wähle die Farben für das Motiv von Stefan.</string>
 
-	<!-- Colors of Needle -->
-    <string name="prefs_needle_color_title">Nadel</string>
-    <string name="prefs_needle_color_summary">Wähle die Farben für die Nadel.</string>
+	<!-- Nicolas's Colors -->
+    <string name="prefs_color_nicolas_title">Nicolas</string>
+    <string name="prefs_color_nicolas_summary">Wähle die Farben für den Kompass von Nicolas.</string>
+    <string name="prefs_color_nicolas_rose_title">Rose</string>
+    <string name="prefs_color_nicolas_rose_summary">Wähle die Farben für die Rose von Nicolas.</string>
+    <string name="prefs_color_nicolas_needle_title">Needle</string>
+    <string name="prefs_color_nicolas_needle_summary">Wähle die Farben für die Nadel von Nicolas.</string>
+
 
 	<!-- background color --> 
     <string name="prefs_backgroundcolor_mnu_title">Hintergrundfarbe</string>

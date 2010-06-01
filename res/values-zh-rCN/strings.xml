@@ -68,11 +68,11 @@
          <!-- layout: choose a rose -->  
      <string name="prefs_layout_mnu_title">布局</string> 
      <string name="prefs_layout_summary">选择一个基本布局，之后可以更改。</string> 
-     <string name="prefs_layout_default_value">0</string> 
      <string name="prefs_layout_dialog_title">选择一个罗盘</string> 
      <string-array name="prefs_layout_entries"> 
          <item>RobA的罗盘</item> 
          <item>Stefan的罗盘</item> 
+         <item>Nicolas's rose</item>
      </string-array>     
   
   
@@ -86,7 +86,6 @@
          <item>即时</item> 
          <item>回转</item> 
      </string-array>     
-      <string name="prefs_speed_default_value">1</string> 
      <string name="prefs_speed_dialog_title">选择一个速度</string> 
    
          <!-- Colors --> 
@@ -94,17 +93,25 @@
      <string name="prefs_colors_summary">设定不同的颜色。</string> 
          <string name="colors_activity_help">点击被标记的位置即可更改颜色。</string> 
           
-         <!-- RobAs Colors --> 
-     <string name="prefs_robas_color_title">RobA</string> 
-     <string name="prefs_robas_color_summary">为RobA的罗盘刻度表设置颜色。</string> 
+	 <!-- RobAs Colors -->
+     <string name="prefs_color_robas_title">RobA</string>
+     <string name="prefs_color_robas_summary">Set colors of RobA\'s compass.</string>
+     <string name="prefs_color_robas_rose_title">Rose</string>
+     <string name="prefs_color_robas_rose_summary">Set colors of RobA\'s compass rose.</string>
+     <string name="prefs_color_robas_needle_title">Needle</string>
+     <string name="prefs_color_robas_needle_summary">Set colors of RobA\'s compass needle.</string>
   
          <!-- Stefans Colors --> 
      <string name="prefs_stefans_color_title">Stefan</string> 
      <string name="prefs_stefans_color_summary">为Stefan的罗盘刻度表设置颜色。</string> 
   
-         <!-- Colors of Needle --> 
-     <string name="prefs_needle_color_title">指针</string> 
-     <string name="prefs_needle_color_summary">设置指针的颜色。</string> 
+         <!-- Nicolas's Colors -->
+     <string name="prefs_color_nicolas_title">Nicolas</string>
+     <string name="prefs_color_nicolas_summary">Set colors of Nicolas\'s compass.</string>
+     <string name="prefs_color_nicolas_rose_title">Rose</string>
+     <string name="prefs_color_nicolas_rose_summary">Set colors of Nicolas\'s compass rose.</string>
+     <string name="prefs_color_nicolas_needle_title">Needle</string>
+     <string name="prefs_color_nicolas_needle_summary">Set colors of Nicolas\'s compass needle.</string>
   
          <!-- background color -->  
      <string name="prefs_backgroundcolor_mnu_title">背景色</string> 

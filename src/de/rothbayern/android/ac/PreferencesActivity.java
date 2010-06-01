@@ -30,36 +30,51 @@ public class PreferencesActivity extends PreferenceActivity {
           super.onCreate(savedInstanceState);
           addPreferencesFromResource(R.xml.preferences);
           setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT); // for portrait 
-    
- 
      }
      
       
      @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
     	Resources resources = this.getResources();
-   	 final String ROBAS_KEY = resources.getString(R.string.prefs_robas_color_key);
+   	 final String ROBAS_ROSE_KEY = resources.getString(R.string.prefs_color_robas_rose_key);
+	 final String ROBAS_NEEDLE_KEY = resources.getString(R.string.prefs_color_robas_needle_key);
 	 final String STEFAN_KEY = resources.getString(R.string.prefs_stefans_color_key);
-	 final String NEEDLE_KEY = resources.getString(R.string.prefs_needle_color_key);
-    	  
-	 if(preference.getKey().equals(ROBAS_KEY)){
+   	 final String NICOLAS_ROSE_KEY = resources.getString(R.string.prefs_color_nicolas_rose_key);
+	 final String NICOLAS_NEEDLE_KEY = resources.getString(R.string.prefs_color_nicolas_needle_key);
+
+	 
+	 
+	 if(preference.getKey().equals(ROBAS_ROSE_KEY)){
 			Intent intent = new Intent(this, ColorsActivity.class);
 			intent.putExtra("key", CompassViewHelper.LAYOUT_ROBA);
 			startActivityForResult(intent, COLORS_ACTIVITY_REQUEST);
 			return(true);
  	 }
+	 if(preference.getKey().equals(ROBAS_NEEDLE_KEY)){
+			Intent intent = new Intent(this, ColorsActivity.class);
+			intent.putExtra("key", CompassViewHelper.LAYOUT_NEEDLE);
+			startActivityForResult(intent, COLORS_ACTIVITY_REQUEST);
+			return(true);
+	 }
 	 if(preference.getKey().equals(STEFAN_KEY)){
 			Intent intent = new Intent(this, ColorsActivity.class);
 			intent.putExtra("key", CompassViewHelper.LAYOUT_STEFAN);
 			startActivityForResult(intent, COLORS_ACTIVITY_REQUEST);
 			return(true);
  	 }
-	 if(preference.getKey().equals(NEEDLE_KEY)){
+	 if(preference.getKey().equals(NICOLAS_ROSE_KEY)){
 			Intent intent = new Intent(this, ColorsActivity.class);
-			intent.putExtra("key", CompassViewHelper.LAYOUT_NEEDLE);
+			intent.putExtra("key", CompassViewHelper.LAYOUT_NICOLAS);
 			startActivityForResult(intent, COLORS_ACTIVITY_REQUEST);
 			return(true);
- 	 }
+	 }
+	 if(preference.getKey().equals(NICOLAS_NEEDLE_KEY)){
+			Intent intent = new Intent(this, ColorsActivity.class);
+			intent.putExtra("key", CompassViewHelper.LAYOUT_NICOLAS_NEEDLE);
+			startActivityForResult(intent, COLORS_ACTIVITY_REQUEST);
+			return(true);
+	 }
+	 
     	return super.onPreferenceTreeClick(preferenceScreen, preference);
     }
      

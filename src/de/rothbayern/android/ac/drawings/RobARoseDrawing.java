@@ -24,7 +24,7 @@ import android.util.FloatMath;
 import de.rothbayern.android.ac.R;
 import de.rothbayern.android.ac.geometry.*;
 
-public class RobABaseDrawing extends CompassDrawing {
+public class RobARoseDrawing extends RoseDrawing {
 
 	static final float OUTER_RING_RADIUS = MAX * 0.96f;
 	private static final float OUTER_RING_WIDTH = MAX * 0.03f;
@@ -54,7 +54,7 @@ public class RobABaseDrawing extends CompassDrawing {
 
 	Context context;
 
-	public RobABaseDrawing(Context c) {
+	public RobARoseDrawing(Context c) {
 		context = c;
 	}
 

@@ -69,11 +69,11 @@
    	<!-- layout: choose a rose --> 
     <string name="prefs_layout_mnu_title">Layout</string>
     <string name="prefs_layout_summary">Choose a basic layout you can vary later.</string>
-    <string name="prefs_layout_default_value">0</string>
     <string name="prefs_layout_dialog_title">Pick a Rose</string>
     <string-array name="prefs_layout_entries">
-        <item>RobA's rose</item>
-        <item>Stefan's rose</item>
+        <item>RobA\'s rose</item>
+        <item>Stefan\'s rose</item>
+        <item>Nicolas\'s rose</item>
     </string-array>    
 
 
@@ -87,7 +87,7 @@
         <item>direct</item>
         <item>swing</item>
     </string-array>    
-     <string name="prefs_speed_default_value">1</string>
+    
     <string name="prefs_speed_dialog_title">Pick a Speed.</string>
  
 	<!-- Colors -->
@@ -95,17 +95,25 @@
     <string name="prefs_colors_summary">Set various colors.</string>
    	<string name="colors_activity_help">Tap on the markers to change colors.</string>
 	
-	<!-- RobAs Colors -->
-    <string name="prefs_robas_color_title">RobA</string>
-    <string name="prefs_robas_color_summary">Set colors of RobA's compass rose.</string>
+	<!-- RobA's Colors -->
+    <string name="prefs_color_robas_title">RobA</string>
+    <string name="prefs_color_robas_summary">Set colors of RobA\'s compass.</string>
+    <string name="prefs_color_robas_rose_title">Rose</string>
+    <string name="prefs_color_robas_rose_summary">Set colors of RobA\'s compass rose.</string>
+    <string name="prefs_color_robas_needle_title">Needle</string>
+    <string name="prefs_color_robas_needle_summary">Set colors of RobA\'s compass needle.</string>
 
 	<!-- Stefans Colors -->
     <string name="prefs_stefans_color_title">Stefan</string>
-    <string name="prefs_stefans_color_summary">Set colors of Stefan's compass rose.</string>
+    <string name="prefs_stefans_color_summary">Set colors of Stefan\'s compass rose.</string>
 
-	<!-- Colors of Needle -->
-    <string name="prefs_needle_color_title">Needle</string>
-    <string name="prefs_needle_color_summary">Set colors of the needle.</string>
+	<!-- Nicolas's Colors -->
+    <string name="prefs_color_nicolas_title">Nicolas</string>
+    <string name="prefs_color_nicolas_summary">Set colors of Nicolas\'s compass.</string>
+    <string name="prefs_color_nicolas_rose_title">Rose</string>
+    <string name="prefs_color_nicolas_rose_summary">Set colors of Nicolas\'s compass rose.</string>
+    <string name="prefs_color_nicolas_needle_title">Needle</string>
+    <string name="prefs_color_nicolas_needle_summary">Set colors of Nicolas\'s compass needle.</string>
 
 	<!-- background color --> 
     <string name="prefs_backgroundcolor_mnu_title">Background Color</string>
