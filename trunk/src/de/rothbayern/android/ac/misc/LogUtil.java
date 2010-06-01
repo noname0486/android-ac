@@ -25,6 +25,8 @@ import android.util.Log;
  */
 public class LogUtil {
 
+	public final static String TAG = "AnalogCompass";
+	
 	 public static void v(String tag, String msg) {
 		 if(Log.isLoggable(tag, Log.VERBOSE)){
 			 Log.v(tag, msg);

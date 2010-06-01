@@ -37,6 +37,8 @@ import de.rothbayern.android.ac.pref.CompassPreferences;
  */
 public class ACActivity extends Activity {
 
+	public static final float STD_ANGLE_START = 335.0f;
+
 	public ACActivity() {
 		super();
 
@@ -173,9 +175,9 @@ public class ACActivity extends Activity {
 			}
 			animThread = new SmoothDirectionProducer(compassView, this);
 			if (!animThread.isSensorOk()) {
-				fireShowNoHardwareCompass();
+				// fireShowNoHardwareCompass(); TODO ACTIVATE LATER
 			}
-			animThread.setSetPoint(335.0f); 
+			animThread.setSetPoint(STD_ANGLE_START); 
 			animThread.start();
 		}
 	}
@@ -194,7 +196,7 @@ public class ACActivity extends Activity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		compassView.loadPrefs();
+		compassView.setCompassLayoutFromPrefs();
 		startAnim();
 	}
 

@@ -23,24 +23,24 @@ import android.graphics.*;
 import de.rothbayern.android.ac.R;
 import de.rothbayern.android.ac.geometry.*;
 
-public class NeedleBaseDrawing extends CompassDrawing {
+public class NicolasNeedleDrawing extends NeedleDrawing {
 
 	private static final int NEEDLE_NORTH_COLOR = Color.RED;
-	private static final int NEEDLE_SOUTH_COLOR = Color.argb(0xff, 0xcc, 0xcc, 0xFF);
-	private static final int NEEDLE_BUTTON_COLOR = Color.YELLOW;
+	private static final int NEEDLE_SOUTH_COLOR = Color.BLACK;
+	private static final int NEEDLE_BUTTON_COLOR = Color.LTGRAY;
 	
 	private int needleNorthColor = NEEDLE_NORTH_COLOR;
 	private int needleSouthColor = NEEDLE_SOUTH_COLOR;
 	private int needleButtonColor = NEEDLE_BUTTON_COLOR;
 
 	private static final float TRIANGLE_LENGTH = MAX * 0.67f;
-	private static final float TRIANGLE_WIDTH = MAX * 0.04f;
+	private static final float TRIANGLE_WIDTH = MAX * 0.16f;
 
 	private static final float BUTTON_RADIUS = MAX * 0.06f;
 
 	private Context context = null;
 
-	public NeedleBaseDrawing(Context c) {
+	public NicolasNeedleDrawing(Context c) {
 		context = c;
 	}
 
@@ -128,7 +128,7 @@ public class NeedleBaseDrawing extends CompassDrawing {
 		return (components);
 	}
 
-	private final static String DRAWING_NAME = "Needle";
+	private final static String DRAWING_NAME = "NicolasNeedle";
 
 	@Override
 	public String getPrefNamePrefix() {

@@ -71,7 +71,7 @@ public class CalibrationActivity extends Activity {
 				.getDefaultSensor(Sensor.TYPE_ORIENTATION),
 				SensorManager.SENSOR_DELAY_GAME);
 		viewCompass.setDirection(0.0f);
-		viewCompass.loadPrefs();
+		// viewCompass.loadPrefs(); ??
 		viewCompass.invalidate();
 	}
 

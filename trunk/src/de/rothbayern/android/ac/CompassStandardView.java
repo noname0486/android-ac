@@ -43,11 +43,11 @@ public class CompassStandardView extends View{
 	private void init(){
 		helper.init(this.getContext());
 	}
-	
+/*	
 	public void loadPrefs(){
 		helper.loadPrefs();
 	}
-
+*/
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		super.onSizeChanged(w, h, oldw, oldh);

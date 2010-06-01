@@ -28,13 +28,15 @@
     <string name="prefs_version_key">compass.version</string>
     <string name="prefs_offset_key">compass.offset</string>
 
+    <string name="prefs_layout_default_value">0</string>
     <string name="prefs_layout_key">compass.layout</string>
-        <string-array name="prefs_layout_values">
+    <string-array name="prefs_layout_values">
         <item>0</item>
         <item>1</item>
-        <item>2</item>
+        <item>2</item>  
     </string-array>    
-    
+ 
+   <string name="prefs_speed_default_value">1</string>
    <string name="prefs_speed_key">compass.speed</string>
       <string-array name="prefs_speed_values">
         <item>0</item>
@@ -45,11 +47,19 @@
     </string-array>    
    
     <string name="prefs_colors_key">colors</string>
-    <string name="prefs_robas_color_key">colors.robas</string>
-    <string name="prefs_stefans_color_key">colors.stefan</string>
-    <string name="prefs_needle_color_key">colors.needle</string>
     <string name="prefs_backgroundcolor_key">compass.background</string>
     <string name="prefs_backgroundcolor_default_value">#FFFFFFFF</string>
+
+    <string name="prefs_color_robas_key">colors.robas</string>
+    <string name="prefs_color_robas_rose_key">colors.robas.rose</string>
+    <string name="prefs_color_robas_needle_key">colors.robas.needle</string>
+
+    <string name="prefs_stefans_color_key">colors.stefan</string>
+
+    <string name="prefs_color_nicolas_key">colors.nicolas</string>
+    <string name="prefs_color_nicolas_rose_key">colors.nicolas.rose</string>
+    <string name="prefs_color_nicolas_needle_key">colors.nicolas.needle</string>
+    
     
 
 

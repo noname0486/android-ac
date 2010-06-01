@@ -109,9 +109,8 @@ public class CompassSurfaceView extends SurfaceView implements SurfaceHolder.Cal
 	
 
 
-	public void loadPrefs() {
-		helper.loadPrefs();
-		
+	public void setCompassLayoutFromPrefs() {
+		helper.setCompassLayout(CompassViewHelper.LAYOUT_FROM_PREFS);
 	}
 
 	/* (non-Javadoc)
