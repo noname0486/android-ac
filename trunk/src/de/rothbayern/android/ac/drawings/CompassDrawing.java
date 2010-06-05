@@ -22,7 +22,7 @@ import android.graphics.Bitmap;
 import de.rothbayern.android.ac.pref.CompassPreferences;
 
 public abstract class CompassDrawing {
-	static final float MAX = 150;
+	static final float MAX = 256;
 	public abstract Bitmap getDrawing(int width, int height);
 	public void setColorPreference(DrawingComponent c, int color) {
 		CompassPreferences prefs = CompassPreferences.getPreferences();
