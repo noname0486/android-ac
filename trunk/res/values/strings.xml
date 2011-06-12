@@ -148,7 +148,7 @@
     <string name="greet_version_plus_format_token">Version: %s</string>
 
     <string name="changelog">CHANGELOG:</string>
-    <string name="whats_new">What's new</string>
+    <string name="whats_new">What\'s new</string>
     <string name="greet_set_speed">- set speed</string>
     <string name="greet_set_colors">- set colors</string>
 
@@ -160,7 +160,7 @@
     										I would be glad to get some feedback from you. 
     										To contact please open \"Menu/Info\". </string>
 
-    <string name="greet_ask_for_rate">Please don't forget to rate the application.</string>
+    <string name="greet_ask_for_rate">Please don\'t forget to rate the application.</string>
     <string name="greet_ask_for_rate_link_marker">rate</string>
     
     <string name="greet_hint_internal_compass">If the compass gives you faulty directions, please move your device around in all directions to reset it. A more detailed instruction can be found here.</string>
