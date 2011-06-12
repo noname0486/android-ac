@@ -72,7 +72,7 @@
      <string-array name="prefs_layout_entries"> 
          <item>RobA的羅盤</item> 
          <item>Stefan的羅盤</item> 
-         <item>Nicolas's rose</item>
+         <item>Nicolas\'s rose</item>
      </string-array>     
   
   
