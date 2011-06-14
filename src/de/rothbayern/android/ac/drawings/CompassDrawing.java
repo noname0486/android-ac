@@ -22,7 +22,7 @@ import android.graphics.Bitmap;
 import de.rothbayern.android.ac.pref.CompassPreferences;
 
 public abstract class CompassDrawing {
-	static final float MAX = 256;
+	public static final float MAX = 256;
 	public abstract Bitmap getDrawing(int width, int height);
 	public void setColorPreference(DrawingComponent c, int color) {
 		CompassPreferences prefs = CompassPreferences.getPreferences();
@@ -33,8 +33,8 @@ public abstract class CompassDrawing {
 	public int getColorPreference(DrawingComponent c) {
 		CompassPreferences prefs = CompassPreferences.getPreferences();
 		String prefName = toPrefName(c);
-		int prColor = prefs.getInt(prefName,-1);
-		if(prColor==-1){
+		int prColor = prefs.getInt(prefName,-2);
+		if(prColor==-2){
 			prColor = c.getDefaultColor();
 		}
 		return(prColor);

@@ -18,6 +18,7 @@
 package de.rothbayern.android.ac.geometry;
 
 import android.graphics.*;
+import android.util.Log;
 
 public class FRect implements Figure {
 
@@ -74,6 +75,9 @@ public class FRect implements Figure {
 
 
 	public void draw(Canvas c, Paint p) {
+		if(Log.isLoggable("draw", Log.INFO)){
+			Log.i("draw", "DrawCircle: "+this);
+		}
 		c.drawRect(left, top, left+width, top+height, p);
 	}
 

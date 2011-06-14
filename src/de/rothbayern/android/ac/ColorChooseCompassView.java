@@ -22,6 +22,7 @@ import android.graphics.*;
 import android.util.AttributeSet;
 import android.view.*;
 import de.rothbayern.android.ac.drawings.*;
+import de.rothbayern.android.ac.misc.CorrectMatrix;
 
 public class ColorChooseCompassView extends CompassStandardView {
 
@@ -29,7 +30,7 @@ public class ColorChooseCompassView extends CompassStandardView {
 	Paint paintSelected = null;
 	Paint paintNotSelected1 = null;
 	Paint paintNotSelected2 = null;
-	Matrix m = null;
+	CorrectMatrix m = null;
 
 	DrawingComponent selectedComponent = null;
 	public void setSelectedComponent(DrawingComponent selectedComponent) {
@@ -56,7 +57,7 @@ public class ColorChooseCompassView extends CompassStandardView {
 
 	
 	private void init() {
-		calcMatrix();
+		calcMatrix((int)CompassDrawing.MAX, (int)CompassDrawing.MAX);
 
 		paintSelected = new Paint();
 		paintSelected.setStyle(Paint.Style.STROKE);
@@ -71,17 +72,18 @@ public class ColorChooseCompassView extends CompassStandardView {
 	}
 
 
-	private void calcMatrix() {
-		m = new Matrix();
+	private void calcMatrix(int width, int height) {
+		m = new CorrectMatrix();
 		PointF middle = helper.getMiddle();
 		//Log.d("middle-calc"," "+middle.x+", "+middle.y);
-		m.postTranslate(middle.x, middle.y);
-		m.invert(m);
+		m.postTranslate(-middle.x, -middle.y);
+		int minpx = Math.min(width, height);
+		m.postScale(1/(minpx / (2 * CompassDrawing.MAX)), 1/(minpx / (2 * CompassDrawing.MAX)));
 	}
 
 	public void onSizeChanged(int w, int h, int oldw, int oldh) {
 		super.onSizeChanged(w, h, oldw, oldh);
-		calcMatrix();
+		calcMatrix(w,h);
 	}
 
 
@@ -96,7 +98,13 @@ public class ColorChooseCompassView extends CompassStandardView {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
+	
+		int minpx = Math.min(canvas.getWidth(), canvas.getHeight());
+		canvas.scale(minpx / (2 * CompassDrawing.MAX), minpx / (2 * CompassDrawing.MAX));
+		//canvas.translate(CompassDrawing.MAX, CompassDrawing.MAX);
 
+		
+		
 		if(selectedComponent!=null){
 			selectedComponent.getF().draw(canvas, paintSelected);
 			//selectedComponent.getF().draw(canvas, paintSelected2);
@@ -122,10 +130,10 @@ public class ColorChooseCompassView extends CompassStandardView {
 				case MotionEvent.ACTION_DOWN: 
 				case MotionEvent.ACTION_MOVE:{
 					// TODO don't works on first call
-						float src[] = { event.getX(), event.getY() };
-						float dst[] = new float[2];
+						PointF src = new PointF(event.getX(), event.getY());
+						PointF dst = new PointF();
 						m.mapPoints(dst, src);
-						DrawingComponent comp = searchComponent(dst[0], dst[1]);
+						DrawingComponent comp = searchComponent(dst);
 						if (comp != null) {
 //							Log.d("comp found","yes =>["+src[0]+", "+src[1]+"], ["+dst[0]+", "+dst[1]+"]");
 							invalidate();
@@ -145,11 +153,11 @@ public class ColorChooseCompassView extends CompassStandardView {
 	}
 
 
-	DrawingComponent searchComponent(float x, float y) {
+	DrawingComponent searchComponent(PointF point) {
 		int len = components.length;
 		for (int i = 0; i < len; i++) {
 			DrawingComponent cur = components[i];
-			if (cur.getF().contains(x, y)) {
+			if (cur.getF().contains(point.x, point.y)) {
 				return (cur);
 			}
 		}
