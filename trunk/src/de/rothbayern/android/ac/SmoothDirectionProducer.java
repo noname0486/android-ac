@@ -54,7 +54,8 @@ public class SmoothDirectionProducer extends Thread {
 		// Prepare sensor to deliver data. Show message if there is no orientation sensor
 		
 		mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
-		Sensor testSensorOrientation = mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
+//		Sensor testSensorOrientation = mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
+		Sensor testSensorOrientation = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 		if (testSensorOrientation == null) {
 			sensorOk = false;
 		} else {
@@ -93,6 +94,12 @@ public class SmoothDirectionProducer extends Thread {
 
 		public void onSensorChanged(SensorEvent event) {
 			float newDirection = event.values[0] + offset;
+// TODO remove 
+/*			for (int i = 0; i < event.values.length; i++) {
+				System.out.println(event.values[0]);
+			}
+			System.out.println("------------");
+*/
 			float diff = newDirection - avgDirection;
 			diff = Util.normAngle(diff);
 			if (Math.abs(diff) < 5) {

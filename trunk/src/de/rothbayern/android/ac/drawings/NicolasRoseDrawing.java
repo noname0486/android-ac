@@ -273,7 +273,7 @@ public class NicolasRoseDrawing extends RoseDrawing {
         c.drawOval(new RectF(0, 0, w*3/4, h*3/4), p);
         return bm;
     }
-
+ 
 	// insert in strings.xml
 	public final static String COLOR_CHOOSE_PREFIX = "color_choose_prefix";
 	public final static String BOTTOM_NAME = "bottom";

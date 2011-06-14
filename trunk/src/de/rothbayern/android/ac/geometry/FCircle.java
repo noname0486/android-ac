@@ -18,6 +18,7 @@
 package de.rothbayern.android.ac.geometry;
 
 import android.graphics.*;
+import android.util.Log;
 
 public class FCircle implements Figure {
 
@@ -47,6 +48,7 @@ public class FCircle implements Figure {
 
 
 	public void draw(Canvas c, Paint p) {
+		
 		c.drawCircle(x, y, r, p);
 		
 	}
