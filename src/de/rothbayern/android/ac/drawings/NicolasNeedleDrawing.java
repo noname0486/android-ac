@@ -25,18 +25,22 @@ import de.rothbayern.android.ac.geometry.*;
 
 public class NicolasNeedleDrawing extends NeedleDrawing {
 
-	private static final int NEEDLE_NORTH_COLOR = Color.RED&0x60FFFFFF;
-	private static final int NEEDLE_SOUTH_COLOR = Color.BLACK;
+	private static final int NEEDLE_ALPHA = 0x90FFFFFF;
+	private static final int NEEDLE_NORTH_COLOR = Color.YELLOW&NEEDLE_ALPHA;
+	private static final int NEEDLE_SOUTH_COLOR = Color.BLUE&NEEDLE_ALPHA;
 	private static final int NEEDLE_BUTTON_COLOR = Color.GRAY;
 	
 	private int needleNorthColor = NEEDLE_NORTH_COLOR;
 	private int needleSouthColor = NEEDLE_SOUTH_COLOR;
 	private int needleButtonColor = NEEDLE_BUTTON_COLOR;
+	
+	private static final int BUTTON_REFLECTION_BRIGHT = 0xA0FFFFFF;
+	private static final int BUTTON_REFLECTION_DARK = 0x00FFFFFF;
 
 	private static final float TRIANGLE_LENGTH = MAX * 0.71f;
 	private static final float TRIANGLE_WIDTH = MAX * 0.18f;
 
-	private static final float BUTTON_RADIUS = MAX * 0.08f;
+	private static final float BUTTON_RADIUS = MAX * 0.09f;
 
 	private Context context = null;
 
@@ -45,15 +49,15 @@ public class NicolasNeedleDrawing extends NeedleDrawing {
 	}
 
 	private void loadPrefColors() {
-		needleNorthColor = getColorPreference(searchByName(NEEDLE_NORTH_NAME));
-		needleSouthColor = getColorPreference(searchByName(NEEDLE_SOUTH_NAME));
+		needleNorthColor = getColorPreference(searchByName(NEEDLE_NORTH_NAME))&NEEDLE_ALPHA;
+		needleSouthColor = getColorPreference(searchByName(NEEDLE_SOUTH_NAME))&NEEDLE_ALPHA;
 		needleButtonColor = getColorPreference(searchByName(NEEDLE_BUTTON_NAME));
 	}
 
 	
 	@Override
 	public Bitmap getDrawing(int width, int height) {
-		//loadPrefColors();
+		loadPrefColors();
 		int minpx = Math.min(width, height);
 
 		Paint paint = new Paint();
@@ -87,6 +91,11 @@ public class NicolasNeedleDrawing extends NeedleDrawing {
 		c.drawPath(triangle, paint);
 
 		paint.setColor(needleButtonColor);
+		c.drawCircle(0, 0, BUTTON_RADIUS, paint);
+		
+		Shader shader = new RadialGradient(0, -BUTTON_RADIUS/-2f,
+				BUTTON_RADIUS, BUTTON_REFLECTION_BRIGHT, BUTTON_REFLECTION_DARK, Shader.TileMode.CLAMP);
+		paint.setShader(shader);
 		c.drawCircle(0, 0, BUTTON_RADIUS, paint);
 		
 		return (bm);
