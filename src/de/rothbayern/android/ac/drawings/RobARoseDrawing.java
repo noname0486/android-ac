@@ -171,7 +171,7 @@ public class RobARoseDrawing extends RoseDrawing {
 	}
 
 	// insert in strings.xml
-	public final static String COLOR_CHOOSE_PREFIX = "color_choose_prefix";
+	//public final static String COLOR_CHOOSE_PREFIX = "color_choose_prefix";
 	public final static String BOTTOM_NAME = "bottom";
 	public final static String OUTER_RING_NAME = "outer_ring";
 	public final static String MIDDLE_RING_NAME = "middle_ring";
@@ -180,6 +180,7 @@ public class RobARoseDrawing extends RoseDrawing {
 	public final static String NORTH_LABEL_NAME = "north_label";
 	public final static String DEGREE_LABEL_NAME = "degree_label";
 
+	
 	private DrawingComponent components[] = null;
 
 	private static final float S2H = FloatMath.sqrt(2.0f)/2.0f;
