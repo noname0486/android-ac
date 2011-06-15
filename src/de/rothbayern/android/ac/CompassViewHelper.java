@@ -19,6 +19,7 @@ package de.rothbayern.android.ac;
 
 import android.content.Context;
 import android.graphics.*;
+import android.view.*;
 import de.rothbayern.android.ac.drawings.*;
 import de.rothbayern.android.ac.misc.LogUtil;
 import de.rothbayern.android.ac.pref.CompassPreferences;
@@ -45,10 +46,10 @@ public class CompassViewHelper {
 	private int bgColor = Color.WHITE;
 	
 	Context context;
-	private final int WIDTH = 320;
+	//private final int WIDTH = 320;
 
 	// Middle of the view
-	protected int middleX = WIDTH/2;
+	protected int middleX = 160;
 	protected int middleY = 215;
 	
 
@@ -57,12 +58,18 @@ public class CompassViewHelper {
 	 */
 	protected void init(Context context) {
 		this.context = context;
+		Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+		middleX = display.getWidth()/2;
+		middleY = display.getHeight()/2;
+		
 		mPaint.setAntiAlias(true);
 		mPaint.setARGB(255, 0, 0, 0);
 		mPaint.setStrokeWidth(1);
 		mPaint.setTextScaleX(3);
 		mPaint.setTextAlign(Paint.Align.CENTER);
 		setCompassLayout(LAYOUT_FROM_PREFS);
+		
+		 
 
 	}
 	
