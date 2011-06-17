@@ -2,7 +2,6 @@ package de.rothbayern.android.ac;
 
 import android.content.Context;
 import android.hardware.*;
-import android.util.*;
 import de.rothbayern.android.ac.misc.*;
 import de.rothbayern.android.ac.pref.CompassPreferences;
 /**

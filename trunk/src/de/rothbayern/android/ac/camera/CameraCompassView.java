@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import de.rothbayern.android.ac.*;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.*;
 import android.hardware.Camera;
@@ -102,13 +101,12 @@ public class CameraCompassView extends RelativeLayout implements IAnimCompass {
 
 		@Override
 		protected void onDraw(Canvas canvas) {
-			// TODO Auto-generated method stub
+			
 
 			int height = getHeight();
 			int width = getWidth();
 
 			final int VIEW_ANGEL = 56;
-			float pixelPerDegree = width/VIEW_ANGEL;
 
 			int h2 = height/2;
 			int lineHeight2 = height/20;
@@ -175,7 +173,7 @@ public class CameraCompassView extends RelativeLayout implements IAnimCompass {
 	
 
 	private float direction;
-
+/*
 	private boolean doAnim() {
 		Activity activity = (Activity) getContext();
 		activity.runOnUiThread(new Runnable() {
@@ -186,7 +184,7 @@ public class CameraCompassView extends RelativeLayout implements IAnimCompass {
 		});
 		return true;
 	}
-	
+*/	
 	@Override
 	public boolean setDirection(float direction) {
 		direction+=90;
