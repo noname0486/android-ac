@@ -17,6 +17,7 @@
 
 package de.rothbayern.android.ac;
 
+import afzkl.development.mColorPicker.ColorPickerActivity;
 import android.app.*;
 import android.content.*;
 import android.content.res.Resources;
@@ -33,6 +34,21 @@ public class ColorsActivity extends Activity {
 
 	private static final int MSG_INVALIDATE_COMPASS = 100;
 	private static final int MSG_DELAY_START_COLOR_CHOOSE = 101;
+	
+	private static final int PREF_COLOR_ACTIVITY_REQUEST = 102;
+	
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(requestCode == PREF_COLOR_ACTIVITY_REQUEST && resultCode == RESULT_OK){
+			String key = data.getStringExtra(ColorPickerActivity.INTENT_PREF_KEY);
+			if ( key != null && !key.equals("")) {
+				int newColor = data.getIntExtra(ColorPickerActivity.RESULT_COLOR, 0);
+				CompassPreferences.getPreferences().setInt(key, newColor);
+			}
+		}
+		drawingComponent = null;
+		viewCompass.setSelectedComponent(null);
+		initView();
+	};
 
 	Handler myHandler = new Handler() {
 		@Override
@@ -169,11 +185,24 @@ public class ColorsActivity extends Activity {
 
 	};
 
+	private final static int COLOR_REQUEST_CODE = 100;
+	
 	private DrawingComponent drawingComponent = null;
 	OnComponentSelectedListener onComponentSelectedListener = new OnComponentSelectedListener() {
 
 		public void onSelected(View f, DrawingComponent comp) {
+			
+			
+			Intent i = new Intent(ColorsActivity.this, ColorPickerActivity.class);
+			int startColor = drawing.getColorPreference(comp);
+			i.putExtra(ColorPickerActivity.INTENT_DATA_INITIAL_COLOR, startColor);
+			i.putExtra(ColorPickerActivity.INTENT_PREF_KEY, drawing.toPrefName(comp));
+			i.putExtra(ColorPickerActivity.INTENT_TITLE, comp.getTitle());
+			startActivityForResult(i, PREF_COLOR_ACTIVITY_REQUEST);
 
+				
+			
+			/* old picker
 			if (dlgColorCoose == null) {
 				drawingComponent = comp;
 				AlertDialog.Builder builder = new AlertDialog.Builder(ColorsActivity.this);
@@ -189,6 +218,7 @@ public class ColorsActivity extends Activity {
 				Message m = Message.obtain(myHandler, MSG_DELAY_START_COLOR_CHOOSE);
 				m.sendToTarget();
 			}
+			*/
 		}
 
 	};

@@ -36,6 +36,7 @@
     <activity android:name=".CalibrationActivity" android:screenOrientation="portrait" android:label="@string/activity_Calibration_name"></activity>
     <activity android:name=".ColorsActivity" android:screenOrientation="portrait" android:label="@string/activity_Colors_name"></activity>
     <activity android:name=".PreferencesActivity" android:label="@string/activity_Preferences_name"></activity>
+    <activity android:name="afzkl.development.mColorPicker.ColorPickerActivity" android:label="@string/prefs_colors_title"/>
 </application>
     <uses-sdk android:minSdkVersion="8" />
 
