@@ -117,7 +117,7 @@ public class ColorChooseCompassView extends CompassStandardView {
 				components[i].getF().draw(canvas, paintNotSelected1);
 				components[i].getF().draw(canvas, paintNotSelected2);
 			}
-			invalidate();
+			// invalidate(); no animation TODO
 		}
 	}
 
