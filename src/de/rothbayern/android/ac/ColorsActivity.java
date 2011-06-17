@@ -20,20 +20,16 @@ package de.rothbayern.android.ac;
 import afzkl.development.mColorPicker.ColorPickerActivity;
 import android.app.*;
 import android.content.*;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.*;
 import android.view.View;
 import android.widget.TextView;
 import de.rothbayern.android.ac.ColorChooseCompassView.OnComponentSelectedListener;
 import de.rothbayern.android.ac.drawings.*;
-import de.rothbayern.android.ac.keithwiley.*;
 import de.rothbayern.android.ac.pref.CompassPreferences;
 
 public class ColorsActivity extends Activity {
 
-	private static final int MSG_INVALIDATE_COMPASS = 100;
-	private static final int MSG_DELAY_START_COLOR_CHOOSE = 101;
 	
 	private static final int PREF_COLOR_ACTIVITY_REQUEST = 102;
 	
@@ -45,33 +41,10 @@ public class ColorsActivity extends Activity {
 				CompassPreferences.getPreferences().setInt(key, newColor);
 			}
 		}
-		drawingComponent = null;
 		viewCompass.setSelectedComponent(null);
 		initView();
 	};
 
-	Handler myHandler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			switch (msg.what) {
-				case MSG_INVALIDATE_COMPASS: {
-					viewCompass.invalidate();
-					break;
-				}
-				case MSG_DELAY_START_COLOR_CHOOSE: {
-					try {
-						Thread.sleep(750);
-					} catch (InterruptedException e) {
-					}
-					if (dlgColorCoose != null) {
-						dlgColorCoose.show();
-					}
-
-					break;
-				}
-			}
-		}
-	};
 
 	public ColorsActivity() {
 		// if(Config.LOGD){
@@ -142,87 +115,17 @@ public class ColorsActivity extends Activity {
 		}
 	}
 
-	private DialogListener mOcl = new DialogListener();
-
-	private class DialogListener implements DialogInterface.OnClickListener, DialogInterface.OnCancelListener {
-
-		public void onClick(DialogInterface dialog, int which) {
-
-			if (which == DialogInterface.BUTTON_POSITIVE) {
-				drawing.setColorPreference(drawingComponent, choiceColor);
-			}
-			if (which == DialogInterface.BUTTON_NEGATIVE || which == DialogInterface.BUTTON_POSITIVE) {
-				cleanDialog();
-			} else {
-				// Log.w("shouldn't be here", this.getClass().toString());
-			}
-
-		}
-
-		public void onCancel(DialogInterface dialog) {
-			cleanDialog();
-		}
-
-		private void cleanDialog() {
-			initView();
-/*			drawingComponent = null;
-			viewCompass.setSelectedComponent(null);
-			viewCompass.loadPrefs();
-*/
-			Message m = Message.obtain(myHandler, MSG_INVALIDATE_COMPASS);
-			m.sendToTarget();
-			dlgColorCoose = null;
-		}
-
-	};
-
-	private int choiceColor = 0;
-	OnColorChangedListener onColorChangedListener = new OnColorChangedListener() {
-
-		public void colorChanged(int color) {
-			ColorsActivity.this.choiceColor = color;
-		}
-
-	};
-
-	private final static int COLOR_REQUEST_CODE = 100;
-	
-	private DrawingComponent drawingComponent = null;
 	OnComponentSelectedListener onComponentSelectedListener = new OnComponentSelectedListener() {
-
 		public void onSelected(View f, DrawingComponent comp) {
-			
-			
 			Intent i = new Intent(ColorsActivity.this, ColorPickerActivity.class);
 			int startColor = drawing.getColorPreference(comp);
 			i.putExtra(ColorPickerActivity.INTENT_DATA_INITIAL_COLOR, startColor);
 			i.putExtra(ColorPickerActivity.INTENT_PREF_KEY, drawing.toPrefName(comp));
 			i.putExtra(ColorPickerActivity.INTENT_TITLE, comp.getTitle());
 			startActivityForResult(i, PREF_COLOR_ACTIVITY_REQUEST);
-
-				
-			
-			/* old picker
-			if (dlgColorCoose == null) {
-				drawingComponent = comp;
-				AlertDialog.Builder builder = new AlertDialog.Builder(ColorsActivity.this);
-				builder.setTitle(comp.getTitle());
-				builder.setPositiveButton(android.R.string.ok, mOcl);
-				builder.setNegativeButton(android.R.string.cancel, mOcl);
-				int startColor = drawing.getColorPreference(drawingComponent);
-				ColorPickerView cpView = new ColorPickerView(ColorsActivity.this, onColorChangedListener, 90 * f.getWidth() / 100,
-						90 * f.getHeight() / 100, startColor);
-				builder.setView(cpView);
-				builder.setOnCancelListener(mOcl);
-				dlgColorCoose = builder.create();
-				Message m = Message.obtain(myHandler, MSG_DELAY_START_COLOR_CHOOSE);
-				m.sendToTarget();
-			}
-			*/
 		}
 
 	};
 
-	AlertDialog dlgColorCoose;
 
 }
