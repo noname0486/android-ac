@@ -18,7 +18,6 @@
 package de.rothbayern.android.ac.geometry;
 
 import android.graphics.*;
-import android.util.Log;
 
 public class FCircle implements Figure {
 
